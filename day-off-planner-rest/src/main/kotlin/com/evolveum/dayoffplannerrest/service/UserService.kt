@@ -1,8 +1,10 @@
 package com.evolveum.dayoffplannerrest.service
 
 import com.evolveum.dayoffplannerrest.data.dto.request.RegisterUserDto
+import com.evolveum.dayoffplannerrest.data.entity.Role
 import com.evolveum.dayoffplannerrest.data.entity.User
 import com.evolveum.dayoffplannerrest.data.repository.UserRepository
+import com.evolveum.dayoffplannerrest.exception.EmailAlreadyUsedException
 import com.evolveum.dayoffplannerrest.exception.UserNotFoundException
 import com.evolveum.dayoffplannerrest.utils.toUser
 import com.evolveum.dayoffplannerrest.utils.toUserDetails
@@ -22,9 +24,11 @@ class UserService(
                 ?: throw UserNotFoundException("User with email $username was not found")
 
     fun createUser(registerUserDto: RegisterUserDto) {
-        val user = registerUserDto.toUser()
-        user.password = passwordEncoder.encode(user.password)
+        if (userRepository.findByEmail(registerUserDto.email) != null) {
+            throw EmailAlreadyUsedException("Email ${registerUserDto.email} is already used")
+        }
 
+        val user = registerUserDto.toUser(passwordEncoder)
         userRepository.save(user)
     }
 

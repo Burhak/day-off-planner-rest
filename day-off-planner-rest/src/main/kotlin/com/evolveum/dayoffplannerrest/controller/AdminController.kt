@@ -9,7 +9,7 @@ import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@PreAuthorize("hasAnyRole('ADMIN')")
+@PreAuthorize("hasAnyAuthority('ADMIN')")
 @RequestMapping("/admin")
 class AdminController(private val userService: UserService) {
 

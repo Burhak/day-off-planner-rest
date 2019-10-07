@@ -21,7 +21,6 @@ class AuthenticationFilter(private val authManager: AuthenticationManager) : Use
 
     override fun attemptAuthentication(req: HttpServletRequest, res: HttpServletResponse): Authentication {
         val user = ObjectMapper().readValue(req.inputStream, LoginUserDto::class.java)
-
         return authManager.authenticate(UsernamePasswordAuthenticationToken(user.username, user.password))
     }
 

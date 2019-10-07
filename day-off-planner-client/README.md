@@ -1,1 +1,0 @@
-# day-off-planner-client

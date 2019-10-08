@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
  * UserCreateApiModel
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-08T12:28:07.856Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-08T12:34:40.990Z[GMT]")
 public class UserCreateApiModel   {
   @JsonProperty("firstName")
   private String firstName = null;
@@ -24,8 +24,8 @@ public class UserCreateApiModel   {
   @JsonProperty("email")
   private String email = null;
 
-  @JsonProperty("isAdmin")
-  private Boolean isAdmin = false;
+  @JsonProperty("admin")
+  private Boolean admin = false;
 
   public UserCreateApiModel firstName(String firstName) {
     this.firstName = firstName;
@@ -87,23 +87,23 @@ public class UserCreateApiModel   {
     this.email = email;
   }
 
-  public UserCreateApiModel isAdmin(Boolean isAdmin) {
-    this.isAdmin = isAdmin;
+  public UserCreateApiModel admin(Boolean admin) {
+    this.admin = admin;
     return this;
   }
 
   /**
-   * Get isAdmin
-   * @return isAdmin
+   * Get admin
+   * @return admin
   **/
   @ApiModelProperty(value = "")
 
-  public Boolean isIsAdmin() {
-    return isAdmin;
+  public Boolean isAdmin() {
+    return admin;
   }
 
-  public void setIsAdmin(Boolean isAdmin) {
-    this.isAdmin = isAdmin;
+  public void setAdmin(Boolean admin) {
+    this.admin = admin;
   }
 
 
@@ -119,12 +119,12 @@ public class UserCreateApiModel   {
     return Objects.equals(this.firstName, userCreateApiModel.firstName) &&
         Objects.equals(this.lastName, userCreateApiModel.lastName) &&
         Objects.equals(this.email, userCreateApiModel.email) &&
-        Objects.equals(this.isAdmin, userCreateApiModel.isAdmin);
+        Objects.equals(this.admin, userCreateApiModel.admin);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(firstName, lastName, email, isAdmin);
+    return Objects.hash(firstName, lastName, email, admin);
   }
 
   @Override
@@ -135,7 +135,7 @@ public class UserCreateApiModel   {
     sb.append("    firstName: ").append(toIndentedString(firstName)).append("\n");
     sb.append("    lastName: ").append(toIndentedString(lastName)).append("\n");
     sb.append("    email: ").append(toIndentedString(email)).append("\n");
-    sb.append("    isAdmin: ").append(toIndentedString(isAdmin)).append("\n");
+    sb.append("    admin: ").append(toIndentedString(admin)).append("\n");
     sb.append("}");
     return sb.toString();
   }

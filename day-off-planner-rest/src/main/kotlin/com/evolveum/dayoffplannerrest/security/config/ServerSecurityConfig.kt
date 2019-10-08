@@ -1,7 +1,7 @@
-package com.evolveum.dayoffplannerrest.config
+package com.evolveum.dayoffplannerrest.security.config
 
-import com.evolveum.dayoffplannerrest.filter.AuthenticationFilter
-import com.evolveum.dayoffplannerrest.filter.AuthorizationFilter
+import com.evolveum.dayoffplannerrest.security.filter.AuthenticationFilter
+import com.evolveum.dayoffplannerrest.security.filter.AuthorizationFilter
 import com.evolveum.dayoffplannerrest.service.UserService
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
@@ -24,9 +24,11 @@ class ServerSecurityConfig(
 
     override fun configure(http: HttpSecurity) {
         http.csrf().disable()
-            .authorizeRequests().anyRequest().authenticated()
+            .authorizeRequests()
+                .antMatchers("/admin/*").hasAnyAuthority("ADMIN")
+                .anyRequest().authenticated()
                 .and()
-                .addFilter(AuthenticationFilter(authenticationManager()))
+                .addFilter(AuthenticationFilter(authenticationManager(), userService))
                 .addFilter(AuthorizationFilter(authenticationManager()))
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()

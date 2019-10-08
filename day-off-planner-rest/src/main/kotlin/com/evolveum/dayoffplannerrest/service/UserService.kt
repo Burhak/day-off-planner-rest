@@ -1,12 +1,14 @@
 package com.evolveum.dayoffplannerrest.service
 
-import com.evolveum.dayoffplannerrest.data.dto.request.RegisterUserDto
+import com.evolveum.day_off_planner_rest_api.model.UserApiModel
+import com.evolveum.day_off_planner_rest_api.model.UserCreateApiModel
 import com.evolveum.dayoffplannerrest.data.entity.Role
 import com.evolveum.dayoffplannerrest.data.entity.User
 import com.evolveum.dayoffplannerrest.data.repository.UserRepository
 import com.evolveum.dayoffplannerrest.exception.EmailAlreadyUsedException
 import com.evolveum.dayoffplannerrest.exception.UserNotFoundException
 import com.evolveum.dayoffplannerrest.utils.toUser
+import com.evolveum.dayoffplannerrest.utils.toUserApiModel
 import com.evolveum.dayoffplannerrest.utils.toUserDetails
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.userdetails.UserDetails
@@ -20,22 +22,31 @@ class UserService(
         private val userRepository: UserRepository
 ) : UserDetailsService {
 
-    override fun loadUserByUsername(username: String) = userRepository.findByEmail(username)?.toUserDetails()
-                ?: throw UserNotFoundException("User with email $username was not found")
+    override fun loadUserByUsername(username: String) = getUserByEmail(username).toUserDetails()
 
-    fun createUser(registerUserDto: RegisterUserDto) {
-        if (userRepository.findByEmail(registerUserDto.email) != null) {
-            throw EmailAlreadyUsedException("Email ${registerUserDto.email} is already used")
+    fun getUserByEmail(email: String): User = userRepository.findByEmail(email)
+            ?: throw UserNotFoundException("User with email $email was not found")
+
+    fun createUser(userCreateApiModel: UserCreateApiModel): UserApiModel {
+        if (userRepository.findByEmail(userCreateApiModel.email) != null) {
+            throw EmailAlreadyUsedException("Email ${userCreateApiModel.email} is already used")
         }
 
-        val user = registerUserDto.toUser(passwordEncoder)
+        val password = generateRandomPassword()
+
+        val user = userCreateApiModel.toUser(passwordEncoder, password)
         userRepository.save(user)
+        return user.toUserApiModel()
     }
 
     fun getLoggedUser(): User {
         val user = SecurityContextHolder.getContext().authentication.principal.toString()
         return userRepository.findByEmail(user) ?: throw UserNotFoundException("User with email $user was not found")
     }
+
+    fun getAllUsers(): List<UserApiModel> =
+        userRepository.findAllNotDeleted().map { it.toUserApiModel() }
+
 
     private fun generateRandomPassword() = STRING_CHARACTERS.shuffled().take(12).joinToString("")
 

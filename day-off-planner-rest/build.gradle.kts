@@ -15,6 +15,7 @@ java.sourceCompatibility = JavaVersion.VERSION_1_8
 
 repositories {
 	mavenCentral()
+	mavenLocal()
 }
 
 allOpen {
@@ -24,6 +25,8 @@ allOpen {
 }
 
 dependencies {
+	implementation("com.evolveum:evo-day-off-planner-rest-api:1.0.0")
+
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-web")

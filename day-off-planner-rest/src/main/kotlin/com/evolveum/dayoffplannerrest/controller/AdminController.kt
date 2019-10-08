@@ -1,21 +1,16 @@
 package com.evolveum.dayoffplannerrest.controller
 
-import com.evolveum.dayoffplannerrest.data.dto.request.RegisterUserDto
-import com.evolveum.dayoffplannerrest.data.entity.User
+import com.evolveum.day_off_planner_rest_api.api.AdminApi
+import com.evolveum.day_off_planner_rest_api.model.UserApiModel
+import com.evolveum.day_off_planner_rest_api.model.UserCreateApiModel
 import com.evolveum.dayoffplannerrest.service.UserService
-import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@PreAuthorize("hasAnyAuthority('ADMIN')")
-@RequestMapping("/admin")
-class AdminController(private val userService: UserService) {
+class AdminController(private val userService: UserService) : AdminApi {
 
-    @PostMapping("/createUser")
-    fun createUser(@RequestBody registerUserDto: RegisterUserDto): ResponseEntity<HttpStatus> {
-        userService.createUser(registerUserDto)
-        return ResponseEntity.ok().build()
+    override fun createUser(body: UserCreateApiModel): ResponseEntity<UserApiModel> {
+        return ResponseEntity.ok(userService.createUser(body))
     }
 }

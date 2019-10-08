@@ -1,6 +1,7 @@
 package com.evolveum.day_off_planner_rest_api.model;
 
 import java.util.Objects;
+import com.evolveum.day_off_planner_rest_api.model.UserApiModel;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
@@ -10,55 +11,54 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * UserLoginApiModel
+ * UserLoginResponseApiModel
  */
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-08T12:17:08.066Z[GMT]")
-public class UserLoginApiModel   {
-  @JsonProperty("email")
-  private String email = null;
+public class UserLoginResponseApiModel   {
+  @JsonProperty("token")
+  private String token = null;
 
-  @JsonProperty("password")
-  private String password = null;
+  @JsonProperty("user")
+  private UserApiModel user = null;
 
-  public UserLoginApiModel email(String email) {
-    this.email = email;
+  public UserLoginResponseApiModel token(String token) {
+    this.token = token;
     return this;
   }
 
   /**
-   * Get email
-   * @return email
+   * Get token
+   * @return token
   **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
+  @ApiModelProperty(value = "")
 
-  public String getEmail() {
-    return email;
+  public String getToken() {
+    return token;
   }
 
-  public void setEmail(String email) {
-    this.email = email;
+  public void setToken(String token) {
+    this.token = token;
   }
 
-  public UserLoginApiModel password(String password) {
-    this.password = password;
+  public UserLoginResponseApiModel user(UserApiModel user) {
+    this.user = user;
     return this;
   }
 
   /**
-   * Get password
-   * @return password
+   * Get user
+   * @return user
   **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
+  @ApiModelProperty(value = "")
 
-  public String getPassword() {
-    return password;
+  @Valid
+  public UserApiModel getUser() {
+    return user;
   }
 
-  public void setPassword(String password) {
-    this.password = password;
+  public void setUser(UserApiModel user) {
+    this.user = user;
   }
 
 
@@ -70,23 +70,23 @@ public class UserLoginApiModel   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    UserLoginApiModel userLoginApiModel = (UserLoginApiModel) o;
-    return Objects.equals(this.email, userLoginApiModel.email) &&
-        Objects.equals(this.password, userLoginApiModel.password);
+    UserLoginResponseApiModel userLoginResponseApiModel = (UserLoginResponseApiModel) o;
+    return Objects.equals(this.token, userLoginResponseApiModel.token) &&
+        Objects.equals(this.user, userLoginResponseApiModel.user);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(email, password);
+    return Objects.hash(token, user);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class UserLoginApiModel {\n");
+    sb.append("class UserLoginResponseApiModel {\n");
     
-    sb.append("    email: ").append(toIndentedString(email)).append("\n");
-    sb.append("    password: ").append(toIndentedString(password)).append("\n");
+    sb.append("    token: ").append(toIndentedString(token)).append("\n");
+    sb.append("    user: ").append(toIndentedString(user)).append("\n");
     sb.append("}");
     return sb.toString();
   }

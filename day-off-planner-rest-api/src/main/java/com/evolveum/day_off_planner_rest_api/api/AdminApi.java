@@ -5,8 +5,8 @@
  */
 package com.evolveum.day_off_planner_rest_api.api;
 
-import com.evolveum.day_off_planner_rest_api.model.UserLoginApiModel;
-import com.evolveum.day_off_planner_rest_api.model.UserLoginResponseApiModel;
+import com.evolveum.day_off_planner_rest_api.model.UserApiModel;
+import com.evolveum.day_off_planner_rest_api.model.UserCreateApiModel;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
@@ -31,10 +31,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-08T12:17:08.066Z[GMT]")
-@Api(value = "login", description = "the login API")
-public interface LoginApi {
+@Api(value = "admin", description = "the admin API")
+public interface AdminApi {
 
-    Logger log = LoggerFactory.getLogger(LoginApi.class);
+    Logger log = LoggerFactory.getLogger(AdminApi.class);
 
     default Optional<ObjectMapper> getObjectMapper() {
         return Optional.empty();
@@ -48,26 +48,27 @@ public interface LoginApi {
         return getRequest().map(r -> r.getHeader("Accept"));
     }
 
-    @ApiOperation(value = "Log user into the system", nickname = "loginUser", notes = "", response = UserLoginResponseApiModel.class, tags={  })
+    @ApiOperation(value = "Create new user", nickname = "createUser", notes = "", response = UserApiModel.class, tags={  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = UserLoginResponseApiModel.class),
-        @ApiResponse(code = 403, message = "invalid username/password supplied") })
-    @RequestMapping(value = "/login",
+        @ApiResponse(code = 200, message = "successful operation", response = UserApiModel.class),
+        @ApiResponse(code = 403, message = "creating user is not admin"),
+        @ApiResponse(code = 409, message = "given email already exists") })
+    @RequestMapping(value = "/admin/createUser",
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    default ResponseEntity<UserLoginResponseApiModel> loginUser(@ApiParam(value = "Email and password for login"  )  @Valid @RequestBody UserLoginApiModel body) {
+    default ResponseEntity<UserApiModel> createUser(@ApiParam(value = "Name and email of new user"  )  @Valid @RequestBody UserCreateApiModel body) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
-                    return new ResponseEntity<>(getObjectMapper().get().readValue("{\n  \"user\" : {\n    \"firstName\" : \"firstName\",\n    \"lastName\" : \"lastName\",\n    \"roles\" : [ \"USER\", \"USER\" ],\n    \"id\" : 0,\n    \"email\" : \"email\"\n  },\n  \"token\" : \"token\"\n}", UserLoginResponseApiModel.class), HttpStatus.NOT_IMPLEMENTED);
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("{\n  \"firstName\" : \"firstName\",\n  \"lastName\" : \"lastName\",\n  \"roles\" : [ \"USER\", \"USER\" ],\n  \"id\" : 0,\n  \"email\" : \"email\"\n}", UserApiModel.class), HttpStatus.NOT_IMPLEMENTED);
                 } catch (IOException e) {
                     log.error("Couldn't serialize response for content type application/json", e);
                     return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
                 }
             }
         } else {
-            log.warn("ObjectMapper or HttpServletRequest not configured in default LoginApi interface so no example is generated");
+            log.warn("ObjectMapper or HttpServletRequest not configured in default AdminApi interface so no example is generated");
         }
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }

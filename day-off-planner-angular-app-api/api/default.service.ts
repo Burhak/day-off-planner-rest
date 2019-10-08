@@ -65,11 +65,14 @@ export class DefaultService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createUser(body?: UserCreateApiModel, observe?: 'body', reportProgress?: boolean): Observable<UserApiModel>;
-    public createUser(body?: UserCreateApiModel, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<UserApiModel>>;
-    public createUser(body?: UserCreateApiModel, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<UserApiModel>>;
-    public createUser(body?: UserCreateApiModel, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public createUser(body: UserCreateApiModel, observe?: 'body', reportProgress?: boolean): Observable<UserApiModel>;
+    public createUser(body: UserCreateApiModel, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<UserApiModel>>;
+    public createUser(body: UserCreateApiModel, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<UserApiModel>>;
+    public createUser(body: UserCreateApiModel, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling createUser.');
+        }
 
         let headers = this.defaultHeaders;
 
@@ -145,11 +148,14 @@ export class DefaultService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public loginUser(body?: UserLoginApiModel, observe?: 'body', reportProgress?: boolean): Observable<UserLoginResponseApiModel>;
-    public loginUser(body?: UserLoginApiModel, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<UserLoginResponseApiModel>>;
-    public loginUser(body?: UserLoginApiModel, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<UserLoginResponseApiModel>>;
-    public loginUser(body?: UserLoginApiModel, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public loginUser(body: UserLoginApiModel, observe?: 'body', reportProgress?: boolean): Observable<UserLoginResponseApiModel>;
+    public loginUser(body: UserLoginApiModel, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<UserLoginResponseApiModel>>;
+    public loginUser(body: UserLoginApiModel, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<UserLoginResponseApiModel>>;
+    public loginUser(body: UserLoginApiModel, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling loginUser.');
+        }
 
         let headers = this.defaultHeaders;
 

@@ -1,4 +1,4 @@
-package io.swagger.model;
+package invalidPackageName;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
  * UserLoginApiModel
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-08T09:59:26.526Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-08T10:37:51.106Z[GMT]")
 public class UserLoginApiModel   {
   @JsonProperty("email")
   private String email = null;

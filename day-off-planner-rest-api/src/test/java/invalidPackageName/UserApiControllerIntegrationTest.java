@@ -1,6 +1,6 @@
-package io.swagger.api;
+package invalidPackageName;
 
-import io.swagger.model.UserApiModel;
+import invalidPackageName.UserApiModel;
 
 import java.util.*;
 

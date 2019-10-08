@@ -3,10 +3,14 @@
  * https://github.com/swagger-api/swagger-codegen
  * Do not edit the class manually.
  */
-package io.swagger.api;
+package invalidPackageName;
 
-import io.swagger.model.UserLoginApiModel;
+import invalidPackageName.UserLoginApiModel;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,13 +22,30 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-08T09:59:26.526Z[GMT]")
+import java.util.Optional;
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-08T10:37:51.106Z[GMT]")
 @Api(value = "login", description = "the login API")
 public interface LoginApi {
+
+    Logger log = LoggerFactory.getLogger(LoginApi.class);
+
+    default Optional<ObjectMapper> getObjectMapper() {
+        return Optional.empty();
+    }
+
+    default Optional<HttpServletRequest> getRequest() {
+        return Optional.empty();
+    }
+
+    default Optional<String> getAcceptHeader() {
+        return getRequest().map(r -> r.getHeader("Accept"));
+    }
 
     @ApiOperation(value = "Logs user into the system", nickname = "loginUser", notes = "", tags={  })
     @ApiResponses(value = { 
@@ -33,6 +54,12 @@ public interface LoginApi {
     @RequestMapping(value = "/login",
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<Void> loginUser(@ApiParam(value = "Email and password for login"  )  @Valid @RequestBody UserLoginApiModel body);
+    default ResponseEntity<Void> loginUser(@ApiParam(value = "Email and password for login"  )  @Valid @RequestBody UserLoginApiModel body) {
+        if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
+        } else {
+            log.warn("ObjectMapper or HttpServletRequest not configured in default LoginApi interface so no example is generated");
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    }
 
 }

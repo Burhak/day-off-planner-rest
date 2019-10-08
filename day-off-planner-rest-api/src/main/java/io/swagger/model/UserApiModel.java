@@ -16,7 +16,7 @@ import javax.validation.constraints.*;
  * UserApiModel
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-08T09:59:26.526Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-08T10:33:56.415Z[GMT]")
 public class UserApiModel   {
   @JsonProperty("id")
   private Long id = null;
@@ -147,7 +147,7 @@ public class UserApiModel   {
 
   public UserApiModel addRolesItem(RolesEnum rolesItem) {
     if (this.roles == null) {
-      this.roles = new ArrayList<RolesEnum>();
+      this.roles = new ArrayList<>();
     }
     this.roles.add(rolesItem);
     return this;

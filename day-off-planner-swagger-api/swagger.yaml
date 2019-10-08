@@ -15,6 +15,7 @@ paths:
       summary: Create new user
       operationId: createUser
       requestBody:
+        required: true
         content:
           application/json:
             schema:
@@ -51,6 +52,7 @@ paths:
       summary: Log user into the system
       operationId: loginUser
       requestBody:
+        required: true
         content:
           application/json:
             schema:

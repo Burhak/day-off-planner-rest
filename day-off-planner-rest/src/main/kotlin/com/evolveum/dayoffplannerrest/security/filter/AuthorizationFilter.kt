@@ -1,4 +1,4 @@
-package com.evolveum.dayoffplannerrest.filter
+package com.evolveum.dayoffplannerrest.security.filter
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import com.evolveum.dayoffplannerrest.utils.SecurityConstants
@@ -14,8 +14,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 class AuthorizationFilter(authManager: AuthenticationManager) : BasicAuthenticationFilter(authManager) {
 
     override fun doFilterInternal(req: HttpServletRequest, res: HttpServletResponse, chain: FilterChain) {
-        val header = req.getHeader(SecurityConstants.HEADER_STRING)
-
+        val header = req.getHeader(SecurityConstants.HEADER_AUTHORIZATION)
 
         if (header != null && header.startsWith(SecurityConstants.TOKEN_PREFIX)) {
             SecurityContextHolder.getContext().authentication = getAuthentication(req)
@@ -25,7 +24,7 @@ class AuthorizationFilter(authManager: AuthenticationManager) : BasicAuthenticat
     }
 
     private fun getAuthentication(request: HttpServletRequest): UsernamePasswordAuthenticationToken? {
-        val header = request.getHeader(SecurityConstants.HEADER_STRING)
+        val header = request.getHeader(SecurityConstants.HEADER_AUTHORIZATION)
 
         // parse the token
         val token = Jwts.parser()

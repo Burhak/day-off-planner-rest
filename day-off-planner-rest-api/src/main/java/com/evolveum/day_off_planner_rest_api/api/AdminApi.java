@@ -30,7 +30,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-08T12:17:08.066Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-08T12:24:51.565Z[GMT]")
 @Api(value = "admin", description = "the admin API")
 public interface AdminApi {
 
@@ -57,7 +57,7 @@ public interface AdminApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    default ResponseEntity<UserApiModel> createUser(@ApiParam(value = "Name and email of new user"  )  @Valid @RequestBody UserCreateApiModel body) {
+    default ResponseEntity<UserApiModel> createUser(@ApiParam(value = "Name and email of new user" ,required=true )  @Valid @RequestBody UserCreateApiModel body) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {

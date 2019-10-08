@@ -30,7 +30,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-08T12:17:08.066Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-08T12:24:51.565Z[GMT]")
 @Api(value = "login", description = "the login API")
 public interface LoginApi {
 
@@ -56,7 +56,7 @@ public interface LoginApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    default ResponseEntity<UserLoginResponseApiModel> loginUser(@ApiParam(value = "Email and password for login"  )  @Valid @RequestBody UserLoginApiModel body) {
+    default ResponseEntity<UserLoginResponseApiModel> loginUser(@ApiParam(value = "Email and password for login" ,required=true )  @Valid @RequestBody UserLoginApiModel body) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {

@@ -1,10 +1,10 @@
-package com.evolveum.dayoffplannerrest.utils
+package com.evolveum.day_off_planner_rest.utils
 
 import com.evolveum.day_off_planner_rest_api.model.UserApiModel
 import com.evolveum.day_off_planner_rest_api.model.UserCreateApiModel
 import com.evolveum.day_off_planner_rest_api.model.UserLoginResponseApiModel
-import com.evolveum.dayoffplannerrest.data.entity.Role
-import com.evolveum.dayoffplannerrest.data.entity.User
+import com.evolveum.day_off_planner_rest.data.entity.Role
+import com.evolveum.day_off_planner_rest.data.entity.User
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.crypto.password.PasswordEncoder

@@ -1,6 +1,6 @@
-package com.evolveum.dayoffplannerrest.data.repository
+package com.evolveum.day_off_planner_rest.data.repository
 
-import com.evolveum.dayoffplannerrest.data.entity.User
+import com.evolveum.day_off_planner_rest.data.entity.User
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.CrudRepository
 import org.springframework.data.repository.query.Param

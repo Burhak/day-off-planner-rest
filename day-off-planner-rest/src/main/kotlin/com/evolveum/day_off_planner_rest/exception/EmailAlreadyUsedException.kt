@@ -1,4 +1,4 @@
-package com.evolveum.dayoffplannerrest.exception
+package com.evolveum.day_off_planner_rest.exception
 
 import org.springframework.http.HttpStatus
 

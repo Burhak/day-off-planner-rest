@@ -1,7 +1,7 @@
-package com.evolveum.dayoffplannerrest.security.filter
+package com.evolveum.day_off_planner_rest.security.filter
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
-import com.evolveum.dayoffplannerrest.utils.SecurityConstants
+import com.evolveum.day_off_planner_rest.security.SecurityConstants
 import io.jsonwebtoken.Jwts
 import javax.servlet.http.HttpServletRequest
 import org.springframework.security.core.context.SecurityContextHolder

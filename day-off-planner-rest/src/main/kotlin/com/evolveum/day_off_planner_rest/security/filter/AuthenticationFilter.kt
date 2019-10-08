@@ -1,9 +1,9 @@
-package com.evolveum.dayoffplannerrest.security.filter
+package com.evolveum.day_off_planner_rest.security.filter
 
 import com.evolveum.day_off_planner_rest_api.model.UserLoginApiModel
-import com.evolveum.dayoffplannerrest.service.UserService
-import com.evolveum.dayoffplannerrest.utils.SecurityConstants
-import com.evolveum.dayoffplannerrest.utils.toUserLoginResponseApiModel
+import com.evolveum.day_off_planner_rest.service.UserService
+import com.evolveum.day_off_planner_rest.security.SecurityConstants
+import com.evolveum.day_off_planner_rest.utils.toUserLoginResponseApiModel
 import javax.servlet.FilterChain
 import javax.servlet.http.HttpServletResponse
 import javax.servlet.http.HttpServletRequest

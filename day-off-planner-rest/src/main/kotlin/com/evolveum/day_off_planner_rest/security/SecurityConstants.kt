@@ -1,4 +1,4 @@
-package com.evolveum.dayoffplannerrest.utils
+package com.evolveum.day_off_planner_rest.security
 
 class SecurityConstants {
     companion object {

@@ -1,4 +1,4 @@
-package com.evolveum.dayoffplannerrest.controller
+package com.evolveum.day_off_planner_rest.controller
 
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity

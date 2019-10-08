@@ -1,8 +1,9 @@
-package com.evolveum.dayoffplannerrest.security.config
+package com.evolveum.day_off_planner_rest.security.config
 
-import com.evolveum.dayoffplannerrest.security.filter.AuthenticationFilter
-import com.evolveum.dayoffplannerrest.security.filter.AuthorizationFilter
-import com.evolveum.dayoffplannerrest.service.UserService
+import com.evolveum.day_off_planner_rest.security.filter.AuthenticationFilter
+import com.evolveum.day_off_planner_rest.security.filter.AuthorizationFilter
+import com.evolveum.day_off_planner_rest.service.UserService
+import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity

@@ -1,4 +1,4 @@
-package com.evolveum.dayoffplannerrest.data.entity
+package com.evolveum.day_off_planner_rest.data.entity
 
 import javax.persistence.Entity
 import javax.persistence.Id

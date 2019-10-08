@@ -1,4 +1,4 @@
-package com.evolveum.dayoffplannerrest.security.filter
+package com.evolveum.day_off_planner_rest.security.filter
 
 import org.slf4j.LoggerFactory
 import org.springframework.core.Ordered

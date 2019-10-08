@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
  * UserLoginApiModel
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-08T12:24:51.565Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-08T12:26:14.376Z[GMT]")
 public class UserLoginApiModel   {
   @JsonProperty("email")
   private String email = null;

@@ -10,6 +10,28 @@ info:
   version: '1.0.0'
 
 paths:
+  /admin/createUser:
+    post:
+      summary: Create new user
+      operationId: createUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreateApiModel'
+        description: Name and email of new user
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserApiModel'
+        '403':
+          description: creating user is not admin
+        '409':
+          description: given email already exists
+
   /user/getAll:
     get:
       summary: Get all users
@@ -26,7 +48,7 @@ paths:
 
   /login:
     post:
-      summary: Logs user into the system
+      summary: Log user into the system
       operationId: loginUser
       requestBody:
         content:
@@ -37,8 +59,12 @@ paths:
       responses:
         '200':
           description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserLoginResponseApiModel'
         '403':
-          description: Invalid username/password supplied
+          description: invalid username/password supplied
 
 components:
   schemas:
@@ -89,3 +115,11 @@ components:
           type: string
         password:
           type: string
+          
+    UserLoginResponseApiModel:
+      type: object
+      properties:
+        token:
+          type: string
+        user:
+          $ref: '#/components/schemas/UserApiModel'

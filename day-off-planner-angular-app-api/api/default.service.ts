@@ -18,7 +18,9 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 import { UserApiModel } from '../model/userApiModel';
+import { UserCreateApiModel } from '../model/userCreateApiModel';
 import { UserLoginApiModel } from '../model/userLoginApiModel';
+import { UserLoginResponseApiModel } from '../model/userLoginResponseApiModel';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
@@ -57,6 +59,50 @@ export class DefaultService {
 
 
     /**
+     * Create new user
+     * 
+     * @param body Name and email of new user
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public createUser(body?: UserCreateApiModel, observe?: 'body', reportProgress?: boolean): Observable<UserApiModel>;
+    public createUser(body?: UserCreateApiModel, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<UserApiModel>>;
+    public createUser(body?: UserCreateApiModel, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<UserApiModel>>;
+    public createUser(body?: UserCreateApiModel, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        return this.httpClient.post<UserApiModel>(`${this.basePath}/admin/createUser`,
+            body,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
      * Get all users
      * 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -93,15 +139,15 @@ export class DefaultService {
     }
 
     /**
-     * Logs user into the system
+     * Log user into the system
      * 
      * @param body Email and password for login
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public loginUser(body?: UserLoginApiModel, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public loginUser(body?: UserLoginApiModel, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public loginUser(body?: UserLoginApiModel, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public loginUser(body?: UserLoginApiModel, observe?: 'body', reportProgress?: boolean): Observable<UserLoginResponseApiModel>;
+    public loginUser(body?: UserLoginApiModel, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<UserLoginResponseApiModel>>;
+    public loginUser(body?: UserLoginApiModel, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<UserLoginResponseApiModel>>;
     public loginUser(body?: UserLoginApiModel, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
 
@@ -109,6 +155,7 @@ export class DefaultService {
 
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
+            'application/json'
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
@@ -124,7 +171,7 @@ export class DefaultService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.post<any>(`${this.basePath}/login`,
+        return this.httpClient.post<UserLoginResponseApiModel>(`${this.basePath}/login`,
             body,
             {
                 withCredentials: this.configuration.withCredentials,

@@ -103,7 +103,7 @@ components:
           type: string
         email:
           type: string
-        isAdmin:
+        admin:
           type: boolean
           default: false
 

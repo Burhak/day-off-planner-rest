@@ -1,6 +1,7 @@
-package invalidPackageName;
+package com.evolveum.day_off_planner_rest_api.api;
 
-import invalidPackageName.UserLoginApiModel;
+import com.evolveum.day_off_planner_rest_api.model.UserApiModel;
+import com.evolveum.day_off_planner_rest_api.model.UserCreateApiModel;
 
 import java.util.*;
 
@@ -16,15 +17,15 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class LoginApiControllerIntegrationTest {
+public class AdminApiControllerIntegrationTest {
 
     @Autowired
-    private LoginApi api;
+    private AdminApi api;
 
     @Test
-    public void loginUserTest() throws Exception {
-        UserLoginApiModel body = new UserLoginApiModel();
-        ResponseEntity<Void> responseEntity = api.loginUser(body);
+    public void createUserTest() throws Exception {
+        UserCreateApiModel body = new UserCreateApiModel();
+        ResponseEntity<UserApiModel> responseEntity = api.createUser(body);
         assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
     }
 

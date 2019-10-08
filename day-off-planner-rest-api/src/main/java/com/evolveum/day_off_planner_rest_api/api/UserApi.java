@@ -3,9 +3,9 @@
  * https://github.com/swagger-api/swagger-codegen
  * Do not edit the class manually.
  */
-package invalidPackageName;
+package com.evolveum.day_off_planner_rest_api.api;
 
-import invalidPackageName.UserApiModel;
+import com.evolveum.day_off_planner_rest_api.model.UserApiModel;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
@@ -29,7 +29,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-08T10:37:51.106Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-08T12:34:40.990Z[GMT]")
 @Api(value = "user", description = "the user API")
 public interface UserApi {
 

@@ -4,6 +4,7 @@ import com.evolveum.day_off_planner_rest_api.model.UserApiModel
 import com.evolveum.day_off_planner_rest_api.model.UserCreateApiModel
 import com.evolveum.day_off_planner_rest.data.entity.Role
 import com.evolveum.day_off_planner_rest.data.entity.User
+import com.evolveum.day_off_planner_rest.data.repository.RoleRepository
 import com.evolveum.day_off_planner_rest.data.repository.UserRepository
 import com.evolveum.day_off_planner_rest.exception.EmailAlreadyUsedException
 import com.evolveum.day_off_planner_rest.exception.UserNotFoundException
@@ -20,6 +21,7 @@ import javax.annotation.PostConstruct
 @Service
 class UserService(
         private val passwordEncoder: PasswordEncoder,
+        private val roleRepository: RoleRepository,
         private val userRepository: UserRepository
 ) : UserDetailsService {
 
@@ -53,6 +55,9 @@ class UserService(
 
     @PostConstruct
     fun createAdmin() {
+        if (!roleRepository.existsById(Role.ADMIN.name)) roleRepository.save(Role.ADMIN)
+        if (!roleRepository.existsById(Role.USER.name)) roleRepository.save(Role.USER)
+
         if (userRepository.count() == 0L) {
             userRepository.save(User("admin", "admin", "admin@admin.com", "password").apply { roles = listOf(Role.ADMIN) })
         }

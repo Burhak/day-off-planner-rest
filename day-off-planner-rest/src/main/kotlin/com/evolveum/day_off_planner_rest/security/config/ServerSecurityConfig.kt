@@ -3,20 +3,19 @@ package com.evolveum.day_off_planner_rest.security.config
 import com.evolveum.day_off_planner_rest.security.filter.AuthenticationFilter
 import com.evolveum.day_off_planner_rest.security.filter.AuthorizationFilter
 import com.evolveum.day_off_planner_rest.service.UserService
-import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.config.http.SessionCreationPolicy
-import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 class ServerSecurityConfig(
         private val userService: UserService,
-        private val passwordEncoder: PasswordEncoder
+        private val passwordEncoder: BCryptPasswordEncoder
 ) : WebSecurityConfigurerAdapter() {
 
     override fun configure(auth: AuthenticationManagerBuilder) {

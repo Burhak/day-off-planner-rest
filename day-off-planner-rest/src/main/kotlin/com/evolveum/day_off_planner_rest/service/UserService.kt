@@ -12,15 +12,14 @@ import com.evolveum.day_off_planner_rest.utils.toUser
 import com.evolveum.day_off_planner_rest.utils.toUserApiModel
 import com.evolveum.day_off_planner_rest.utils.toUserDetails
 import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
-import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 import javax.annotation.PostConstruct
 
 @Service
 class UserService(
-        private val passwordEncoder: PasswordEncoder,
+        private val passwordEncoder: BCryptPasswordEncoder,
         private val roleRepository: RoleRepository,
         private val userRepository: UserRepository
 ) : UserDetailsService {

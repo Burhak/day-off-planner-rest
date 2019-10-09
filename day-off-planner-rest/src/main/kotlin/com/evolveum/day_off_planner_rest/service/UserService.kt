@@ -59,7 +59,12 @@ class UserService(
         if (!roleRepository.existsById(Role.USER.name)) roleRepository.save(Role.USER)
 
         if (userRepository.count() == 0L) {
-            userRepository.save(User("admin", "admin", "admin@admin.com", "password").apply { roles = listOf(Role.ADMIN) })
+            userRepository.save(User(
+                    "admin",
+                    "admin",
+                    "admin@admin.com",
+                    passwordEncoder.encode("password")
+            ).apply { roles = listOf(Role.ADMIN) })
         }
     }
 

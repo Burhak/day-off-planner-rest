@@ -1,1 +1,1 @@
-web: java -jar day-off-planner-rest/target/evo-day-off-planner-rest-api-1.0.0.jar
+web: java -jar day-off-planner-rest/target/day-off-planner-rest-0.0.1.jar

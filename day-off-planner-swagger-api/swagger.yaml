@@ -1,0 +1,127 @@
+openapi: 3.0.0
+
+# Added by API Auto Mocking Plugin
+servers:
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/Burhak/DayOffPlanner/1.0.0
+
+info:
+  title: Evolveum Day Off Planner API
+  version: '1.0.0'
+
+paths:
+  /admin/createUser:
+    post:
+      summary: Create new user
+      operationId: createUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreateApiModel'
+        description: Name and email of new user
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserApiModel'
+        '403':
+          description: creating user is not admin
+        '409':
+          description: given email already exists
+
+  /user/getAll:
+    get:
+      summary: Get all users
+      operationId: getAllUsers
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserApiModel'
+
+  /login:
+    post:
+      summary: Log user into the system
+      operationId: loginUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLoginApiModel'
+        description: Email and password for login
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserLoginResponseApiModel'
+        '403':
+          description: invalid username/password supplied
+
+components:
+  schemas:
+    UserApiModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        roles:
+          type: array
+          items:
+            type: string
+            enum:
+            - USER
+            - ADMIN
+
+    UserCreateApiModel:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - email
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        admin:
+          type: boolean
+          default: false
+
+    UserLoginApiModel:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+          
+    UserLoginResponseApiModel:
+      type: object
+      properties:
+        token:
+          type: string
+        user:
+          $ref: '#/components/schemas/UserApiModel'

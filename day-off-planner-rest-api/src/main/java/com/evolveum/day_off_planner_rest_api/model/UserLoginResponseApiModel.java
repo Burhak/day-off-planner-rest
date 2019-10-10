@@ -14,7 +14,7 @@ import javax.validation.constraints.*;
  * UserLoginResponseApiModel
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-09T10:22:20.950Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-10T13:49:34.728Z[GMT]")
 public class UserLoginResponseApiModel   {
   @JsonProperty("token")
   private String token = null;

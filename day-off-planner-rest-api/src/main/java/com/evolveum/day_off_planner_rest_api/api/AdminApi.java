@@ -30,7 +30,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-09T10:22:20.950Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-10T13:49:34.728Z[GMT]")
 @Api(value = "admin", description = "the admin API")
 public interface AdminApi {
 
@@ -48,7 +48,10 @@ public interface AdminApi {
         return getRequest().map(r -> r.getHeader("Accept"));
     }
 
-    @ApiOperation(value = "Create new user", nickname = "createUser", notes = "", response = UserApiModel.class, tags={  })
+    @ApiOperation(value = "Create new user", nickname = "createUser", notes = "", response = UserApiModel.class, authorizations = {
+        @Authorization(value = "bearerAuth"),
+@Authorization(value = "oAuthNoScopes", scopes = {
+                        })    }, tags={  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = UserApiModel.class),
         @ApiResponse(code = 403, message = "creating user is not admin"),

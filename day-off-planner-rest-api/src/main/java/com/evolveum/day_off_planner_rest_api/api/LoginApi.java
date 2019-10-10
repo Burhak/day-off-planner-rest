@@ -30,7 +30,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-09T10:22:20.950Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-10T09:03:14.946Z[GMT]")
 @Api(value = "login", description = "the login API")
 public interface LoginApi {
 
@@ -48,7 +48,10 @@ public interface LoginApi {
         return getRequest().map(r -> r.getHeader("Accept"));
     }
 
-    @ApiOperation(value = "Log user into the system", nickname = "loginUser", notes = "", response = UserLoginResponseApiModel.class, tags={  })
+    @ApiOperation(value = "Log user into the system", nickname = "loginUser", notes = "", response = UserLoginResponseApiModel.class, authorizations = {
+        @Authorization(value = "bearerAuth"),
+@Authorization(value = "oAuthNoScopes", scopes = {
+                        })    }, tags={  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = UserLoginResponseApiModel.class),
         @ApiResponse(code = 403, message = "invalid username/password supplied") })

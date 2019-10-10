@@ -16,7 +16,7 @@ import javax.validation.constraints.*;
  * UserApiModel
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-09T10:22:20.950Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-10T09:03:14.946Z[GMT]")
 public class UserApiModel   {
   @JsonProperty("id")
   private Long id = null;

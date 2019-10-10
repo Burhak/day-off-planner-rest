@@ -29,7 +29,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-09T10:22:20.950Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-10T09:03:14.946Z[GMT]")
 @Api(value = "user", description = "the user API")
 public interface UserApi {
 
@@ -47,7 +47,10 @@ public interface UserApi {
         return getRequest().map(r -> r.getHeader("Accept"));
     }
 
-    @ApiOperation(value = "Get all users", nickname = "getAllUsers", notes = "", response = UserApiModel.class, responseContainer = "List", tags={  })
+    @ApiOperation(value = "Get all users", nickname = "getAllUsers", notes = "", response = UserApiModel.class, responseContainer = "List", authorizations = {
+        @Authorization(value = "bearerAuth"),
+@Authorization(value = "oAuthNoScopes", scopes = {
+                        })    }, tags={  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = UserApiModel.class, responseContainer = "List") })
     @RequestMapping(value = "/user/getAll",

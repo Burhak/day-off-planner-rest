@@ -3,7 +3,6 @@ package com.evolveum.day_off_planner_rest.utils
 import com.evolveum.day_off_planner_rest_api.model.UserApiModel
 import com.evolveum.day_off_planner_rest_api.model.UserCreateApiModel
 import com.evolveum.day_off_planner_rest_api.model.UserLoginResponseApiModel
-import com.evolveum.day_off_planner_rest.data.entity.Role
 import com.evolveum.day_off_planner_rest.data.entity.User
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
@@ -12,7 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 fun User.toUserDetails(): UserDetails = org.springframework.security.core.userdetails.User
         .withUsername(email)
         .password(password)
-        .authorities(roles.map { SimpleGrantedAuthority(it.name) })
+        .authorities(SimpleGrantedAuthority(if (admin) "ADMIN" else "USER"))
         .accountExpired(false)
         .accountLocked(false)
         .credentialsExpired(false)
@@ -29,9 +28,8 @@ fun User.toUserApiModel() = UserApiModel().also { model ->
     model.firstName = firstName
     model.lastName = lastName
     model.email = email
-    model.roles = roles.map { UserApiModel.RolesEnum.fromValue(it.name) }
+    model.isAdmin = admin
 }
 
 fun UserCreateApiModel.toUser(passwordEncoder: BCryptPasswordEncoder, password: String) =
-        User(firstName, lastName, email, passwordEncoder.encode(password))
-                .also { it.roles = if (isAdmin) listOf(Role.USER, Role.ADMIN) else listOf(Role.USER) }
+        User(firstName, lastName, email, passwordEncoder.encode(password), isAdmin)

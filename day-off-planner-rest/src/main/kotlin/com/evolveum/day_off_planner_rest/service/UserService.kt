@@ -15,13 +15,16 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import javax.annotation.PostConstruct
 
 @Service
+@Transactional
 class UserService(
         private val passwordEncoder: BCryptPasswordEncoder,
         private val roleRepository: RoleRepository,
-        private val userRepository: UserRepository
+        private val userRepository: UserRepository,
+        private val emailService: EmailService
 ) : UserDetailsService {
 
     override fun loadUserByUsername(username: String) = getUserByEmail(username).toUserDetails()
@@ -35,9 +38,11 @@ class UserService(
         }
 
         val password = generateRandomPassword()
-
         val user = userCreateApiModel.toUser(passwordEncoder, password)
         userRepository.save(user)
+
+        emailService.sendSimpleMessage(user.email, "Account created", "Welcome to Day Off Planner! Your password is: $password")
+
         return user.toUserApiModel()
     }
 
@@ -50,7 +55,7 @@ class UserService(
         userRepository.findAllNotDeleted().map { it.toUserApiModel() }
 
 
-    private fun generateRandomPassword() = STRING_CHARACTERS.shuffled().take(12).joinToString("")
+    private fun generateRandomPassword() = STRING_CHARACTERS.shuffled().take(8).joinToString("")
 
     @PostConstruct
     fun createAdmin() {
@@ -68,7 +73,7 @@ class UserService(
     }
 
     companion object {
-        private val STRING_CHARACTERS = ('0'..'z').toList()
+        private val STRING_CHARACTERS = ('0'..'9').toList() + ('a'..'z').toList() + ('A'..'Z').toList()
     }
 
 }

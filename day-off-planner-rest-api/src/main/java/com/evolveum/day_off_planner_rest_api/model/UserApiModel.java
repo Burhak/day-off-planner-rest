@@ -3,11 +3,8 @@ package com.evolveum.day_off_planner_rest_api.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.ArrayList;
-import java.util.List;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -16,7 +13,7 @@ import javax.validation.constraints.*;
  * UserApiModel
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-10T13:49:34.728Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-11T15:46:57.130Z[GMT]")
 public class UserApiModel   {
   @JsonProperty("id")
   private Long id = null;
@@ -30,39 +27,8 @@ public class UserApiModel   {
   @JsonProperty("email")
   private String email = null;
 
-  /**
-   * Gets or Sets roles
-   */
-  public enum RolesEnum {
-    USER("USER"),
-    
-    ADMIN("ADMIN");
-
-    private String value;
-
-    RolesEnum(String value) {
-      this.value = value;
-    }
-
-    @Override
-    @JsonValue
-    public String toString() {
-      return String.valueOf(value);
-    }
-
-    @JsonCreator
-    public static RolesEnum fromValue(String text) {
-      for (RolesEnum b : RolesEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
-          return b;
-        }
-      }
-      return null;
-    }
-  }
-  @JsonProperty("roles")
-  @Valid
-  private List<RolesEnum> roles = null;
+  @JsonProperty("admin")
+  private Boolean admin = false;
 
   public UserApiModel id(Long id) {
     this.id = id;
@@ -140,31 +106,23 @@ public class UserApiModel   {
     this.email = email;
   }
 
-  public UserApiModel roles(List<RolesEnum> roles) {
-    this.roles = roles;
-    return this;
-  }
-
-  public UserApiModel addRolesItem(RolesEnum rolesItem) {
-    if (this.roles == null) {
-      this.roles = new ArrayList<>();
-    }
-    this.roles.add(rolesItem);
+  public UserApiModel admin(Boolean admin) {
+    this.admin = admin;
     return this;
   }
 
   /**
-   * Get roles
-   * @return roles
+   * Get admin
+   * @return admin
   **/
   @ApiModelProperty(value = "")
 
-  public List<RolesEnum> getRoles() {
-    return roles;
+  public Boolean isAdmin() {
+    return admin;
   }
 
-  public void setRoles(List<RolesEnum> roles) {
-    this.roles = roles;
+  public void setAdmin(Boolean admin) {
+    this.admin = admin;
   }
 
 
@@ -181,12 +139,12 @@ public class UserApiModel   {
         Objects.equals(this.firstName, userApiModel.firstName) &&
         Objects.equals(this.lastName, userApiModel.lastName) &&
         Objects.equals(this.email, userApiModel.email) &&
-        Objects.equals(this.roles, userApiModel.roles);
+        Objects.equals(this.admin, userApiModel.admin);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, firstName, lastName, email, roles);
+    return Objects.hash(id, firstName, lastName, email, admin);
   }
 
   @Override
@@ -198,7 +156,7 @@ public class UserApiModel   {
     sb.append("    firstName: ").append(toIndentedString(firstName)).append("\n");
     sb.append("    lastName: ").append(toIndentedString(lastName)).append("\n");
     sb.append("    email: ").append(toIndentedString(email)).append("\n");
-    sb.append("    roles: ").append(toIndentedString(roles)).append("\n");
+    sb.append("    admin: ").append(toIndentedString(admin)).append("\n");
     sb.append("}");
     return sb.toString();
   }

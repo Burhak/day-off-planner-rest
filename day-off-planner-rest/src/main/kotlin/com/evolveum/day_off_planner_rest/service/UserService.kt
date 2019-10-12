@@ -1,15 +1,19 @@
 package com.evolveum.day_off_planner_rest.service
 
+import com.evolveum.day_off_planner_rest.assembler.UserAssembler
+import com.evolveum.day_off_planner_rest.assembler.toUserApiModel
+import com.evolveum.day_off_planner_rest.assembler.toUserDetails
 import com.evolveum.day_off_planner_rest_api.model.UserApiModel
 import com.evolveum.day_off_planner_rest_api.model.UserCreateApiModel
 import com.evolveum.day_off_planner_rest.data.entity.User
 import com.evolveum.day_off_planner_rest.data.repository.UserRepository
 import com.evolveum.day_off_planner_rest.exception.EmailAlreadyUsedException
 import com.evolveum.day_off_planner_rest.exception.UserNotFoundException
-import com.evolveum.day_off_planner_rest.utils.toUser
-import com.evolveum.day_off_planner_rest.utils.toUserApiModel
-import com.evolveum.day_off_planner_rest.utils.toUserDetails
+import com.evolveum.day_off_planner_rest.exception.WrongPasswordException
+import com.evolveum.day_off_planner_rest_api.model.PasswordChangeApiModel
+import com.evolveum.day_off_planner_rest_api.model.PasswordResetApiModel
 import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
@@ -21,21 +25,27 @@ import javax.annotation.PostConstruct
 class UserService(
         private val passwordEncoder: BCryptPasswordEncoder,
         private val userRepository: UserRepository,
+        private val userAssembler: UserAssembler,
         private val emailService: EmailService
 ) : UserDetailsService {
 
-    override fun loadUserByUsername(username: String) = getUserByEmail(username).toUserDetails()
+    override fun loadUserByUsername(username: String): UserDetails = getUserByEmail(username).toUserDetails()
 
-    fun getUserByEmail(email: String): User = userRepository.findByEmail(email)
-            ?: throw UserNotFoundException("User with email $email was not found")
+    fun getUserById(id: Long): User = userRepository.findOneById(id) ?: throw UserNotFoundException("User with id $id was not found")
+
+    fun getUserByEmail(email: String): User = userRepository.findOneByEmail(email) ?: throw UserNotFoundException("User with email $email was not found")
+
+    fun getLoggedUser(): User = getUserByEmail(SecurityContextHolder.getContext().authentication.principal.toString())
+
+    fun getAllUsers(): List<User> = userRepository.findAllNotDeleted()
 
     fun createUser(userCreateApiModel: UserCreateApiModel): UserApiModel {
-        if (userRepository.findByEmail(userCreateApiModel.email) != null) {
+        if (userRepository.findOneByEmail(userCreateApiModel.email) != null) {
             throw EmailAlreadyUsedException("Email ${userCreateApiModel.email} is already used")
         }
 
         val password = generateRandomPassword()
-        val user = userCreateApiModel.toUser(passwordEncoder, password)
+        val user = userAssembler.fromUserCreateApiModel(userCreateApiModel, password)
         userRepository.save(user)
 
         emailService.sendSimpleMessage(user.email, "Account created", "Welcome to Day Off Planner! Your password is: $password")
@@ -43,16 +53,29 @@ class UserService(
         return user.toUserApiModel()
     }
 
-    fun getLoggedUser(): User {
-        val user = SecurityContextHolder.getContext().authentication.principal.toString()
-        return userRepository.findByEmail(user) ?: throw UserNotFoundException("User with email $user was not found")
+    fun deleteUser(id: Long) {
+        userRepository.save(getUserById(id).apply { deleted = true })
     }
 
-    fun getAllUsers(): List<UserApiModel> =
-        userRepository.findAllNotDeleted().map { it.toUserApiModel() }
+    fun changePassword(passwordChangeApiModel: PasswordChangeApiModel) {
+        val user = getLoggedUser()
+        if (!passwordEncoder.matches(passwordChangeApiModel.oldPassword, user.password)) {
+            throw WrongPasswordException("Invalid password")
+        }
+        user.password = passwordEncoder.encode(passwordChangeApiModel.newPassword)
+        userRepository.save(user)
+    }
 
+    fun resetPassword(passwordResetApiModel: PasswordResetApiModel) {
+        val user = getUserByEmail(passwordResetApiModel.email)
+        val password = generateRandomPassword()
 
-    private fun generateRandomPassword() = STRING_CHARACTERS.shuffled().take(8).joinToString("")
+        emailService.sendSimpleMessage(user.email, "Password reset", "Your new password is: $password")
+        user.password = passwordEncoder.encode(password)
+        userRepository.save(user)
+    }
+
+    private fun generateRandomPassword(length: Int = 8): String = STRING_CHARACTERS.shuffled().take(length).joinToString("")
 
     @PostConstruct
     fun createAdmin() {

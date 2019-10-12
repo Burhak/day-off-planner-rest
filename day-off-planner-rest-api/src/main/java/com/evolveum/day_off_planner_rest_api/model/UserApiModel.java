@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
  * UserApiModel
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-11T15:46:57.130Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-12T13:06:38.577Z[GMT]")
 public class UserApiModel   {
   @JsonProperty("id")
   private Long id = null;
@@ -27,6 +27,9 @@ public class UserApiModel   {
   @JsonProperty("email")
   private String email = null;
 
+  @JsonProperty("supervisor")
+  private Long supervisor = null;
+
   @JsonProperty("admin")
   private Boolean admin = false;
 
@@ -39,7 +42,8 @@ public class UserApiModel   {
    * Get id
    * @return id
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(required = true, value = "")
+  @NotNull
 
   public Long getId() {
     return id;
@@ -58,7 +62,8 @@ public class UserApiModel   {
    * Get firstName
    * @return firstName
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(required = true, value = "")
+  @NotNull
 
   public String getFirstName() {
     return firstName;
@@ -77,7 +82,8 @@ public class UserApiModel   {
    * Get lastName
    * @return lastName
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(required = true, value = "")
+  @NotNull
 
   public String getLastName() {
     return lastName;
@@ -96,7 +102,8 @@ public class UserApiModel   {
    * Get email
    * @return email
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(required = true, value = "")
+  @NotNull
 
   public String getEmail() {
     return email;
@@ -104,6 +111,25 @@ public class UserApiModel   {
 
   public void setEmail(String email) {
     this.email = email;
+  }
+
+  public UserApiModel supervisor(Long supervisor) {
+    this.supervisor = supervisor;
+    return this;
+  }
+
+  /**
+   * Get supervisor
+   * @return supervisor
+  **/
+  @ApiModelProperty(value = "")
+
+  public Long getSupervisor() {
+    return supervisor;
+  }
+
+  public void setSupervisor(Long supervisor) {
+    this.supervisor = supervisor;
   }
 
   public UserApiModel admin(Boolean admin) {
@@ -115,7 +141,8 @@ public class UserApiModel   {
    * Get admin
    * @return admin
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(required = true, value = "")
+  @NotNull
 
   public Boolean isAdmin() {
     return admin;
@@ -139,12 +166,13 @@ public class UserApiModel   {
         Objects.equals(this.firstName, userApiModel.firstName) &&
         Objects.equals(this.lastName, userApiModel.lastName) &&
         Objects.equals(this.email, userApiModel.email) &&
+        Objects.equals(this.supervisor, userApiModel.supervisor) &&
         Objects.equals(this.admin, userApiModel.admin);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, firstName, lastName, email, admin);
+    return Objects.hash(id, firstName, lastName, email, supervisor, admin);
   }
 
   @Override
@@ -156,6 +184,7 @@ public class UserApiModel   {
     sb.append("    firstName: ").append(toIndentedString(firstName)).append("\n");
     sb.append("    lastName: ").append(toIndentedString(lastName)).append("\n");
     sb.append("    email: ").append(toIndentedString(email)).append("\n");
+    sb.append("    supervisor: ").append(toIndentedString(supervisor)).append("\n");
     sb.append("    admin: ").append(toIndentedString(admin)).append("\n");
     sb.append("}");
     return sb.toString();

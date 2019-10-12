@@ -10,55 +10,55 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * UserLoginApiModel
+ * PasswordChangeApiModel
  */
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-12T13:06:38.577Z[GMT]")
-public class UserLoginApiModel   {
-  @JsonProperty("email")
-  private String email = null;
+public class PasswordChangeApiModel   {
+  @JsonProperty("oldPassword")
+  private String oldPassword = null;
 
-  @JsonProperty("password")
-  private String password = null;
+  @JsonProperty("newPassword")
+  private String newPassword = null;
 
-  public UserLoginApiModel email(String email) {
-    this.email = email;
+  public PasswordChangeApiModel oldPassword(String oldPassword) {
+    this.oldPassword = oldPassword;
     return this;
   }
 
   /**
-   * Get email
-   * @return email
+   * Get oldPassword
+   * @return oldPassword
   **/
   @ApiModelProperty(required = true, value = "")
   @NotNull
 
-  public String getEmail() {
-    return email;
+  public String getOldPassword() {
+    return oldPassword;
   }
 
-  public void setEmail(String email) {
-    this.email = email;
+  public void setOldPassword(String oldPassword) {
+    this.oldPassword = oldPassword;
   }
 
-  public UserLoginApiModel password(String password) {
-    this.password = password;
+  public PasswordChangeApiModel newPassword(String newPassword) {
+    this.newPassword = newPassword;
     return this;
   }
 
   /**
-   * Get password
-   * @return password
+   * Get newPassword
+   * @return newPassword
   **/
   @ApiModelProperty(required = true, value = "")
   @NotNull
 
-  public String getPassword() {
-    return password;
+  public String getNewPassword() {
+    return newPassword;
   }
 
-  public void setPassword(String password) {
-    this.password = password;
+  public void setNewPassword(String newPassword) {
+    this.newPassword = newPassword;
   }
 
 
@@ -70,23 +70,23 @@ public class UserLoginApiModel   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    UserLoginApiModel userLoginApiModel = (UserLoginApiModel) o;
-    return Objects.equals(this.email, userLoginApiModel.email) &&
-        Objects.equals(this.password, userLoginApiModel.password);
+    PasswordChangeApiModel passwordChangeApiModel = (PasswordChangeApiModel) o;
+    return Objects.equals(this.oldPassword, passwordChangeApiModel.oldPassword) &&
+        Objects.equals(this.newPassword, passwordChangeApiModel.newPassword);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(email, password);
+    return Objects.hash(oldPassword, newPassword);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class UserLoginApiModel {\n");
+    sb.append("class PasswordChangeApiModel {\n");
     
-    sb.append("    email: ").append(toIndentedString(email)).append("\n");
-    sb.append("    password: ").append(toIndentedString(password)).append("\n");
+    sb.append("    oldPassword: ").append(toIndentedString(oldPassword)).append("\n");
+    sb.append("    newPassword: ").append(toIndentedString(newPassword)).append("\n");
     sb.append("}");
     return sb.toString();
   }

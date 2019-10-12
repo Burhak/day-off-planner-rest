@@ -10,18 +10,15 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * UserLoginApiModel
+ * PasswordResetApiModel
  */
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-12T13:06:38.577Z[GMT]")
-public class UserLoginApiModel   {
+public class PasswordResetApiModel   {
   @JsonProperty("email")
   private String email = null;
 
-  @JsonProperty("password")
-  private String password = null;
-
-  public UserLoginApiModel email(String email) {
+  public PasswordResetApiModel email(String email) {
     this.email = email;
     return this;
   }
@@ -41,26 +38,6 @@ public class UserLoginApiModel   {
     this.email = email;
   }
 
-  public UserLoginApiModel password(String password) {
-    this.password = password;
-    return this;
-  }
-
-  /**
-   * Get password
-   * @return password
-  **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-  public String getPassword() {
-    return password;
-  }
-
-  public void setPassword(String password) {
-    this.password = password;
-  }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -70,23 +47,21 @@ public class UserLoginApiModel   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    UserLoginApiModel userLoginApiModel = (UserLoginApiModel) o;
-    return Objects.equals(this.email, userLoginApiModel.email) &&
-        Objects.equals(this.password, userLoginApiModel.password);
+    PasswordResetApiModel passwordResetApiModel = (PasswordResetApiModel) o;
+    return Objects.equals(this.email, passwordResetApiModel.email);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(email, password);
+    return Objects.hash(email);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class UserLoginApiModel {\n");
+    sb.append("class PasswordResetApiModel {\n");
     
     sb.append("    email: ").append(toIndentedString(email)).append("\n");
-    sb.append("    password: ").append(toIndentedString(password)).append("\n");
     sb.append("}");
     return sb.toString();
   }

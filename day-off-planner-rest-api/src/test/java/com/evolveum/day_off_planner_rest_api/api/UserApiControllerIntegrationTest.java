@@ -1,5 +1,7 @@
 package com.evolveum.day_off_planner_rest_api.api;
 
+import com.evolveum.day_off_planner_rest_api.model.PasswordChangeApiModel;
+import com.evolveum.day_off_planner_rest_api.model.PasswordResetApiModel;
 import com.evolveum.day_off_planner_rest_api.model.UserApiModel;
 
 import java.util.*;
@@ -22,8 +24,29 @@ public class UserApiControllerIntegrationTest {
     private UserApi api;
 
     @Test
+    public void changePasswordTest() throws Exception {
+        PasswordChangeApiModel body = new PasswordChangeApiModel();
+        ResponseEntity<Void> responseEntity = api.changePassword(body);
+        assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
+    }
+
+    @Test
     public void getAllUsersTest() throws Exception {
         ResponseEntity<List<UserApiModel>> responseEntity = api.getAllUsers();
+        assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
+    }
+
+    @Test
+    public void getUserByIdTest() throws Exception {
+        Long id = 789L;
+        ResponseEntity<UserApiModel> responseEntity = api.getUserById(id);
+        assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
+    }
+
+    @Test
+    public void resetPasswordTest() throws Exception {
+        PasswordResetApiModel body = new PasswordResetApiModel();
+        ResponseEntity<Void> responseEntity = api.resetPassword(body);
         assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
     }
 

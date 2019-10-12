@@ -5,6 +5,8 @@
  */
 package com.evolveum.day_off_planner_rest_api.api;
 
+import com.evolveum.day_off_planner_rest_api.model.PasswordChangeApiModel;
+import com.evolveum.day_off_planner_rest_api.model.PasswordResetApiModel;
 import com.evolveum.day_off_planner_rest_api.model.UserApiModel;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
@@ -29,7 +31,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-11T15:46:57.130Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-12T13:06:38.577Z[GMT]")
 @Api(value = "user", description = "the user API")
 public interface UserApi {
 
@@ -47,12 +49,31 @@ public interface UserApi {
         return getRequest().map(r -> r.getHeader("Accept"));
     }
 
+    @ApiOperation(value = "Change user's password", nickname = "changePassword", notes = "", authorizations = {
+        @Authorization(value = "bearerAuth"),
+@Authorization(value = "oAuthNoScopes", scopes = {
+                        })    }, tags={ "user", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK"),
+        @ApiResponse(code = 403, message = "Invalid old password supplied") })
+    @RequestMapping(value = "/user/changePassword",
+        consumes = { "application/json" },
+        method = RequestMethod.POST)
+    default ResponseEntity<Void> changePassword(@ApiParam(value = "User's old and new password" ,required=true )  @Valid @RequestBody PasswordChangeApiModel body) {
+        if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
+        } else {
+            log.warn("ObjectMapper or HttpServletRequest not configured in default UserApi interface so no example is generated");
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    }
+
+
     @ApiOperation(value = "Get all users", nickname = "getAllUsers", notes = "", response = UserApiModel.class, responseContainer = "List", authorizations = {
         @Authorization(value = "bearerAuth"),
 @Authorization(value = "oAuthNoScopes", scopes = {
-                        })    }, tags={  })
+                        })    }, tags={ "user", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = UserApiModel.class, responseContainer = "List") })
+        @ApiResponse(code = 200, message = "OK", response = UserApiModel.class, responseContainer = "List") })
     @RequestMapping(value = "/user/getAll",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
@@ -60,12 +81,57 @@ public interface UserApi {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
-                    return new ResponseEntity<>(getObjectMapper().get().readValue("[ {\n  \"firstName\" : \"firstName\",\n  \"lastName\" : \"lastName\",\n  \"admin\" : false,\n  \"id\" : 0,\n  \"email\" : \"email\"\n}, {\n  \"firstName\" : \"firstName\",\n  \"lastName\" : \"lastName\",\n  \"admin\" : false,\n  \"id\" : 0,\n  \"email\" : \"email\"\n} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("[ {\n  \"firstName\" : \"firstName\",\n  \"lastName\" : \"lastName\",\n  \"admin\" : false,\n  \"id\" : 0,\n  \"email\" : \"email\",\n  \"supervisor\" : 6\n}, {\n  \"firstName\" : \"firstName\",\n  \"lastName\" : \"lastName\",\n  \"admin\" : false,\n  \"id\" : 0,\n  \"email\" : \"email\",\n  \"supervisor\" : 6\n} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
                 } catch (IOException e) {
                     log.error("Couldn't serialize response for content type application/json", e);
                     return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
                 }
             }
+        } else {
+            log.warn("ObjectMapper or HttpServletRequest not configured in default UserApi interface so no example is generated");
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    }
+
+
+    @ApiOperation(value = "Get user by id", nickname = "getUserById", notes = "", response = UserApiModel.class, authorizations = {
+        @Authorization(value = "bearerAuth"),
+@Authorization(value = "oAuthNoScopes", scopes = {
+                        })    }, tags={ "user", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = UserApiModel.class) })
+    @RequestMapping(value = "/user/{id}",
+        produces = { "application/json" }, 
+        method = RequestMethod.GET)
+    default ResponseEntity<UserApiModel> getUserById(@ApiParam(value = "",required=true) @PathVariable("id") Long id) {
+        if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
+            if (getAcceptHeader().get().contains("application/json")) {
+                try {
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("{\n  \"firstName\" : \"firstName\",\n  \"lastName\" : \"lastName\",\n  \"admin\" : false,\n  \"id\" : 0,\n  \"email\" : \"email\",\n  \"supervisor\" : 6\n}", UserApiModel.class), HttpStatus.NOT_IMPLEMENTED);
+                } catch (IOException e) {
+                    log.error("Couldn't serialize response for content type application/json", e);
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            }
+        } else {
+            log.warn("ObjectMapper or HttpServletRequest not configured in default UserApi interface so no example is generated");
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    }
+
+
+    @ApiOperation(value = "Reset user's password", nickname = "resetPassword", notes = "", authorizations = {
+        @Authorization(value = "bearerAuth"),
+@Authorization(value = "oAuthNoScopes", scopes = {
+                        })    }, tags={ "user", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 202, message = "Accepted"),
+        @ApiResponse(code = 404, message = "Not found") })
+    @RequestMapping(value = "/user/resetPassword",
+        consumes = { "application/json" },
+        method = RequestMethod.POST)
+    default ResponseEntity<Void> resetPassword(@ApiParam(value = "User's email" ,required=true )  @Valid @RequestBody PasswordResetApiModel body) {
+        if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
         } else {
             log.warn("ObjectMapper or HttpServletRequest not configured in default UserApi interface so no example is generated");
         }

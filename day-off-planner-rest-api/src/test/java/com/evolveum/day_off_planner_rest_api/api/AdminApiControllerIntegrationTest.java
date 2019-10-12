@@ -29,4 +29,11 @@ public class AdminApiControllerIntegrationTest {
         assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
     }
 
+    @Test
+    public void deleteUserTest() throws Exception {
+        Long id = 789L;
+        ResponseEntity<Void> responseEntity = api.deleteUser(id);
+        assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
+    }
+
 }

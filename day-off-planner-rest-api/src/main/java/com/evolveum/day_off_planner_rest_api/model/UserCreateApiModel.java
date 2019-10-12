@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
  * UserCreateApiModel
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-11T15:46:57.130Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-12T13:06:38.577Z[GMT]")
 public class UserCreateApiModel   {
   @JsonProperty("firstName")
   private String firstName = null;
@@ -23,6 +23,9 @@ public class UserCreateApiModel   {
 
   @JsonProperty("email")
   private String email = null;
+
+  @JsonProperty("supervisor")
+  private Long supervisor = null;
 
   @JsonProperty("admin")
   private Boolean admin = false;
@@ -87,6 +90,25 @@ public class UserCreateApiModel   {
     this.email = email;
   }
 
+  public UserCreateApiModel supervisor(Long supervisor) {
+    this.supervisor = supervisor;
+    return this;
+  }
+
+  /**
+   * Get supervisor
+   * @return supervisor
+  **/
+  @ApiModelProperty(value = "")
+
+  public Long getSupervisor() {
+    return supervisor;
+  }
+
+  public void setSupervisor(Long supervisor) {
+    this.supervisor = supervisor;
+  }
+
   public UserCreateApiModel admin(Boolean admin) {
     this.admin = admin;
     return this;
@@ -119,12 +141,13 @@ public class UserCreateApiModel   {
     return Objects.equals(this.firstName, userCreateApiModel.firstName) &&
         Objects.equals(this.lastName, userCreateApiModel.lastName) &&
         Objects.equals(this.email, userCreateApiModel.email) &&
+        Objects.equals(this.supervisor, userCreateApiModel.supervisor) &&
         Objects.equals(this.admin, userCreateApiModel.admin);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(firstName, lastName, email, admin);
+    return Objects.hash(firstName, lastName, email, supervisor, admin);
   }
 
   @Override
@@ -135,6 +158,7 @@ public class UserCreateApiModel   {
     sb.append("    firstName: ").append(toIndentedString(firstName)).append("\n");
     sb.append("    lastName: ").append(toIndentedString(lastName)).append("\n");
     sb.append("    email: ").append(toIndentedString(email)).append("\n");
+    sb.append("    supervisor: ").append(toIndentedString(supervisor)).append("\n");
     sb.append("    admin: ").append(toIndentedString(admin)).append("\n");
     sb.append("}");
     return sb.toString();

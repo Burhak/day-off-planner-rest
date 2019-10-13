@@ -30,7 +30,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-12T13:06:38.577Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-13T14:03:06.247Z[GMT]")
 @Api(value = "admin", description = "the admin API")
 public interface AdminApi {
 
@@ -60,7 +60,7 @@ public interface AdminApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    default ResponseEntity<UserApiModel> createUser(@ApiParam(value = "Name and email of new user" ,required=true )  @Valid @RequestBody UserCreateApiModel body) {
+    default ResponseEntity<UserApiModel> createUser(@ApiParam(value = "Object of user to be created" ,required=true )  @Valid @RequestBody UserCreateApiModel body) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
@@ -87,8 +87,37 @@ public interface AdminApi {
         @ApiResponse(code = 404, message = "Not found") })
     @RequestMapping(value = "/admin/user/{id}",
         method = RequestMethod.DELETE)
-    default ResponseEntity<Void> deleteUser(@ApiParam(value = "",required=true) @PathVariable("id") Long id) {
+    default ResponseEntity<Void> deleteUser(@ApiParam(value = "ID of the user to be deleted",required=true) @PathVariable("id") Long id) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
+        } else {
+            log.warn("ObjectMapper or HttpServletRequest not configured in default AdminApi interface so no example is generated");
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    }
+
+
+    @ApiOperation(value = "Update existing user", nickname = "updateUser", notes = "", response = UserApiModel.class, authorizations = {
+        @Authorization(value = "bearerAuth"),
+@Authorization(value = "oAuthNoScopes", scopes = {
+                        })    }, tags={ "admin", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = UserApiModel.class),
+        @ApiResponse(code = 403, message = "Not an admin"),
+        @ApiResponse(code = 404, message = "Not found") })
+    @RequestMapping(value = "/admin/user/{id}",
+        produces = { "application/json" }, 
+        consumes = { "application/json" },
+        method = RequestMethod.PUT)
+    default ResponseEntity<UserApiModel> updateUser(@ApiParam(value = "Object of user to be updated" ,required=true )  @Valid @RequestBody UserCreateApiModel body,@ApiParam(value = "ID of the user to be updated",required=true) @PathVariable("id") Long id) {
+        if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
+            if (getAcceptHeader().get().contains("application/json")) {
+                try {
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("{\n  \"firstName\" : \"firstName\",\n  \"lastName\" : \"lastName\",\n  \"admin\" : false,\n  \"id\" : 0,\n  \"email\" : \"email\",\n  \"supervisor\" : 6\n}", UserApiModel.class), HttpStatus.NOT_IMPLEMENTED);
+                } catch (IOException e) {
+                    log.error("Couldn't serialize response for content type application/json", e);
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            }
         } else {
             log.warn("ObjectMapper or HttpServletRequest not configured in default AdminApi interface so no example is generated");
         }

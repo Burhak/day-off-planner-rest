@@ -36,4 +36,12 @@ public class AdminApiControllerIntegrationTest {
         assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
     }
 
+    @Test
+    public void updateUserTest() throws Exception {
+        UserCreateApiModel body = new UserCreateApiModel();
+        Long id = 789L;
+        ResponseEntity<UserApiModel> responseEntity = api.updateUser(body, id);
+        assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
+    }
+
 }

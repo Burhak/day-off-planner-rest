@@ -31,7 +31,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-12T13:06:38.577Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-13T14:03:06.247Z[GMT]")
 @Api(value = "user", description = "the user API")
 public interface UserApi {
 
@@ -55,7 +55,7 @@ public interface UserApi {
                         })    }, tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK"),
-        @ApiResponse(code = 403, message = "Invalid old password supplied") })
+        @ApiResponse(code = 403, message = "Invalid password") })
     @RequestMapping(value = "/user/changePassword",
         consumes = { "application/json" },
         method = RequestMethod.POST)
@@ -94,7 +94,7 @@ public interface UserApi {
     }
 
 
-    @ApiOperation(value = "Get user by id", nickname = "getUserById", notes = "", response = UserApiModel.class, authorizations = {
+    @ApiOperation(value = "Get user by ID", nickname = "getUserById", notes = "", response = UserApiModel.class, authorizations = {
         @Authorization(value = "bearerAuth"),
 @Authorization(value = "oAuthNoScopes", scopes = {
                         })    }, tags={ "user", })
@@ -103,7 +103,7 @@ public interface UserApi {
     @RequestMapping(value = "/user/{id}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    default ResponseEntity<UserApiModel> getUserById(@ApiParam(value = "",required=true) @PathVariable("id") Long id) {
+    default ResponseEntity<UserApiModel> getUserById(@ApiParam(value = "User's ID",required=true) @PathVariable("id") Long id) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {

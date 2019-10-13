@@ -30,7 +30,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-12T13:06:38.577Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-13T14:03:06.247Z[GMT]")
 @Api(value = "login", description = "the login API")
 public interface LoginApi {
 
@@ -54,7 +54,7 @@ public interface LoginApi {
                         })    }, tags={ "auth", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK", response = UserLoginResponseApiModel.class),
-        @ApiResponse(code = 403, message = "Invalid email or password supplied") })
+        @ApiResponse(code = 403, message = "Invalid email or password") })
     @RequestMapping(value = "/login",
         produces = { "application/json" }, 
         consumes = { "application/json" },

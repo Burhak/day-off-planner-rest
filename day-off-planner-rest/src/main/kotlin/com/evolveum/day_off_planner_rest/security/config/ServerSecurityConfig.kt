@@ -26,6 +26,7 @@ class ServerSecurityConfig(
         http.csrf().disable()
             .authorizeRequests()
                 .antMatchers("/admin/*").hasAnyAuthority("ADMIN")
+                .antMatchers("/user/resetPassword").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(AuthenticationFilter(authenticationManager(), userService))

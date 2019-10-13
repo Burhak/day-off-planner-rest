@@ -32,7 +32,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-13T15:37:02.238Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-13T17:14:27.870Z[GMT]")
 @Api(value = "admin", description = "the admin API")
 public interface AdminApi {
 
@@ -55,7 +55,7 @@ public interface AdminApi {
 @Authorization(value = "oAuthNoScopes", scopes = {
                         })    }, tags={ "admin", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = LeaveTypeApiModel.class),
+        @ApiResponse(code = 201, message = "OK", response = LeaveTypeApiModel.class),
         @ApiResponse(code = 403, message = "Not an admin"),
         @ApiResponse(code = 409, message = "Given name already exists") })
     @RequestMapping(value = "/admin/leaveType",
@@ -84,7 +84,7 @@ public interface AdminApi {
 @Authorization(value = "oAuthNoScopes", scopes = {
                         })    }, tags={ "admin", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = UserApiModel.class),
+        @ApiResponse(code = 201, message = "OK", response = UserApiModel.class),
         @ApiResponse(code = 403, message = "Not an admin"),
         @ApiResponse(code = 409, message = "Given email already exists") })
     @RequestMapping(value = "/admin/user",

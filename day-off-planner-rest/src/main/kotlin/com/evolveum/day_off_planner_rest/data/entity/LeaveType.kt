@@ -13,4 +13,6 @@ data class LeaveType(
     @Id
     @GeneratedValue
     var id: Long = 0L
+
+    var deleted: Boolean = false
 }

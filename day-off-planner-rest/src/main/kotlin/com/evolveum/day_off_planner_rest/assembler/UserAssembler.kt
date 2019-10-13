@@ -2,7 +2,7 @@ package com.evolveum.day_off_planner_rest.assembler
 
 import com.evolveum.day_off_planner_rest.data.entity.User
 import com.evolveum.day_off_planner_rest.data.repository.UserRepository
-import com.evolveum.day_off_planner_rest.exception.UserNotFoundException
+import com.evolveum.day_off_planner_rest.exception.NotFoundException
 import com.evolveum.day_off_planner_rest_api.model.UserApiModel
 import com.evolveum.day_off_planner_rest_api.model.UserCreateApiModel
 import com.evolveum.day_off_planner_rest_api.model.UserLoginResponseApiModel
@@ -23,9 +23,8 @@ class UserAssembler(private val userRepository: UserRepository) {
         this.supervisor =
                 if (userCreateApiModel.supervisor == null) null
                 else (userRepository.findOneById(userCreateApiModel.supervisor)
-                        ?: throw UserNotFoundException("User with id ${userCreateApiModel.supervisor} was not found"))
+                        ?: throw NotFoundException("User with id ${userCreateApiModel.supervisor} was not found"))
     }
-
 }
 
 fun User.toUserDetails(): UserDetails = org.springframework.security.core.userdetails.User

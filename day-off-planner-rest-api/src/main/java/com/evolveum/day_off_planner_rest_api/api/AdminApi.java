@@ -5,6 +5,8 @@
  */
 package com.evolveum.day_off_planner_rest_api.api;
 
+import com.evolveum.day_off_planner_rest_api.model.LeaveTypeApiModel;
+import com.evolveum.day_off_planner_rest_api.model.LeaveTypeCreateApiModel;
 import com.evolveum.day_off_planner_rest_api.model.UserApiModel;
 import com.evolveum.day_off_planner_rest_api.model.UserCreateApiModel;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -30,7 +32,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-13T14:03:06.247Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-13T15:37:02.238Z[GMT]")
 @Api(value = "admin", description = "the admin API")
 public interface AdminApi {
 
@@ -47,6 +49,35 @@ public interface AdminApi {
     default Optional<String> getAcceptHeader() {
         return getRequest().map(r -> r.getHeader("Accept"));
     }
+
+    @ApiOperation(value = "Create new leave type", nickname = "createLeaveType", notes = "", response = LeaveTypeApiModel.class, authorizations = {
+        @Authorization(value = "bearerAuth"),
+@Authorization(value = "oAuthNoScopes", scopes = {
+                        })    }, tags={ "admin", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = LeaveTypeApiModel.class),
+        @ApiResponse(code = 403, message = "Not an admin"),
+        @ApiResponse(code = 409, message = "Given name already exists") })
+    @RequestMapping(value = "/admin/leaveType",
+        produces = { "application/json" }, 
+        consumes = { "application/json" },
+        method = RequestMethod.POST)
+    default ResponseEntity<LeaveTypeApiModel> createLeaveType(@ApiParam(value = "Object of leave type to be created" ,required=true )  @Valid @RequestBody LeaveTypeCreateApiModel body) {
+        if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
+            if (getAcceptHeader().get().contains("application/json")) {
+                try {
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("{\n  \"approvalNeeded\" : false,\n  \"limited\" : false,\n  \"name\" : \"name\",\n  \"halfDayAllowed\" : false,\n  \"id\" : 0\n}", LeaveTypeApiModel.class), HttpStatus.NOT_IMPLEMENTED);
+                } catch (IOException e) {
+                    log.error("Couldn't serialize response for content type application/json", e);
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            }
+        } else {
+            log.warn("ObjectMapper or HttpServletRequest not configured in default AdminApi interface so no example is generated");
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    }
+
 
     @ApiOperation(value = "Create new user", nickname = "createUser", notes = "", response = UserApiModel.class, authorizations = {
         @Authorization(value = "bearerAuth"),
@@ -77,6 +108,25 @@ public interface AdminApi {
     }
 
 
+    @ApiOperation(value = "Delete existing leave type", nickname = "deleteLeaveType", notes = "", authorizations = {
+        @Authorization(value = "bearerAuth"),
+@Authorization(value = "oAuthNoScopes", scopes = {
+                        })    }, tags={ "admin", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK"),
+        @ApiResponse(code = 403, message = "Not an admin"),
+        @ApiResponse(code = 404, message = "Not found") })
+    @RequestMapping(value = "/admin/leaveType/{id}",
+        method = RequestMethod.DELETE)
+    default ResponseEntity<Void> deleteLeaveType(@ApiParam(value = "ID of the leave type to be deleted",required=true) @PathVariable("id") Long id) {
+        if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
+        } else {
+            log.warn("ObjectMapper or HttpServletRequest not configured in default AdminApi interface so no example is generated");
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    }
+
+
     @ApiOperation(value = "Delete existing user", nickname = "deleteUser", notes = "", authorizations = {
         @Authorization(value = "bearerAuth"),
 @Authorization(value = "oAuthNoScopes", scopes = {
@@ -89,6 +139,35 @@ public interface AdminApi {
         method = RequestMethod.DELETE)
     default ResponseEntity<Void> deleteUser(@ApiParam(value = "ID of the user to be deleted",required=true) @PathVariable("id") Long id) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
+        } else {
+            log.warn("ObjectMapper or HttpServletRequest not configured in default AdminApi interface so no example is generated");
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    }
+
+
+    @ApiOperation(value = "Update existing leave type", nickname = "updateLeaveType", notes = "", response = LeaveTypeApiModel.class, authorizations = {
+        @Authorization(value = "bearerAuth"),
+@Authorization(value = "oAuthNoScopes", scopes = {
+                        })    }, tags={ "admin", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = LeaveTypeApiModel.class),
+        @ApiResponse(code = 403, message = "Not an admin"),
+        @ApiResponse(code = 404, message = "Not found") })
+    @RequestMapping(value = "/admin/leaveType/{id}",
+        produces = { "application/json" }, 
+        consumes = { "application/json" },
+        method = RequestMethod.PUT)
+    default ResponseEntity<LeaveTypeApiModel> updateLeaveType(@ApiParam(value = "Object of leave type to be updated" ,required=true )  @Valid @RequestBody LeaveTypeCreateApiModel body,@ApiParam(value = "ID of the leave type to be updated",required=true) @PathVariable("id") Long id) {
+        if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
+            if (getAcceptHeader().get().contains("application/json")) {
+                try {
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("{\n  \"approvalNeeded\" : false,\n  \"limited\" : false,\n  \"name\" : \"name\",\n  \"halfDayAllowed\" : false,\n  \"id\" : 0\n}", LeaveTypeApiModel.class), HttpStatus.NOT_IMPLEMENTED);
+                } catch (IOException e) {
+                    log.error("Couldn't serialize response for content type application/json", e);
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            }
         } else {
             log.warn("ObjectMapper or HttpServletRequest not configured in default AdminApi interface so no example is generated");
         }

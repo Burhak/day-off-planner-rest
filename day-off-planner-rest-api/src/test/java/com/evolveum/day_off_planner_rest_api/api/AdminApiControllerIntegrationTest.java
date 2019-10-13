@@ -1,5 +1,7 @@
 package com.evolveum.day_off_planner_rest_api.api;
 
+import com.evolveum.day_off_planner_rest_api.model.LeaveTypeApiModel;
+import com.evolveum.day_off_planner_rest_api.model.LeaveTypeCreateApiModel;
 import com.evolveum.day_off_planner_rest_api.model.UserApiModel;
 import com.evolveum.day_off_planner_rest_api.model.UserCreateApiModel;
 
@@ -23,6 +25,13 @@ public class AdminApiControllerIntegrationTest {
     private AdminApi api;
 
     @Test
+    public void createLeaveTypeTest() throws Exception {
+        LeaveTypeCreateApiModel body = new LeaveTypeCreateApiModel();
+        ResponseEntity<LeaveTypeApiModel> responseEntity = api.createLeaveType(body);
+        assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
+    }
+
+    @Test
     public void createUserTest() throws Exception {
         UserCreateApiModel body = new UserCreateApiModel();
         ResponseEntity<UserApiModel> responseEntity = api.createUser(body);
@@ -30,9 +39,24 @@ public class AdminApiControllerIntegrationTest {
     }
 
     @Test
+    public void deleteLeaveTypeTest() throws Exception {
+        Long id = 789L;
+        ResponseEntity<Void> responseEntity = api.deleteLeaveType(id);
+        assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
+    }
+
+    @Test
     public void deleteUserTest() throws Exception {
         Long id = 789L;
         ResponseEntity<Void> responseEntity = api.deleteUser(id);
+        assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
+    }
+
+    @Test
+    public void updateLeaveTypeTest() throws Exception {
+        LeaveTypeCreateApiModel body = new LeaveTypeCreateApiModel();
+        Long id = 789L;
+        ResponseEntity<LeaveTypeApiModel> responseEntity = api.updateLeaveType(body, id);
         assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
     }
 

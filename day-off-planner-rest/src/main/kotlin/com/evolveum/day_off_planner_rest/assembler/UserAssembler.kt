@@ -8,25 +8,24 @@ import com.evolveum.day_off_planner_rest_api.model.UserCreateApiModel
 import com.evolveum.day_off_planner_rest_api.model.UserLoginResponseApiModel
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Component
 
 @Component
-class UserAssembler(
-        private val passwordEncoder: BCryptPasswordEncoder,
-        private val userRepository: UserRepository
-) {
+class UserAssembler(private val userRepository: UserRepository) {
 
-    fun fromUserCreateApiModel(userCreateApiModel: UserCreateApiModel, password: String): User = User(
-            firstName = userCreateApiModel.firstName,
-            lastName = userCreateApiModel.lastName,
-            email = userCreateApiModel.email,
-            password = passwordEncoder.encode(password),
-            admin = userCreateApiModel.isAdmin,
-            supervisor = if (userCreateApiModel.supervisor == null) null else
-                (userRepository.findOneById(userCreateApiModel.supervisor) ?:
-                throw UserNotFoundException("User with id ${userCreateApiModel.supervisor} was not found"))
-    )
+    fun disassemble(userCreateApiModel: UserCreateApiModel): User = disassemble(User(), userCreateApiModel)
+
+    fun disassemble(user: User, userCreateApiModel: UserCreateApiModel): User = user.apply {
+        this.firstName = userCreateApiModel.firstName
+        this.lastName = userCreateApiModel.lastName
+        this.email = userCreateApiModel.email
+        this.admin = userCreateApiModel.isAdmin
+        this.supervisor =
+                if (userCreateApiModel.supervisor == null) null
+                else (userRepository.findOneById(userCreateApiModel.supervisor)
+                        ?: throw UserNotFoundException("User with id ${userCreateApiModel.supervisor} was not found"))
+    }
+
 }
 
 fun User.toUserDetails(): UserDetails = org.springframework.security.core.userdetails.User

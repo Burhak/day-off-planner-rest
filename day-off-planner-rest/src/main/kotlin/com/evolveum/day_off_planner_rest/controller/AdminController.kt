@@ -14,8 +14,12 @@ class AdminController(private val userService: UserService) : AdminApi {
         return ResponseEntity.ok(userService.createUser(body))
     }
 
-    override fun deleteUser(id: Long): ResponseEntity<Void> {
-        userService.deleteUser(id)
+    override fun updateUser(body: UserCreateApiModel, id: Long?): ResponseEntity<UserApiModel> {
+        return ResponseEntity.ok(userService.updateUser(body, id!!))
+    }
+
+    override fun deleteUser(id: Long?): ResponseEntity<Void> {
+        userService.deleteUser(id!!)
         return ResponseEntity.ok().build()
     }
 }

@@ -45,11 +45,19 @@ class UserService(
         }
 
         val password = generateRandomPassword()
-        val user = userAssembler.fromUserCreateApiModel(userCreateApiModel, password)
+        val user = userAssembler.disassemble(userCreateApiModel)
+                .apply { this.password = passwordEncoder.encode(password) }
+
         userRepository.save(user)
 
         emailService.sendSimpleMessage(user.email, "Account created", "Welcome to Day Off Planner! Your password is: $password")
 
+        return user.toUserApiModel()
+    }
+
+    fun updateUser(userCreateApiModel: UserCreateApiModel, id: Long): UserApiModel {
+        val user = userAssembler.disassemble(getUserById(id), userCreateApiModel)
+        userRepository.save(user)
         return user.toUserApiModel()
     }
 

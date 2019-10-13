@@ -31,7 +31,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-13T14:03:06.247Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-13T15:37:02.238Z[GMT]")
 @Api(value = "user", description = "the user API")
 public interface UserApi {
 
@@ -49,7 +49,7 @@ public interface UserApi {
         return getRequest().map(r -> r.getHeader("Accept"));
     }
 
-    @ApiOperation(value = "Change user's password", nickname = "changePassword", notes = "", authorizations = {
+    @ApiOperation(value = "Change user password", nickname = "changePassword", notes = "", authorizations = {
         @Authorization(value = "bearerAuth"),
 @Authorization(value = "oAuthNoScopes", scopes = {
                         })    }, tags={ "user", })
@@ -59,7 +59,7 @@ public interface UserApi {
     @RequestMapping(value = "/user/changePassword",
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    default ResponseEntity<Void> changePassword(@ApiParam(value = "User's old and new password" ,required=true )  @Valid @RequestBody PasswordChangeApiModel body) {
+    default ResponseEntity<Void> changePassword(@ApiParam(value = "User old and new password" ,required=true )  @Valid @RequestBody PasswordChangeApiModel body) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
         } else {
             log.warn("ObjectMapper or HttpServletRequest not configured in default UserApi interface so no example is generated");
@@ -103,7 +103,7 @@ public interface UserApi {
     @RequestMapping(value = "/user/{id}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    default ResponseEntity<UserApiModel> getUserById(@ApiParam(value = "User's ID",required=true) @PathVariable("id") Long id) {
+    default ResponseEntity<UserApiModel> getUserById(@ApiParam(value = "User ID",required=true) @PathVariable("id") Long id) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
@@ -120,7 +120,7 @@ public interface UserApi {
     }
 
 
-    @ApiOperation(value = "Reset user's password", nickname = "resetPassword", notes = "", authorizations = {
+    @ApiOperation(value = "Reset user password", nickname = "resetPassword", notes = "", authorizations = {
         @Authorization(value = "bearerAuth"),
 @Authorization(value = "oAuthNoScopes", scopes = {
                         })    }, tags={ "user", })
@@ -130,7 +130,7 @@ public interface UserApi {
     @RequestMapping(value = "/user/resetPassword",
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    default ResponseEntity<Void> resetPassword(@ApiParam(value = "User's email" ,required=true )  @Valid @RequestBody PasswordResetApiModel body) {
+    default ResponseEntity<Void> resetPassword(@ApiParam(value = "User email" ,required=true )  @Valid @RequestBody PasswordResetApiModel body) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
         } else {
             log.warn("ObjectMapper or HttpServletRequest not configured in default UserApi interface so no example is generated");

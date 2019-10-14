@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
  * LeaveTypeApiModel
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-13T17:16:29.640Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-14T06:33:13.757Z[GMT]")
 public class LeaveTypeApiModel   {
   @JsonProperty("id")
   private Long id = null;
@@ -39,7 +39,7 @@ public class LeaveTypeApiModel   {
    * Get id
    * @return id
   **/
-  @ApiModelProperty(required = true, value = "")
+  @ApiModelProperty(required = true, readOnly = true, value = "")
   @NotNull
 
   public Long getId() {

@@ -30,4 +30,8 @@ class UserController(private val userService: UserService) : UserApi {
     override fun getUserById(id: Long?): ResponseEntity<UserApiModel> {
         return ResponseEntity(userService.getUserById(id!!).toUserApiModel(), HttpStatus.OK)
     }
+
+    override fun getLoggedUser(): ResponseEntity<UserApiModel> {
+        return ResponseEntity(userService.getLoggedUser().toUserApiModel(), HttpStatus.OK)
+    }
 }

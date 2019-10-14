@@ -2,6 +2,7 @@ package com.evolveum.day_off_planner_rest.service
 
 import com.evolveum.day_off_planner_rest.assembler.UserAssembler
 import com.evolveum.day_off_planner_rest.assembler.toUserDetails
+import com.evolveum.day_off_planner_rest_api.model.UserCreateApiModel
 import com.evolveum.day_off_planner_rest.data.entity.User
 import com.evolveum.day_off_planner_rest.data.repository.UserRepository
 import com.evolveum.day_off_planner_rest.exception.AlreadyUsedException
@@ -9,7 +10,6 @@ import com.evolveum.day_off_planner_rest.exception.NotFoundException
 import com.evolveum.day_off_planner_rest.exception.WrongPasswordException
 import com.evolveum.day_off_planner_rest_api.model.PasswordChangeApiModel
 import com.evolveum.day_off_planner_rest_api.model.PasswordResetApiModel
-import com.evolveum.day_off_planner_rest_api.model.UserApiModel
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
@@ -37,18 +37,18 @@ class UserService(
 
     fun getAllUsers(): List<User> = userRepository.findAllNotDeleted()
 
-    fun createUser(userApiModel: UserApiModel): User {
-        checkEmail(userApiModel.email)
+    fun createUser(userCreateApiModel: UserCreateApiModel): User {
+        checkEmail(userCreateApiModel.email)
 
         val password = generateRandomPassword()
-        val user = userRepository.save(userAssembler.disassemble(userApiModel).apply { this.password = passwordEncoder.encode(password) })
+        val user = userRepository.save(userAssembler.disassemble(userCreateApiModel).apply { this.password = passwordEncoder.encode(password) })
 
         emailService.sendSimpleMessage(user.email, "Account created", "Welcome to Day Off Planner! Your password is: $password")
 
         return user
     }
 
-    fun updateUser(userCreateApiModel: UserApiModel, id: Long): User {
+    fun updateUser(userCreateApiModel: UserCreateApiModel, id: Long): User {
         val user = getUserById(id)
         checkEmail(userCreateApiModel.email, id)
         return userRepository.save(userAssembler.disassemble(user, userCreateApiModel))

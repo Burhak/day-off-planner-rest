@@ -37,6 +37,12 @@ public class UserApiControllerIntegrationTest {
     }
 
     @Test
+    public void getLoggedUserTest() throws Exception {
+        ResponseEntity<UserApiModel> responseEntity = api.getLoggedUser();
+        assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
+    }
+
+    @Test
     public void getUserByIdTest() throws Exception {
         Long id = 789L;
         ResponseEntity<UserApiModel> responseEntity = api.getUserById(id);

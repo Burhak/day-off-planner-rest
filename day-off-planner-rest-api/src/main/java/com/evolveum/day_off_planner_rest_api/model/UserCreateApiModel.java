@@ -10,14 +10,11 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * UserApiModel
+ * UserCreateApiModel
  */
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-14T13:10:03.634Z[GMT]")
-public class UserApiModel   {
-  @JsonProperty("id")
-  private Long id = null;
-
+public class UserCreateApiModel   {
   @JsonProperty("firstName")
   private String firstName = null;
 
@@ -33,27 +30,7 @@ public class UserApiModel   {
   @JsonProperty("admin")
   private Boolean admin = false;
 
-  public UserApiModel id(Long id) {
-    this.id = id;
-    return this;
-  }
-
-  /**
-   * Get id
-   * @return id
-  **/
-  @ApiModelProperty(required = true, readOnly = true, value = "")
-  @NotNull
-
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public UserApiModel firstName(String firstName) {
+  public UserCreateApiModel firstName(String firstName) {
     this.firstName = firstName;
     return this;
   }
@@ -62,7 +39,7 @@ public class UserApiModel   {
    * Get firstName
    * @return firstName
   **/
-  @ApiModelProperty(required = true, readOnly = true, value = "")
+  @ApiModelProperty(required = true, value = "")
   @NotNull
 
   public String getFirstName() {
@@ -73,7 +50,7 @@ public class UserApiModel   {
     this.firstName = firstName;
   }
 
-  public UserApiModel lastName(String lastName) {
+  public UserCreateApiModel lastName(String lastName) {
     this.lastName = lastName;
     return this;
   }
@@ -82,7 +59,7 @@ public class UserApiModel   {
    * Get lastName
    * @return lastName
   **/
-  @ApiModelProperty(required = true, readOnly = true, value = "")
+  @ApiModelProperty(required = true, value = "")
   @NotNull
 
   public String getLastName() {
@@ -93,7 +70,7 @@ public class UserApiModel   {
     this.lastName = lastName;
   }
 
-  public UserApiModel email(String email) {
+  public UserCreateApiModel email(String email) {
     this.email = email;
     return this;
   }
@@ -102,7 +79,7 @@ public class UserApiModel   {
    * Get email
    * @return email
   **/
-  @ApiModelProperty(required = true, readOnly = true, value = "")
+  @ApiModelProperty(required = true, value = "")
   @NotNull
 
   public String getEmail() {
@@ -113,7 +90,7 @@ public class UserApiModel   {
     this.email = email;
   }
 
-  public UserApiModel supervisor(Long supervisor) {
+  public UserCreateApiModel supervisor(Long supervisor) {
     this.supervisor = supervisor;
     return this;
   }
@@ -122,7 +99,7 @@ public class UserApiModel   {
    * Get supervisor
    * @return supervisor
   **/
-  @ApiModelProperty(readOnly = true, value = "")
+  @ApiModelProperty(value = "")
 
   public Long getSupervisor() {
     return supervisor;
@@ -132,7 +109,7 @@ public class UserApiModel   {
     this.supervisor = supervisor;
   }
 
-  public UserApiModel admin(Boolean admin) {
+  public UserCreateApiModel admin(Boolean admin) {
     this.admin = admin;
     return this;
   }
@@ -141,7 +118,7 @@ public class UserApiModel   {
    * Get admin
    * @return admin
   **/
-  @ApiModelProperty(required = true, readOnly = true, value = "")
+  @ApiModelProperty(required = true, value = "")
   @NotNull
 
   public Boolean isAdmin() {
@@ -161,26 +138,24 @@ public class UserApiModel   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    UserApiModel userApiModel = (UserApiModel) o;
-    return Objects.equals(this.id, userApiModel.id) &&
-        Objects.equals(this.firstName, userApiModel.firstName) &&
-        Objects.equals(this.lastName, userApiModel.lastName) &&
-        Objects.equals(this.email, userApiModel.email) &&
-        Objects.equals(this.supervisor, userApiModel.supervisor) &&
-        Objects.equals(this.admin, userApiModel.admin);
+    UserCreateApiModel userCreateApiModel = (UserCreateApiModel) o;
+    return Objects.equals(this.firstName, userCreateApiModel.firstName) &&
+        Objects.equals(this.lastName, userCreateApiModel.lastName) &&
+        Objects.equals(this.email, userCreateApiModel.email) &&
+        Objects.equals(this.supervisor, userCreateApiModel.supervisor) &&
+        Objects.equals(this.admin, userCreateApiModel.admin);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, firstName, lastName, email, supervisor, admin);
+    return Objects.hash(firstName, lastName, email, supervisor, admin);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class UserApiModel {\n");
+    sb.append("class UserCreateApiModel {\n");
     
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    firstName: ").append(toIndentedString(firstName)).append("\n");
     sb.append("    lastName: ").append(toIndentedString(lastName)).append("\n");
     sb.append("    email: ").append(toIndentedString(email)).append("\n");

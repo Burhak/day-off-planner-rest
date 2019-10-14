@@ -10,14 +10,11 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * LeaveTypeApiModel
+ * LeaveTypeCreateApiModel
  */
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-14T13:10:03.634Z[GMT]")
-public class LeaveTypeApiModel   {
-  @JsonProperty("id")
-  private Long id = null;
-
+public class LeaveTypeCreateApiModel   {
   @JsonProperty("name")
   private String name = null;
 
@@ -30,27 +27,7 @@ public class LeaveTypeApiModel   {
   @JsonProperty("halfDayAllowed")
   private Boolean halfDayAllowed = false;
 
-  public LeaveTypeApiModel id(Long id) {
-    this.id = id;
-    return this;
-  }
-
-  /**
-   * Get id
-   * @return id
-  **/
-  @ApiModelProperty(required = true, readOnly = true, value = "")
-  @NotNull
-
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public LeaveTypeApiModel name(String name) {
+  public LeaveTypeCreateApiModel name(String name) {
     this.name = name;
     return this;
   }
@@ -59,7 +36,7 @@ public class LeaveTypeApiModel   {
    * Get name
    * @return name
   **/
-  @ApiModelProperty(required = true, readOnly = true, value = "")
+  @ApiModelProperty(required = true, value = "")
   @NotNull
 
   public String getName() {
@@ -70,7 +47,7 @@ public class LeaveTypeApiModel   {
     this.name = name;
   }
 
-  public LeaveTypeApiModel approvalNeeded(Boolean approvalNeeded) {
+  public LeaveTypeCreateApiModel approvalNeeded(Boolean approvalNeeded) {
     this.approvalNeeded = approvalNeeded;
     return this;
   }
@@ -79,7 +56,7 @@ public class LeaveTypeApiModel   {
    * Get approvalNeeded
    * @return approvalNeeded
   **/
-  @ApiModelProperty(required = true, readOnly = true, value = "")
+  @ApiModelProperty(required = true, value = "")
   @NotNull
 
   public Boolean isApprovalNeeded() {
@@ -90,7 +67,7 @@ public class LeaveTypeApiModel   {
     this.approvalNeeded = approvalNeeded;
   }
 
-  public LeaveTypeApiModel limited(Boolean limited) {
+  public LeaveTypeCreateApiModel limited(Boolean limited) {
     this.limited = limited;
     return this;
   }
@@ -99,7 +76,7 @@ public class LeaveTypeApiModel   {
    * Get limited
    * @return limited
   **/
-  @ApiModelProperty(required = true, readOnly = true, value = "")
+  @ApiModelProperty(required = true, value = "")
   @NotNull
 
   public Boolean isLimited() {
@@ -110,7 +87,7 @@ public class LeaveTypeApiModel   {
     this.limited = limited;
   }
 
-  public LeaveTypeApiModel halfDayAllowed(Boolean halfDayAllowed) {
+  public LeaveTypeCreateApiModel halfDayAllowed(Boolean halfDayAllowed) {
     this.halfDayAllowed = halfDayAllowed;
     return this;
   }
@@ -119,7 +96,7 @@ public class LeaveTypeApiModel   {
    * Get halfDayAllowed
    * @return halfDayAllowed
   **/
-  @ApiModelProperty(required = true, readOnly = true, value = "")
+  @ApiModelProperty(required = true, value = "")
   @NotNull
 
   public Boolean isHalfDayAllowed() {
@@ -139,25 +116,23 @@ public class LeaveTypeApiModel   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    LeaveTypeApiModel leaveTypeApiModel = (LeaveTypeApiModel) o;
-    return Objects.equals(this.id, leaveTypeApiModel.id) &&
-        Objects.equals(this.name, leaveTypeApiModel.name) &&
-        Objects.equals(this.approvalNeeded, leaveTypeApiModel.approvalNeeded) &&
-        Objects.equals(this.limited, leaveTypeApiModel.limited) &&
-        Objects.equals(this.halfDayAllowed, leaveTypeApiModel.halfDayAllowed);
+    LeaveTypeCreateApiModel leaveTypeCreateApiModel = (LeaveTypeCreateApiModel) o;
+    return Objects.equals(this.name, leaveTypeCreateApiModel.name) &&
+        Objects.equals(this.approvalNeeded, leaveTypeCreateApiModel.approvalNeeded) &&
+        Objects.equals(this.limited, leaveTypeCreateApiModel.limited) &&
+        Objects.equals(this.halfDayAllowed, leaveTypeCreateApiModel.halfDayAllowed);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, approvalNeeded, limited, halfDayAllowed);
+    return Objects.hash(name, approvalNeeded, limited, halfDayAllowed);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class LeaveTypeApiModel {\n");
+    sb.append("class LeaveTypeCreateApiModel {\n");
     
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    approvalNeeded: ").append(toIndentedString(approvalNeeded)).append("\n");
     sb.append("    limited: ").append(toIndentedString(limited)).append("\n");

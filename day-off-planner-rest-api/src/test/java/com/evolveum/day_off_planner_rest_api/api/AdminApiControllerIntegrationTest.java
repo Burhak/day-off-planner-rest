@@ -1,7 +1,7 @@
 package com.evolveum.day_off_planner_rest_api.api;
 
+import com.evolveum.day_off_planner_rest_api.model.LeaveTypeApiModel;
 import com.evolveum.day_off_planner_rest_api.model.UserApiModel;
-import com.evolveum.day_off_planner_rest_api.model.UserCreateApiModel;
 
 import java.util.*;
 
@@ -23,9 +23,23 @@ public class AdminApiControllerIntegrationTest {
     private AdminApi api;
 
     @Test
+    public void createLeaveTypeTest() throws Exception {
+        LeaveTypeApiModel body = new LeaveTypeApiModel();
+        ResponseEntity<LeaveTypeApiModel> responseEntity = api.createLeaveType(body);
+        assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
+    }
+
+    @Test
     public void createUserTest() throws Exception {
-        UserCreateApiModel body = new UserCreateApiModel();
+        UserApiModel body = new UserApiModel();
         ResponseEntity<UserApiModel> responseEntity = api.createUser(body);
+        assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
+    }
+
+    @Test
+    public void deleteLeaveTypeTest() throws Exception {
+        Long id = 789L;
+        ResponseEntity<Void> responseEntity = api.deleteLeaveType(id);
         assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
     }
 
@@ -37,8 +51,16 @@ public class AdminApiControllerIntegrationTest {
     }
 
     @Test
+    public void updateLeaveTypeTest() throws Exception {
+        LeaveTypeApiModel body = new LeaveTypeApiModel();
+        Long id = 789L;
+        ResponseEntity<LeaveTypeApiModel> responseEntity = api.updateLeaveType(body, id);
+        assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
+    }
+
+    @Test
     public void updateUserTest() throws Exception {
-        UserCreateApiModel body = new UserCreateApiModel();
+        UserApiModel body = new UserApiModel();
         Long id = 789L;
         ResponseEntity<UserApiModel> responseEntity = api.updateUser(body, id);
         assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());

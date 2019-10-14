@@ -10,11 +10,12 @@ data class User(
         var email: String = "",
         var password: String = "",
         var admin: Boolean = false,
-        @ManyToOne var supervisor: User? = null,
-        var deleted: Boolean = false
+        @ManyToOne var supervisor: User? = null
 ) {
     @Id @GeneratedValue
     var id: Long = 0L
+
+    var deleted: Boolean = false
 
     @OneToMany(mappedBy = "supervisor")
     @JvmSuppressWildcards

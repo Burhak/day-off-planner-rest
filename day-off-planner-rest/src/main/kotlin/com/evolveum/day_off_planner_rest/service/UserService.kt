@@ -1,17 +1,15 @@
 package com.evolveum.day_off_planner_rest.service
 
 import com.evolveum.day_off_planner_rest.assembler.UserAssembler
-import com.evolveum.day_off_planner_rest.assembler.toUserApiModel
 import com.evolveum.day_off_planner_rest.assembler.toUserDetails
-import com.evolveum.day_off_planner_rest_api.model.UserApiModel
-import com.evolveum.day_off_planner_rest_api.model.UserCreateApiModel
 import com.evolveum.day_off_planner_rest.data.entity.User
 import com.evolveum.day_off_planner_rest.data.repository.UserRepository
-import com.evolveum.day_off_planner_rest.exception.EmailAlreadyUsedException
-import com.evolveum.day_off_planner_rest.exception.UserNotFoundException
+import com.evolveum.day_off_planner_rest.exception.AlreadyUsedException
+import com.evolveum.day_off_planner_rest.exception.NotFoundException
 import com.evolveum.day_off_planner_rest.exception.WrongPasswordException
 import com.evolveum.day_off_planner_rest_api.model.PasswordChangeApiModel
 import com.evolveum.day_off_planner_rest_api.model.PasswordResetApiModel
+import com.evolveum.day_off_planner_rest_api.model.UserApiModel
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
@@ -31,34 +29,29 @@ class UserService(
 
     override fun loadUserByUsername(username: String): UserDetails = getUserByEmail(username).toUserDetails()
 
-    fun getUserById(id: Long): User = userRepository.findOneById(id) ?: throw UserNotFoundException("User with id $id was not found")
+    fun getUserById(id: Long): User = userRepository.findOneById(id) ?: throw NotFoundException("User with id $id was not found")
 
-    fun getUserByEmail(email: String): User = userRepository.findOneByEmail(email) ?: throw UserNotFoundException("User with email $email was not found")
+    fun getUserByEmail(email: String): User = userRepository.findOneByEmail(email) ?: throw NotFoundException("User with email $email was not found")
 
     fun getLoggedUser(): User = getUserByEmail(SecurityContextHolder.getContext().authentication.principal.toString())
 
     fun getAllUsers(): List<User> = userRepository.findAllNotDeleted()
 
-    fun createUser(userCreateApiModel: UserCreateApiModel): UserApiModel {
-        if (userRepository.findOneByEmail(userCreateApiModel.email) != null) {
-            throw EmailAlreadyUsedException("Email ${userCreateApiModel.email} is already used")
-        }
+    fun createUser(userApiModel: UserApiModel): User {
+        checkEmail(userApiModel.email)
 
         val password = generateRandomPassword()
-        val user = userAssembler.disassemble(userCreateApiModel)
-                .apply { this.password = passwordEncoder.encode(password) }
-
-        userRepository.save(user)
+        val user = userRepository.save(userAssembler.disassemble(userApiModel).apply { this.password = passwordEncoder.encode(password) })
 
         emailService.sendSimpleMessage(user.email, "Account created", "Welcome to Day Off Planner! Your password is: $password")
 
-        return user.toUserApiModel()
+        return user
     }
 
-    fun updateUser(userCreateApiModel: UserCreateApiModel, id: Long): UserApiModel {
-        val user = userAssembler.disassemble(getUserById(id), userCreateApiModel)
-        userRepository.save(user)
-        return user.toUserApiModel()
+    fun updateUser(userCreateApiModel: UserApiModel, id: Long): User {
+        val user = getUserById(id)
+        checkEmail(userCreateApiModel.email, id)
+        return userRepository.save(userAssembler.disassemble(user, userCreateApiModel))
     }
 
     fun deleteUser(id: Long) {
@@ -81,6 +74,13 @@ class UserService(
         emailService.sendSimpleMessage(user.email, "Password reset", "Your new password is: $password")
         user.password = passwordEncoder.encode(password)
         userRepository.save(user)
+    }
+
+    private fun checkEmail(email: String, id: Long = -1L) {
+        val user = userRepository.findOneByEmail(email)
+        if (user != null && user.id != id) {
+            throw AlreadyUsedException("Email $email is already used")
+        }
     }
 
     private fun generateRandomPassword(length: Int = 8): String = STRING_CHARACTERS.shuffled().take(length).joinToString("")

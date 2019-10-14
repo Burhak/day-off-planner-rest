@@ -4,7 +4,6 @@ import com.evolveum.day_off_planner_rest.data.entity.User
 import com.evolveum.day_off_planner_rest.data.repository.UserRepository
 import com.evolveum.day_off_planner_rest.exception.NotFoundException
 import com.evolveum.day_off_planner_rest_api.model.UserApiModel
-import com.evolveum.day_off_planner_rest_api.model.UserCreateApiModel
 import com.evolveum.day_off_planner_rest_api.model.UserLoginResponseApiModel
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
@@ -13,17 +12,17 @@ import org.springframework.stereotype.Component
 @Component
 class UserAssembler(private val userRepository: UserRepository) {
 
-    fun disassemble(userCreateApiModel: UserCreateApiModel): User = disassemble(User(), userCreateApiModel)
+    fun disassemble(userApiModel: UserApiModel): User = disassemble(User(), userApiModel)
 
-    fun disassemble(user: User, userCreateApiModel: UserCreateApiModel): User = user.apply {
-        this.firstName = userCreateApiModel.firstName
-        this.lastName = userCreateApiModel.lastName
-        this.email = userCreateApiModel.email
-        this.admin = userCreateApiModel.isAdmin
+    fun disassemble(user: User, userApiModel: UserApiModel): User = user.apply {
+        this.firstName = userApiModel.firstName
+        this.lastName = userApiModel.lastName
+        this.email = userApiModel.email
+        this.admin = userApiModel.isAdmin
         this.supervisor =
-                if (userCreateApiModel.supervisor == null) null
-                else (userRepository.findOneById(userCreateApiModel.supervisor)
-                        ?: throw NotFoundException("User with id ${userCreateApiModel.supervisor} was not found"))
+                if (userApiModel.supervisor == null) null
+                else (userRepository.findOneById(userApiModel.supervisor)
+                        ?: throw NotFoundException("User with id ${userApiModel.supervisor} was not found"))
     }
 }
 

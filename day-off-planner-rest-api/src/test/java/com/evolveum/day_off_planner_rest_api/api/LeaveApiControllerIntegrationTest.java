@@ -1,6 +1,7 @@
 package com.evolveum.day_off_planner_rest_api.api;
 
-import com.evolveum.day_off_planner_rest_api.model.LeaveTypeApiModel;
+import com.evolveum.day_off_planner_rest_api.model.LeaveRequestApiModel;
+import com.evolveum.day_off_planner_rest_api.model.LeaveRequestCreateApiModel;
 import java.util.UUID;
 
 import java.util.*;
@@ -17,21 +18,22 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class LeaveTypeApiControllerIntegrationTest {
+public class LeaveApiControllerIntegrationTest {
 
     @Autowired
-    private LeaveTypeApi api;
+    private LeaveApi api;
 
     @Test
-    public void getAllLeaveTypesTest() throws Exception {
-        ResponseEntity<List<LeaveTypeApiModel>> responseEntity = api.getAllLeaveTypes();
+    public void createLeaveRequestTest() throws Exception {
+        LeaveRequestCreateApiModel body = new LeaveRequestCreateApiModel();
+        ResponseEntity<LeaveRequestApiModel> responseEntity = api.createLeaveRequest(body);
         assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
     }
 
     @Test
-    public void getLeaveTypeByIdTest() throws Exception {
+    public void getLeaveRequestByIdTest() throws Exception {
         UUID id = new UUID();
-        ResponseEntity<LeaveTypeApiModel> responseEntity = api.getLeaveTypeById(id);
+        ResponseEntity<LeaveRequestApiModel> responseEntity = api.getLeaveRequestById(id);
         assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
     }
 

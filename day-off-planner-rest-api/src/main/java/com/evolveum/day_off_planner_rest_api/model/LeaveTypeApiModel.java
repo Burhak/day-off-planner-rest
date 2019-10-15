@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.util.UUID;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -13,10 +14,10 @@ import javax.validation.constraints.*;
  * LeaveTypeApiModel
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-14T13:10:03.634Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-15T18:58:35.100Z[GMT]")
 public class LeaveTypeApiModel   {
   @JsonProperty("id")
-  private Long id = null;
+  private UUID id = null;
 
   @JsonProperty("name")
   private String name = null;
@@ -30,7 +31,7 @@ public class LeaveTypeApiModel   {
   @JsonProperty("halfDayAllowed")
   private Boolean halfDayAllowed = false;
 
-  public LeaveTypeApiModel id(Long id) {
+  public LeaveTypeApiModel id(UUID id) {
     this.id = id;
     return this;
   }
@@ -42,11 +43,12 @@ public class LeaveTypeApiModel   {
   @ApiModelProperty(required = true, readOnly = true, value = "")
   @NotNull
 
-  public Long getId() {
+  @Valid
+  public UUID getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(UUID id) {
     this.id = id;
   }
 

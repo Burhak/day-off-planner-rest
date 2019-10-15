@@ -5,7 +5,8 @@
  */
 package com.evolveum.day_off_planner_rest_api.api;
 
-import com.evolveum.day_off_planner_rest_api.model.LeaveTypeApiModel;
+import com.evolveum.day_off_planner_rest_api.model.LeaveRequestApiModel;
+import com.evolveum.day_off_planner_rest_api.model.LeaveRequestCreateApiModel;
 import java.util.UUID;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
@@ -31,10 +32,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-15T18:58:35.100Z[GMT]")
-@Api(value = "leaveType", description = "the leaveType API")
-public interface LeaveTypeApi {
+@Api(value = "leave", description = "the leave API")
+public interface LeaveApi {
 
-    Logger log = LoggerFactory.getLogger(LeaveTypeApi.class);
+    Logger log = LoggerFactory.getLogger(LeaveApi.class);
 
     default Optional<ObjectMapper> getObjectMapper() {
         return Optional.empty();
@@ -48,53 +49,54 @@ public interface LeaveTypeApi {
         return getRequest().map(r -> r.getHeader("Accept"));
     }
 
-    @ApiOperation(value = "Get all leave types", nickname = "getAllLeaveTypes", notes = "", response = LeaveTypeApiModel.class, responseContainer = "List", authorizations = {
+    @ApiOperation(value = "Create new leave request", nickname = "createLeaveRequest", notes = "", response = LeaveRequestApiModel.class, authorizations = {
         @Authorization(value = "bearerAuth"),
 @Authorization(value = "oAuthNoScopes", scopes = {
-                        })    }, tags={ "leaveType", })
+                        })    }, tags={ "leave", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = LeaveTypeApiModel.class, responseContainer = "List") })
-    @RequestMapping(value = "/leaveType/getAll",
+        @ApiResponse(code = 201, message = "Created", response = LeaveRequestApiModel.class) })
+    @RequestMapping(value = "/leave",
         produces = { "application/json" }, 
-        method = RequestMethod.GET)
-    default ResponseEntity<List<LeaveTypeApiModel>> getAllLeaveTypes() {
+        consumes = { "application/json" },
+        method = RequestMethod.POST)
+    default ResponseEntity<LeaveRequestApiModel> createLeaveRequest(@ApiParam(value = "Object of leave request to be created" ,required=true )  @Valid @RequestBody LeaveRequestCreateApiModel body) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
-                    return new ResponseEntity<>(getObjectMapper().get().readValue("[ {\n  \"approvalNeeded\" : false,\n  \"limited\" : false,\n  \"name\" : \"name\",\n  \"halfDayAllowed\" : false,\n  \"id\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\"\n}, {\n  \"approvalNeeded\" : false,\n  \"limited\" : false,\n  \"name\" : \"name\",\n  \"halfDayAllowed\" : false,\n  \"id\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\"\n} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("{\n  \"fromDate\" : \"2000-01-23T04:56:07.000+00:00\",\n  \"leaveType\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n  \"toDate\" : \"2000-01-23T04:56:07.000+00:00\",\n  \"id\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n  \"user\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n  \"status\" : \"APPROVED\"\n}", LeaveRequestApiModel.class), HttpStatus.NOT_IMPLEMENTED);
                 } catch (IOException e) {
                     log.error("Couldn't serialize response for content type application/json", e);
                     return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
                 }
             }
         } else {
-            log.warn("ObjectMapper or HttpServletRequest not configured in default LeaveTypeApi interface so no example is generated");
+            log.warn("ObjectMapper or HttpServletRequest not configured in default LeaveApi interface so no example is generated");
         }
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }
 
 
-    @ApiOperation(value = "Get leave type by ID", nickname = "getLeaveTypeById", notes = "", response = LeaveTypeApiModel.class, authorizations = {
+    @ApiOperation(value = "Get leave request by ID", nickname = "getLeaveRequestById", notes = "", response = LeaveRequestApiModel.class, authorizations = {
         @Authorization(value = "bearerAuth"),
 @Authorization(value = "oAuthNoScopes", scopes = {
-                        })    }, tags={ "leaveType", })
+                        })    }, tags={ "leave", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = LeaveTypeApiModel.class) })
-    @RequestMapping(value = "/leaveType/{id}",
+        @ApiResponse(code = 200, message = "OK", response = LeaveRequestApiModel.class) })
+    @RequestMapping(value = "/leave/{id}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    default ResponseEntity<LeaveTypeApiModel> getLeaveTypeById(@ApiParam(value = "Leave type ID",required=true) @PathVariable("id") UUID id) {
+    default ResponseEntity<LeaveRequestApiModel> getLeaveRequestById(@ApiParam(value = "Leave request ID",required=true) @PathVariable("id") UUID id) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
-                    return new ResponseEntity<>(getObjectMapper().get().readValue("{\n  \"approvalNeeded\" : false,\n  \"limited\" : false,\n  \"name\" : \"name\",\n  \"halfDayAllowed\" : false,\n  \"id\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\"\n}", LeaveTypeApiModel.class), HttpStatus.NOT_IMPLEMENTED);
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("{\n  \"fromDate\" : \"2000-01-23T04:56:07.000+00:00\",\n  \"leaveType\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n  \"toDate\" : \"2000-01-23T04:56:07.000+00:00\",\n  \"id\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n  \"user\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n  \"status\" : \"APPROVED\"\n}", LeaveRequestApiModel.class), HttpStatus.NOT_IMPLEMENTED);
                 } catch (IOException e) {
                     log.error("Couldn't serialize response for content type application/json", e);
                     return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
                 }
             }
         } else {
-            log.warn("ObjectMapper or HttpServletRequest not configured in default LeaveTypeApi interface so no example is generated");
+            log.warn("ObjectMapper or HttpServletRequest not configured in default LeaveApi interface so no example is generated");
         }
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }

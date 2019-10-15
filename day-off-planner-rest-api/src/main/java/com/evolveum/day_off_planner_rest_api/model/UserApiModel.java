@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.util.UUID;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -13,10 +14,10 @@ import javax.validation.constraints.*;
  * UserApiModel
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-14T13:10:03.634Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-15T18:58:35.100Z[GMT]")
 public class UserApiModel   {
   @JsonProperty("id")
-  private Long id = null;
+  private UUID id = null;
 
   @JsonProperty("firstName")
   private String firstName = null;
@@ -28,12 +29,12 @@ public class UserApiModel   {
   private String email = null;
 
   @JsonProperty("supervisor")
-  private Long supervisor = null;
+  private UUID supervisor = null;
 
   @JsonProperty("admin")
   private Boolean admin = false;
 
-  public UserApiModel id(Long id) {
+  public UserApiModel id(UUID id) {
     this.id = id;
     return this;
   }
@@ -45,11 +46,12 @@ public class UserApiModel   {
   @ApiModelProperty(required = true, readOnly = true, value = "")
   @NotNull
 
-  public Long getId() {
+  @Valid
+  public UUID getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(UUID id) {
     this.id = id;
   }
 
@@ -113,7 +115,7 @@ public class UserApiModel   {
     this.email = email;
   }
 
-  public UserApiModel supervisor(Long supervisor) {
+  public UserApiModel supervisor(UUID supervisor) {
     this.supervisor = supervisor;
     return this;
   }
@@ -124,11 +126,12 @@ public class UserApiModel   {
   **/
   @ApiModelProperty(readOnly = true, value = "")
 
-  public Long getSupervisor() {
+  @Valid
+  public UUID getSupervisor() {
     return supervisor;
   }
 
-  public void setSupervisor(Long supervisor) {
+  public void setSupervisor(UUID supervisor) {
     this.supervisor = supervisor;
   }
 

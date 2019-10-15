@@ -2,6 +2,7 @@ package com.evolveum.day_off_planner_rest_api.api;
 
 import com.evolveum.day_off_planner_rest_api.model.PasswordChangeApiModel;
 import com.evolveum.day_off_planner_rest_api.model.PasswordResetApiModel;
+import java.util.UUID;
 import com.evolveum.day_off_planner_rest_api.model.UserApiModel;
 
 import java.util.*;
@@ -44,7 +45,7 @@ public class UserApiControllerIntegrationTest {
 
     @Test
     public void getUserByIdTest() throws Exception {
-        Long id = 789L;
+        UUID id = new UUID();
         ResponseEntity<UserApiModel> responseEntity = api.getUserById(id);
         assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
     }

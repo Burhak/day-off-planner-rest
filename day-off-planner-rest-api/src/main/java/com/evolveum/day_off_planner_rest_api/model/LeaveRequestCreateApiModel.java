@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.time.LocalDateTime;
+import java.util.UUID;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -14,13 +15,13 @@ import javax.validation.constraints.*;
  * LeaveRequestCreateApiModel
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-14T13:10:03.634Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-15T18:58:35.100Z[GMT]")
 public class LeaveRequestCreateApiModel   {
   @JsonProperty("leaveType")
-  private Long leaveType = null;
+  private UUID leaveType = null;
 
   @JsonProperty("user")
-  private Long user = null;
+  private UUID user = null;
 
   @JsonProperty("fromDate")
   private LocalDateTime fromDate = null;
@@ -28,7 +29,7 @@ public class LeaveRequestCreateApiModel   {
   @JsonProperty("toDate")
   private LocalDateTime toDate = null;
 
-  public LeaveRequestCreateApiModel leaveType(Long leaveType) {
+  public LeaveRequestCreateApiModel leaveType(UUID leaveType) {
     this.leaveType = leaveType;
     return this;
   }
@@ -40,15 +41,16 @@ public class LeaveRequestCreateApiModel   {
   @ApiModelProperty(required = true, value = "")
   @NotNull
 
-  public Long getLeaveType() {
+  @Valid
+  public UUID getLeaveType() {
     return leaveType;
   }
 
-  public void setLeaveType(Long leaveType) {
+  public void setLeaveType(UUID leaveType) {
     this.leaveType = leaveType;
   }
 
-  public LeaveRequestCreateApiModel user(Long user) {
+  public LeaveRequestCreateApiModel user(UUID user) {
     this.user = user;
     return this;
   }
@@ -60,11 +62,12 @@ public class LeaveRequestCreateApiModel   {
   @ApiModelProperty(required = true, value = "")
   @NotNull
 
-  public Long getUser() {
+  @Valid
+  public UUID getUser() {
     return user;
   }
 
-  public void setUser(Long user) {
+  public void setUser(UUID user) {
     this.user = user;
   }
 

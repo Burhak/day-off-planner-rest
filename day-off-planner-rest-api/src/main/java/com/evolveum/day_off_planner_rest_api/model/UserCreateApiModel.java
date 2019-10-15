@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.util.UUID;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -13,7 +14,7 @@ import javax.validation.constraints.*;
  * UserCreateApiModel
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-14T13:10:03.634Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-15T18:58:35.100Z[GMT]")
 public class UserCreateApiModel   {
   @JsonProperty("firstName")
   private String firstName = null;
@@ -25,7 +26,7 @@ public class UserCreateApiModel   {
   private String email = null;
 
   @JsonProperty("supervisor")
-  private Long supervisor = null;
+  private UUID supervisor = null;
 
   @JsonProperty("admin")
   private Boolean admin = false;
@@ -90,7 +91,7 @@ public class UserCreateApiModel   {
     this.email = email;
   }
 
-  public UserCreateApiModel supervisor(Long supervisor) {
+  public UserCreateApiModel supervisor(UUID supervisor) {
     this.supervisor = supervisor;
     return this;
   }
@@ -101,11 +102,12 @@ public class UserCreateApiModel   {
   **/
   @ApiModelProperty(value = "")
 
-  public Long getSupervisor() {
+  @Valid
+  public UUID getSupervisor() {
     return supervisor;
   }
 
-  public void setSupervisor(Long supervisor) {
+  public void setSupervisor(UUID supervisor) {
     this.supervisor = supervisor;
   }
 

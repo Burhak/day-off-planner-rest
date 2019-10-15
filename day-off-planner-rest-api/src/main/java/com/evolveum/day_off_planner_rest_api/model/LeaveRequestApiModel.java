@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.time.LocalDateTime;
+import java.util.UUID;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -15,16 +16,16 @@ import javax.validation.constraints.*;
  * LeaveRequestApiModel
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-14T13:10:03.634Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-15T18:58:35.100Z[GMT]")
 public class LeaveRequestApiModel   {
   @JsonProperty("id")
-  private Long id = null;
+  private UUID id = null;
 
   @JsonProperty("leaveType")
-  private Long leaveType = null;
+  private UUID leaveType = null;
 
   @JsonProperty("user")
-  private Long user = null;
+  private UUID user = null;
 
   @JsonProperty("fromDate")
   private LocalDateTime fromDate = null;
@@ -69,7 +70,7 @@ public class LeaveRequestApiModel   {
   @JsonProperty("status")
   private StatusEnum status = null;
 
-  public LeaveRequestApiModel id(Long id) {
+  public LeaveRequestApiModel id(UUID id) {
     this.id = id;
     return this;
   }
@@ -81,15 +82,16 @@ public class LeaveRequestApiModel   {
   @ApiModelProperty(required = true, readOnly = true, value = "")
   @NotNull
 
-  public Long getId() {
+  @Valid
+  public UUID getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(UUID id) {
     this.id = id;
   }
 
-  public LeaveRequestApiModel leaveType(Long leaveType) {
+  public LeaveRequestApiModel leaveType(UUID leaveType) {
     this.leaveType = leaveType;
     return this;
   }
@@ -101,15 +103,16 @@ public class LeaveRequestApiModel   {
   @ApiModelProperty(required = true, readOnly = true, value = "")
   @NotNull
 
-  public Long getLeaveType() {
+  @Valid
+  public UUID getLeaveType() {
     return leaveType;
   }
 
-  public void setLeaveType(Long leaveType) {
+  public void setLeaveType(UUID leaveType) {
     this.leaveType = leaveType;
   }
 
-  public LeaveRequestApiModel user(Long user) {
+  public LeaveRequestApiModel user(UUID user) {
     this.user = user;
     return this;
   }
@@ -121,11 +124,12 @@ public class LeaveRequestApiModel   {
   @ApiModelProperty(required = true, readOnly = true, value = "")
   @NotNull
 
-  public Long getUser() {
+  @Valid
+  public UUID getUser() {
     return user;
   }
 
-  public void setUser(Long user) {
+  public void setUser(UUID user) {
     this.user = user;
   }
 

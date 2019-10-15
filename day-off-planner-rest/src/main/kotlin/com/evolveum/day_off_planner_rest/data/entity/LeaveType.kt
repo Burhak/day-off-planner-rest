@@ -1,5 +1,6 @@
 package com.evolveum.day_off_planner_rest.data.entity
 
+import java.util.*
 import javax.persistence.*
 
 @Entity
@@ -12,7 +13,7 @@ data class LeaveType(
 ) {
     @Id
     @GeneratedValue
-    var id: Long = 0L
+    var id: UUID = UUID.randomUUID()
 
     var deleted: Boolean = false
 }

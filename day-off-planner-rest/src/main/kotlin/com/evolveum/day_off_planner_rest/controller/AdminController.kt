@@ -12,6 +12,7 @@ import com.evolveum.day_off_planner_rest_api.model.LeaveTypeCreateApiModel
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RestController
+import java.util.*
 
 @RestController
 class AdminController(
@@ -23,12 +24,12 @@ class AdminController(
         return ResponseEntity(userService.createUser(body).toUserApiModel(), HttpStatus.CREATED)
     }
 
-    override fun updateUser(body: UserCreateApiModel, id: Long?): ResponseEntity<UserApiModel> {
-        return ResponseEntity(userService.updateUser(body, id!!).toUserApiModel(), HttpStatus.OK)
+    override fun updateUser(body: UserCreateApiModel, id: UUID): ResponseEntity<UserApiModel> {
+        return ResponseEntity(userService.updateUser(body, id).toUserApiModel(), HttpStatus.OK)
     }
 
-    override fun deleteUser(id: Long?): ResponseEntity<Void> {
-        userService.deleteUser(id!!)
+    override fun deleteUser(id: UUID): ResponseEntity<Void> {
+        userService.deleteUser(id)
         return ResponseEntity(HttpStatus.OK)
     }
 
@@ -36,12 +37,12 @@ class AdminController(
         return ResponseEntity(leaveTypeService.createLeaveType(body).toLeaveTypeApiModel(), HttpStatus.CREATED)
     }
 
-    override fun updateLeaveType(body: LeaveTypeCreateApiModel, id: Long?): ResponseEntity<LeaveTypeApiModel> {
-        return ResponseEntity(leaveTypeService.updateLeaveType(body, id!!).toLeaveTypeApiModel(), HttpStatus.OK)
+    override fun updateLeaveType(body: LeaveTypeCreateApiModel, id: UUID): ResponseEntity<LeaveTypeApiModel> {
+        return ResponseEntity(leaveTypeService.updateLeaveType(body, id).toLeaveTypeApiModel(), HttpStatus.OK)
     }
 
-    override fun deleteLeaveType(id: Long?): ResponseEntity<Void> {
-        leaveTypeService.deleteLeaveType(id!!)
+    override fun deleteLeaveType(id: UUID): ResponseEntity<Void> {
+        leaveTypeService.deleteLeaveType(id)
         return ResponseEntity(HttpStatus.OK)
     }
 }

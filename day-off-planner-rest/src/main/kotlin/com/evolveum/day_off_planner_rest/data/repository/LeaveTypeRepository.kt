@@ -5,12 +5,13 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
+import java.util.*
 
 @Repository
-interface LeaveTypeRepository : JpaRepository<LeaveType, Long> {
+interface LeaveTypeRepository : JpaRepository<LeaveType, UUID> {
 
     @Query(value = "select lt from LeaveType lt where lt.id = :id and lt.deleted = false")
-    fun findOneById(@Param("id") id: Long): LeaveType?
+    fun findOneById(@Param("id") id: UUID): LeaveType?
 
     @Query(value = "select lt from LeaveType lt where lt.name = :name and lt.deleted = false")
     fun findOneByName(@Param("name") name: String): LeaveType?

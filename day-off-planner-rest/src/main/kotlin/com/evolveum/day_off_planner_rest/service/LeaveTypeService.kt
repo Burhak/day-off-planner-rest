@@ -8,6 +8,7 @@ import com.evolveum.day_off_planner_rest.exception.NotFoundException
 import com.evolveum.day_off_planner_rest_api.model.LeaveTypeCreateApiModel
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.util.*
 
 @Service
 @Transactional
@@ -16,7 +17,7 @@ class LeaveTypeService(
         private val leaveTypeAssembler: LeaveTypeAssembler
 ) {
 
-    fun getLeaveTypeById(id: Long): LeaveType = leaveTypeRepository.findOneById(id) ?: throw NotFoundException("Leave type with id $id was not found")
+    fun getLeaveTypeById(id: UUID): LeaveType = leaveTypeRepository.findOneById(id) ?: throw NotFoundException("Leave type with id $id was not found")
 
     fun getAllLeaveTypes(): List<LeaveType> = leaveTypeRepository.findAllNotDeleted()
 
@@ -25,17 +26,17 @@ class LeaveTypeService(
         return leaveTypeRepository.save(leaveTypeAssembler.disassemble(leaveTypeCreateApiModel))
     }
 
-    fun updateLeaveType(leaveTypeCreateApiModel: LeaveTypeCreateApiModel, id: Long): LeaveType {
+    fun updateLeaveType(leaveTypeCreateApiModel: LeaveTypeCreateApiModel, id: UUID): LeaveType {
         val leaveType = getLeaveTypeById(id)
         checkName(leaveTypeCreateApiModel.name, id)
         return leaveTypeRepository.save(leaveTypeAssembler.disassemble(leaveType, leaveTypeCreateApiModel))
     }
 
-    fun deleteLeaveType(id: Long) {
+    fun deleteLeaveType(id: UUID) {
         leaveTypeRepository.save(getLeaveTypeById(id).apply { deleted = true })
     }
 
-    private fun checkName(name: String, id: Long = -1L) {
+    private fun checkName(name: String, id: UUID? = null) {
         val leaveType = leaveTypeRepository.findOneByName(name)
         if (leaveType != null && leaveType.id != id) {
             throw AlreadyUsedException("Leave type with name $name already exists")

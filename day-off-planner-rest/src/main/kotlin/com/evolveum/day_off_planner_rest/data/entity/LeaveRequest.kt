@@ -3,6 +3,7 @@ package com.evolveum.day_off_planner_rest.data.entity
 import com.evolveum.day_off_planner_rest.data.enums.LeaveRequestStatus
 import org.hibernate.annotations.CreationTimestamp
 import java.time.LocalDateTime
+import java.util.*
 import javax.persistence.*
 
 @Entity
@@ -16,7 +17,7 @@ data class LeaveRequest(
 ) {
     @Id
     @GeneratedValue
-    var id: Long = 0L
+    var id: UUID = UUID.randomUUID()
 
     @CreationTimestamp
     var timestamp: LocalDateTime = LocalDateTime.now()

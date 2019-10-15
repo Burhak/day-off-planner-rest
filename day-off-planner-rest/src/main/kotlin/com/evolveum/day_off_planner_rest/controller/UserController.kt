@@ -9,6 +9,7 @@ import com.evolveum.day_off_planner_rest_api.model.PasswordResetApiModel
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RestController
+import java.util.*
 
 @RestController
 class UserController(private val userService: UserService) : UserApi {
@@ -27,8 +28,8 @@ class UserController(private val userService: UserService) : UserApi {
         return ResponseEntity(HttpStatus.ACCEPTED)
     }
 
-    override fun getUserById(id: Long?): ResponseEntity<UserApiModel> {
-        return ResponseEntity(userService.getUserById(id!!).toUserApiModel(), HttpStatus.OK)
+    override fun getUserById(id: UUID): ResponseEntity<UserApiModel> {
+        return ResponseEntity(userService.getUserById(id).toUserApiModel(), HttpStatus.OK)
     }
 
     override fun getLoggedUser(): ResponseEntity<UserApiModel> {

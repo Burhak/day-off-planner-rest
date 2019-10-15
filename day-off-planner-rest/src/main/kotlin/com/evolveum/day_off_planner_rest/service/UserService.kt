@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.util.*
 import javax.annotation.PostConstruct
 
 @Service
@@ -29,7 +30,7 @@ class UserService(
 
     override fun loadUserByUsername(username: String): UserDetails = getUserByEmail(username).toUserDetails()
 
-    fun getUserById(id: Long): User = userRepository.findOneById(id) ?: throw NotFoundException("User with id $id was not found")
+    fun getUserById(id: UUID): User = userRepository.findOneById(id) ?: throw NotFoundException("User with id $id was not found")
 
     fun getUserByEmail(email: String): User = userRepository.findOneByEmail(email) ?: throw NotFoundException("User with email $email was not found")
 
@@ -48,13 +49,13 @@ class UserService(
         return user
     }
 
-    fun updateUser(userCreateApiModel: UserCreateApiModel, id: Long): User {
+    fun updateUser(userCreateApiModel: UserCreateApiModel, id: UUID): User {
         val user = getUserById(id)
         checkEmail(userCreateApiModel.email, id)
         return userRepository.save(userAssembler.disassemble(user, userCreateApiModel))
     }
 
-    fun deleteUser(id: Long) {
+    fun deleteUser(id: UUID) {
         userRepository.save(getUserById(id).apply { deleted = true })
     }
 
@@ -76,7 +77,7 @@ class UserService(
         userRepository.save(user)
     }
 
-    private fun checkEmail(email: String, id: Long = -1L) {
+    private fun checkEmail(email: String, id: UUID? = null) {
         val user = userRepository.findOneByEmail(email)
         if (user != null && user.id != id) {
             throw AlreadyUsedException("Email $email is already used")

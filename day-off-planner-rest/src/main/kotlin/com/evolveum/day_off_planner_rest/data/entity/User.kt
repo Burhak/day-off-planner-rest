@@ -8,6 +8,7 @@ import javax.persistence.*
 data class User(
         var firstName: String = "",
         var lastName: String = "",
+        @Column(unique = true)
         var email: String = "",
         var password: String = "",
         var admin: Boolean = false,

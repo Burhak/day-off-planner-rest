@@ -3,7 +3,6 @@ package com.evolveum.day_off_planner_rest.service
 import com.evolveum.day_off_planner_rest.assembler.LeaveTypeAssembler
 import com.evolveum.day_off_planner_rest.data.entity.LeaveType
 import com.evolveum.day_off_planner_rest.data.repository.LeaveTypeRepository
-import com.evolveum.day_off_planner_rest.exception.AlreadyUsedException
 import com.evolveum.day_off_planner_rest.exception.NotFoundException
 import com.evolveum.day_off_planner_rest_api.model.LeaveTypeCreateApiModel
 import org.springframework.stereotype.Service
@@ -22,24 +21,14 @@ class LeaveTypeService(
     fun getAllLeaveTypes(): List<LeaveType> = leaveTypeRepository.findAllNotDeleted()
 
     fun createLeaveType(leaveTypeCreateApiModel: LeaveTypeCreateApiModel): LeaveType {
-        checkName(leaveTypeCreateApiModel.name)
         return leaveTypeRepository.save(leaveTypeAssembler.disassemble(leaveTypeCreateApiModel))
     }
 
     fun updateLeaveType(leaveTypeCreateApiModel: LeaveTypeCreateApiModel, id: UUID): LeaveType {
-        val leaveType = getLeaveTypeById(id)
-        checkName(leaveTypeCreateApiModel.name, id)
-        return leaveTypeRepository.save(leaveTypeAssembler.disassemble(leaveType, leaveTypeCreateApiModel))
+        return leaveTypeRepository.save(leaveTypeAssembler.disassemble(getLeaveTypeById(id), leaveTypeCreateApiModel))
     }
 
     fun deleteLeaveType(id: UUID) {
         leaveTypeRepository.save(getLeaveTypeById(id).apply { deleted = true })
-    }
-
-    private fun checkName(name: String, id: UUID? = null) {
-        val leaveType = leaveTypeRepository.findOneByName(name)
-        if (leaveType != null && leaveType.id != id) {
-            throw AlreadyUsedException("Leave type with name $name already exists")
-        }
     }
 }

@@ -6,6 +6,7 @@ import javax.persistence.*
 @Entity
 @Table(name = "leave_type")
 data class LeaveType(
+        @Column(unique = true)
         var name: String = "",
         var approvalNeeded: Boolean = false,
         var limited: Boolean = false,

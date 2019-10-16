@@ -5,7 +5,6 @@ import com.evolveum.day_off_planner_rest.assembler.toUserDetails
 import com.evolveum.day_off_planner_rest_api.model.UserCreateApiModel
 import com.evolveum.day_off_planner_rest.data.entity.User
 import com.evolveum.day_off_planner_rest.data.repository.UserRepository
-import com.evolveum.day_off_planner_rest.exception.AlreadyUsedException
 import com.evolveum.day_off_planner_rest.exception.NotFoundException
 import com.evolveum.day_off_planner_rest.exception.WrongPasswordException
 import com.evolveum.day_off_planner_rest_api.model.PasswordChangeApiModel
@@ -39,8 +38,6 @@ class UserService(
     fun getAllUsers(): List<User> = userRepository.findAllNotDeleted()
 
     fun createUser(userCreateApiModel: UserCreateApiModel): User {
-        checkEmail(userCreateApiModel.email)
-
         val password = generateRandomPassword()
         val user = userRepository.save(userAssembler.disassemble(userCreateApiModel).apply { this.password = passwordEncoder.encode(password) })
 
@@ -50,9 +47,7 @@ class UserService(
     }
 
     fun updateUser(userCreateApiModel: UserCreateApiModel, id: UUID): User {
-        val user = getUserById(id)
-        checkEmail(userCreateApiModel.email, id)
-        return userRepository.save(userAssembler.disassemble(user, userCreateApiModel))
+        return userRepository.save(userAssembler.disassemble(getUserById(id), userCreateApiModel))
     }
 
     fun deleteUser(id: UUID) {
@@ -75,13 +70,6 @@ class UserService(
         emailService.sendSimpleMessage(user.email, "Password reset", "Your new password is: $password")
         user.password = passwordEncoder.encode(password)
         userRepository.save(user)
-    }
-
-    private fun checkEmail(email: String, id: UUID? = null) {
-        val user = userRepository.findOneByEmail(email)
-        if (user != null && user.id != id) {
-            throw AlreadyUsedException("Email $email is already used")
-        }
     }
 
     private fun generateRandomPassword(length: Int = 8): String = STRING_CHARACTERS.shuffled().take(length).joinToString("")

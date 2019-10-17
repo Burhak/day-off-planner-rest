@@ -32,7 +32,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-15T19:18:32.265Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-17T13:49:44.751Z[GMT]")
 @Api(value = "user", description = "the user API")
 public interface UserApi {
 
@@ -51,9 +51,7 @@ public interface UserApi {
     }
 
     @ApiOperation(value = "Change user password", nickname = "changePassword", notes = "", authorizations = {
-        @Authorization(value = "bearerAuth"),
-@Authorization(value = "oAuthNoScopes", scopes = {
-                        })    }, tags={ "user", })
+        @Authorization(value = "bearerAuth")    }, tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK"),
         @ApiResponse(code = 403, message = "Invalid password") })
@@ -70,9 +68,7 @@ public interface UserApi {
 
 
     @ApiOperation(value = "Get all users", nickname = "getAllUsers", notes = "", response = UserApiModel.class, responseContainer = "List", authorizations = {
-        @Authorization(value = "bearerAuth"),
-@Authorization(value = "oAuthNoScopes", scopes = {
-                        })    }, tags={ "user", })
+        @Authorization(value = "bearerAuth")    }, tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK", response = UserApiModel.class, responseContainer = "List") })
     @RequestMapping(value = "/user/getAll",
@@ -96,9 +92,7 @@ public interface UserApi {
 
 
     @ApiOperation(value = "Get currently logged user", nickname = "getLoggedUser", notes = "", response = UserApiModel.class, authorizations = {
-        @Authorization(value = "bearerAuth"),
-@Authorization(value = "oAuthNoScopes", scopes = {
-                        })    }, tags={ "user", })
+        @Authorization(value = "bearerAuth")    }, tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK", response = UserApiModel.class) })
     @RequestMapping(value = "/user/me",
@@ -122,9 +116,7 @@ public interface UserApi {
 
 
     @ApiOperation(value = "Get user by ID", nickname = "getUserById", notes = "", response = UserApiModel.class, authorizations = {
-        @Authorization(value = "bearerAuth"),
-@Authorization(value = "oAuthNoScopes", scopes = {
-                        })    }, tags={ "user", })
+        @Authorization(value = "bearerAuth")    }, tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK", response = UserApiModel.class) })
     @RequestMapping(value = "/user/{id}",
@@ -148,9 +140,7 @@ public interface UserApi {
 
 
     @ApiOperation(value = "Reset user password", nickname = "resetPassword", notes = "", authorizations = {
-        @Authorization(value = "bearerAuth"),
-@Authorization(value = "oAuthNoScopes", scopes = {
-                        })    }, tags={ "user", })
+        @Authorization(value = "bearerAuth")    }, tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 202, message = "Accepted"),
         @ApiResponse(code = 404, message = "Not found") })

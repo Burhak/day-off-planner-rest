@@ -31,7 +31,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-15T19:18:32.265Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-20T10:11:09.655Z[GMT]")
 @Api(value = "leave", description = "the leave API")
 public interface LeaveApi {
 
@@ -50,9 +50,7 @@ public interface LeaveApi {
     }
 
     @ApiOperation(value = "Create new leave request", nickname = "createLeaveRequest", notes = "", response = LeaveRequestApiModel.class, authorizations = {
-        @Authorization(value = "bearerAuth"),
-@Authorization(value = "oAuthNoScopes", scopes = {
-                        })    }, tags={ "leave", })
+        @Authorization(value = "bearerAuth")    }, tags={ "leave", })
     @ApiResponses(value = { 
         @ApiResponse(code = 201, message = "Created", response = LeaveRequestApiModel.class) })
     @RequestMapping(value = "/leave",
@@ -77,9 +75,7 @@ public interface LeaveApi {
 
 
     @ApiOperation(value = "Get leave request by ID", nickname = "getLeaveRequestById", notes = "", response = LeaveRequestApiModel.class, authorizations = {
-        @Authorization(value = "bearerAuth"),
-@Authorization(value = "oAuthNoScopes", scopes = {
-                        })    }, tags={ "leave", })
+        @Authorization(value = "bearerAuth")    }, tags={ "leave", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK", response = LeaveRequestApiModel.class) })
     @RequestMapping(value = "/leave/{id}",

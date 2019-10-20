@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.time.LocalDateTime;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -14,10 +15,16 @@ import javax.validation.constraints.*;
  * UserLoginResponseApiModel
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-15T19:18:32.265Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-20T10:11:09.655Z[GMT]")
 public class UserLoginResponseApiModel   {
   @JsonProperty("token")
   private String token = null;
+
+  @JsonProperty("expiresAt")
+  private LocalDateTime expiresAt = null;
+
+  @JsonProperty("tokenType")
+  private String tokenType = null;
 
   @JsonProperty("user")
   private UserApiModel user = null;
@@ -40,6 +47,47 @@ public class UserLoginResponseApiModel   {
 
   public void setToken(String token) {
     this.token = token;
+  }
+
+  public UserLoginResponseApiModel expiresAt(LocalDateTime expiresAt) {
+    this.expiresAt = expiresAt;
+    return this;
+  }
+
+  /**
+   * Get expiresAt
+   * @return expiresAt
+  **/
+  @ApiModelProperty(required = true, readOnly = true, value = "")
+  @NotNull
+
+  @Valid
+  public LocalDateTime getExpiresAt() {
+    return expiresAt;
+  }
+
+  public void setExpiresAt(LocalDateTime expiresAt) {
+    this.expiresAt = expiresAt;
+  }
+
+  public UserLoginResponseApiModel tokenType(String tokenType) {
+    this.tokenType = tokenType;
+    return this;
+  }
+
+  /**
+   * Get tokenType
+   * @return tokenType
+  **/
+  @ApiModelProperty(required = true, readOnly = true, value = "")
+  @NotNull
+
+  public String getTokenType() {
+    return tokenType;
+  }
+
+  public void setTokenType(String tokenType) {
+    this.tokenType = tokenType;
   }
 
   public UserLoginResponseApiModel user(UserApiModel user) {
@@ -74,12 +122,14 @@ public class UserLoginResponseApiModel   {
     }
     UserLoginResponseApiModel userLoginResponseApiModel = (UserLoginResponseApiModel) o;
     return Objects.equals(this.token, userLoginResponseApiModel.token) &&
+        Objects.equals(this.expiresAt, userLoginResponseApiModel.expiresAt) &&
+        Objects.equals(this.tokenType, userLoginResponseApiModel.tokenType) &&
         Objects.equals(this.user, userLoginResponseApiModel.user);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(token, user);
+    return Objects.hash(token, expiresAt, tokenType, user);
   }
 
   @Override
@@ -88,6 +138,8 @@ public class UserLoginResponseApiModel   {
     sb.append("class UserLoginResponseApiModel {\n");
     
     sb.append("    token: ").append(toIndentedString(token)).append("\n");
+    sb.append("    expiresAt: ").append(toIndentedString(expiresAt)).append("\n");
+    sb.append("    tokenType: ").append(toIndentedString(tokenType)).append("\n");
     sb.append("    user: ").append(toIndentedString(user)).append("\n");
     sb.append("}");
     return sb.toString();

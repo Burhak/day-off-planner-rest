@@ -30,7 +30,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-15T19:18:32.265Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-20T16:16:00.616Z[GMT]")
 @Api(value = "leaveType", description = "the leaveType API")
 public interface LeaveTypeApi {
 
@@ -49,9 +49,7 @@ public interface LeaveTypeApi {
     }
 
     @ApiOperation(value = "Get all leave types", nickname = "getAllLeaveTypes", notes = "", response = LeaveTypeApiModel.class, responseContainer = "List", authorizations = {
-        @Authorization(value = "bearerAuth"),
-@Authorization(value = "oAuthNoScopes", scopes = {
-                        })    }, tags={ "leaveType", })
+        @Authorization(value = "bearerAuth")    }, tags={ "leaveType", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK", response = LeaveTypeApiModel.class, responseContainer = "List") })
     @RequestMapping(value = "/leaveType/getAll",
@@ -75,9 +73,7 @@ public interface LeaveTypeApi {
 
 
     @ApiOperation(value = "Get leave type by ID", nickname = "getLeaveTypeById", notes = "", response = LeaveTypeApiModel.class, authorizations = {
-        @Authorization(value = "bearerAuth"),
-@Authorization(value = "oAuthNoScopes", scopes = {
-                        })    }, tags={ "leaveType", })
+        @Authorization(value = "bearerAuth")    }, tags={ "leaveType", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK", response = LeaveTypeApiModel.class) })
     @RequestMapping(value = "/leaveType/{id}",

@@ -33,7 +33,7 @@ class UserService(
 
     fun getUserByEmail(email: String): User = userRepository.findOneByEmail(email) ?: throw NotFoundException("User with email $email was not found")
 
-    fun getLoggedUser(): User = getUserByEmail(SecurityContextHolder.getContext().authentication.principal.toString())
+    fun getLoggedUser(): User = getUserByEmail(SecurityContextHolder.getContext().authentication.name)
 
     fun getAllUsers(): List<User> = userRepository.findAllNotDeleted()
 

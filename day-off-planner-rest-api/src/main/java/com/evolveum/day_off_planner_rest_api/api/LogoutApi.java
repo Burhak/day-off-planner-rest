@@ -5,8 +5,6 @@
  */
 package com.evolveum.day_off_planner_rest_api.api;
 
-import com.evolveum.day_off_planner_rest_api.model.UserLoginApiModel;
-import com.evolveum.day_off_planner_rest_api.model.UserLoginResponseApiModel;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
@@ -31,10 +29,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-20T16:16:00.616Z[GMT]")
-@Api(value = "login", description = "the login API")
-public interface LoginApi {
+@Api(value = "logout", description = "the logout API")
+public interface LogoutApi {
 
-    Logger log = LoggerFactory.getLogger(LoginApi.class);
+    Logger log = LoggerFactory.getLogger(LogoutApi.class);
 
     default Optional<ObjectMapper> getObjectMapper() {
         return Optional.empty();
@@ -48,27 +46,17 @@ public interface LoginApi {
         return getRequest().map(r -> r.getHeader("Accept"));
     }
 
-    @ApiOperation(value = "Log user into the system", nickname = "loginUser", notes = "", response = UserLoginResponseApiModel.class, authorizations = {
+    @ApiOperation(value = "Log user out", nickname = "logoutUser", notes = "", authorizations = {
         @Authorization(value = "bearerAuth")    }, tags={ "auth", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = UserLoginResponseApiModel.class),
-        @ApiResponse(code = 401, message = "Invalid email or password") })
-    @RequestMapping(value = "/login",
-        produces = { "application/json" }, 
-        consumes = { "application/json" },
+        @ApiResponse(code = 200, message = "OK"),
+        @ApiResponse(code = 401, message = "Invalid access token") })
+    @RequestMapping(value = "/logout",
         method = RequestMethod.POST)
-    default ResponseEntity<UserLoginResponseApiModel> loginUser(@ApiParam(value = "Email and password for login" ,required=true )  @Valid @RequestBody UserLoginApiModel body) {
+    default ResponseEntity<Void> logoutUser() {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
-            if (getAcceptHeader().get().contains("application/json")) {
-                try {
-                    return new ResponseEntity<>(getObjectMapper().get().readValue("{\n  \"tokenType\" : \"tokenType\",\n  \"user\" : {\n    \"firstName\" : \"firstName\",\n    \"lastName\" : \"lastName\",\n    \"admin\" : false,\n    \"id\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"email\" : \"\",\n    \"supervisor\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\"\n  },\n  \"expiresAt\" : \"2000-01-23T04:56:07.000+00:00\",\n  \"token\" : \"token\"\n}", UserLoginResponseApiModel.class), HttpStatus.NOT_IMPLEMENTED);
-                } catch (IOException e) {
-                    log.error("Couldn't serialize response for content type application/json", e);
-                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-                }
-            }
         } else {
-            log.warn("ObjectMapper or HttpServletRequest not configured in default LoginApi interface so no example is generated");
+            log.warn("ObjectMapper or HttpServletRequest not configured in default LogoutApi interface so no example is generated");
         }
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }

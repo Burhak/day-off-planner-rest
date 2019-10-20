@@ -33,7 +33,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-15T19:18:32.265Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-20T16:16:00.616Z[GMT]")
 @Api(value = "admin", description = "the admin API")
 public interface AdminApi {
 
@@ -52,9 +52,7 @@ public interface AdminApi {
     }
 
     @ApiOperation(value = "Create new leave type", nickname = "createLeaveType", notes = "", response = LeaveTypeApiModel.class, authorizations = {
-        @Authorization(value = "bearerAuth"),
-@Authorization(value = "oAuthNoScopes", scopes = {
-                        })    }, tags={ "admin", })
+        @Authorization(value = "bearerAuth")    }, tags={ "admin", })
     @ApiResponses(value = { 
         @ApiResponse(code = 201, message = "Created", response = LeaveTypeApiModel.class),
         @ApiResponse(code = 403, message = "Not an admin"),
@@ -81,9 +79,7 @@ public interface AdminApi {
 
 
     @ApiOperation(value = "Create new user", nickname = "createUser", notes = "", response = UserApiModel.class, authorizations = {
-        @Authorization(value = "bearerAuth"),
-@Authorization(value = "oAuthNoScopes", scopes = {
-                        })    }, tags={ "admin", })
+        @Authorization(value = "bearerAuth")    }, tags={ "admin", })
     @ApiResponses(value = { 
         @ApiResponse(code = 201, message = "Created", response = UserApiModel.class),
         @ApiResponse(code = 403, message = "Not an admin"),
@@ -110,9 +106,7 @@ public interface AdminApi {
 
 
     @ApiOperation(value = "Delete existing leave type", nickname = "deleteLeaveType", notes = "", authorizations = {
-        @Authorization(value = "bearerAuth"),
-@Authorization(value = "oAuthNoScopes", scopes = {
-                        })    }, tags={ "admin", })
+        @Authorization(value = "bearerAuth")    }, tags={ "admin", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK"),
         @ApiResponse(code = 403, message = "Not an admin"),
@@ -129,9 +123,7 @@ public interface AdminApi {
 
 
     @ApiOperation(value = "Delete existing user", nickname = "deleteUser", notes = "", authorizations = {
-        @Authorization(value = "bearerAuth"),
-@Authorization(value = "oAuthNoScopes", scopes = {
-                        })    }, tags={ "admin", })
+        @Authorization(value = "bearerAuth")    }, tags={ "admin", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK"),
         @ApiResponse(code = 403, message = "Not an admin"),
@@ -148,9 +140,7 @@ public interface AdminApi {
 
 
     @ApiOperation(value = "Update existing leave type", nickname = "updateLeaveType", notes = "", response = LeaveTypeApiModel.class, authorizations = {
-        @Authorization(value = "bearerAuth"),
-@Authorization(value = "oAuthNoScopes", scopes = {
-                        })    }, tags={ "admin", })
+        @Authorization(value = "bearerAuth")    }, tags={ "admin", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK", response = LeaveTypeApiModel.class),
         @ApiResponse(code = 403, message = "Not an admin"),
@@ -177,9 +167,7 @@ public interface AdminApi {
 
 
     @ApiOperation(value = "Update existing user", nickname = "updateUser", notes = "", response = UserApiModel.class, authorizations = {
-        @Authorization(value = "bearerAuth"),
-@Authorization(value = "oAuthNoScopes", scopes = {
-                        })    }, tags={ "admin", })
+        @Authorization(value = "bearerAuth")    }, tags={ "admin", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK", response = UserApiModel.class),
         @ApiResponse(code = 403, message = "Not an admin"),

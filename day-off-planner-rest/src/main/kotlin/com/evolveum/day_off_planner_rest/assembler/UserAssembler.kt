@@ -5,7 +5,6 @@ import com.evolveum.day_off_planner_rest.data.repository.UserRepository
 import com.evolveum.day_off_planner_rest.exception.NotFoundException
 import com.evolveum.day_off_planner_rest_api.model.UserApiModel
 import com.evolveum.day_off_planner_rest_api.model.UserCreateApiModel
-import com.evolveum.day_off_planner_rest_api.model.UserLoginResponseApiModel
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Component
@@ -36,10 +35,6 @@ fun User.toUserDetails(): UserDetails = org.springframework.security.core.userde
         .credentialsExpired(false)
         .disabled(false)
         .build()
-
-fun User.toUserLoginResponseApiModel(token: String): UserLoginResponseApiModel = UserLoginResponseApiModel()
-        .token(token)
-        .user(this.toUserApiModel())
 
 fun User.toUserApiModel(): UserApiModel = UserApiModel()
         .id(id)

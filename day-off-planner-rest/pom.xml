@@ -48,11 +48,19 @@
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-stdlib-jdk8</artifactId>
         </dependency>
+
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-api</artifactId>
             <version>0.10.7</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.konghq</groupId>
+            <artifactId>unirest-java</artifactId>
+            <version>3.1.00</version>
+        </dependency>
+
         <dependency>
             <groupId>com.evolveum</groupId>
             <artifactId>day-off-planner-rest-api</artifactId>

@@ -14,7 +14,6 @@ class LeaveTypeAssembler {
         this.name = leaveTypeCreateApiModel.name
         this.approvalNeeded = leaveTypeCreateApiModel.isApprovalNeeded
         this.limited = leaveTypeCreateApiModel.isLimited
-        this.halfDayAllowed = leaveTypeCreateApiModel.isHalfDayAllowed
     }
 }
 
@@ -23,4 +22,3 @@ fun LeaveType.toLeaveTypeApiModel(): LeaveTypeApiModel = LeaveTypeApiModel()
         .name(name)
         .approvalNeeded(approvalNeeded)
         .limited(limited)
-        .halfDayAllowed(halfDayAllowed)

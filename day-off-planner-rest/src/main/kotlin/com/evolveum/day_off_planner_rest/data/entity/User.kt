@@ -4,7 +4,7 @@ import java.util.*
 import javax.persistence.*
 
 @Entity
-@Table(name = "oauth_user")
+@Table(name = "employee")
 data class User(
         var firstName: String = "",
         var lastName: String = "",

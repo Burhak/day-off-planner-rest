@@ -9,8 +9,7 @@ data class LeaveType(
         @Column(unique = true)
         var name: String = "",
         var approvalNeeded: Boolean = false,
-        var limited: Boolean = false,
-        var halfDayAllowed: Boolean = false
+        var limited: Boolean = false
 ) {
     @Id
     @GeneratedValue

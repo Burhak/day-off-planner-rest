@@ -4,7 +4,7 @@ import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity
-@Table(name = "oauth_token")
+@Table(name = "access_token")
 data class AccessToken(
         @Id var email: String = "",
         @Column(length = 510) var token: String = "",

@@ -14,7 +14,7 @@ import javax.validation.constraints.*;
  * LeaveTypeApiModel
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-22T13:24:41.453Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-25T08:08:46.968Z[GMT]")
 public class LeaveTypeApiModel   {
   @JsonProperty("id")
   private UUID id = null;
@@ -27,6 +27,9 @@ public class LeaveTypeApiModel   {
 
   @JsonProperty("limited")
   private Boolean limited = false;
+
+  @JsonProperty("defaultLimitHours")
+  private Integer defaultLimitHours = null;
 
   public LeaveTypeApiModel id(UUID id) {
     this.id = id;
@@ -109,6 +112,26 @@ public class LeaveTypeApiModel   {
     this.limited = limited;
   }
 
+  public LeaveTypeApiModel defaultLimitHours(Integer defaultLimitHours) {
+    this.defaultLimitHours = defaultLimitHours;
+    return this;
+  }
+
+  /**
+   * Get defaultLimitHours
+   * @return defaultLimitHours
+  **/
+  @ApiModelProperty(required = true, readOnly = true, value = "")
+  @NotNull
+
+  public Integer getDefaultLimitHours() {
+    return defaultLimitHours;
+  }
+
+  public void setDefaultLimitHours(Integer defaultLimitHours) {
+    this.defaultLimitHours = defaultLimitHours;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -122,12 +145,13 @@ public class LeaveTypeApiModel   {
     return Objects.equals(this.id, leaveTypeApiModel.id) &&
         Objects.equals(this.name, leaveTypeApiModel.name) &&
         Objects.equals(this.approvalNeeded, leaveTypeApiModel.approvalNeeded) &&
-        Objects.equals(this.limited, leaveTypeApiModel.limited);
+        Objects.equals(this.limited, leaveTypeApiModel.limited) &&
+        Objects.equals(this.defaultLimitHours, leaveTypeApiModel.defaultLimitHours);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, approvalNeeded, limited);
+    return Objects.hash(id, name, approvalNeeded, limited, defaultLimitHours);
   }
 
   @Override
@@ -139,6 +163,7 @@ public class LeaveTypeApiModel   {
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    approvalNeeded: ").append(toIndentedString(approvalNeeded)).append("\n");
     sb.append("    limited: ").append(toIndentedString(limited)).append("\n");
+    sb.append("    defaultLimitHours: ").append(toIndentedString(defaultLimitHours)).append("\n");
     sb.append("}");
     return sb.toString();
   }

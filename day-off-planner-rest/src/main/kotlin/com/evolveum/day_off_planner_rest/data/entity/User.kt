@@ -1,5 +1,6 @@
 package com.evolveum.day_off_planner_rest.data.entity
 
+import java.io.Serializable
 import java.util.*
 import javax.persistence.*
 
@@ -13,7 +14,7 @@ data class User(
         var password: String = "",
         var admin: Boolean = false,
         @ManyToOne var supervisor: User? = null
-) {
+) : Serializable {
     @Id @GeneratedValue
     var id: UUID = UUID.randomUUID()
 

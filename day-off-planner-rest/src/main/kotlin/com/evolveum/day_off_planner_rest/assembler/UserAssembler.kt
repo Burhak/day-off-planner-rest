@@ -12,18 +12,20 @@ import org.springframework.stereotype.Component
 @Component
 class UserAssembler(private val userRepository: UserRepository) {
 
-    fun disassemble(userCreateApiModel: UserCreateApiModel): User = disassemble(User(), userCreateApiModel)
+    fun disassemble(userCreateApiModel: UserCreateApiModel): User =
+            disassemble(User(), userCreateApiModel)
 
-    fun disassemble(user: User, userCreateApiModel: UserCreateApiModel): User = user.apply {
-        this.firstName = userCreateApiModel.firstName
-        this.lastName = userCreateApiModel.lastName
-        this.email = userCreateApiModel.email
-        this.admin = userCreateApiModel.isAdmin
-        this.supervisor =
-                if (userCreateApiModel.supervisor == null) null
-                else (userRepository.findOneById(userCreateApiModel.supervisor)
-                        ?: throw NotFoundException("User with id ${userCreateApiModel.supervisor} was not found"))
-    }
+    fun disassemble(user: User, userCreateApiModel: UserCreateApiModel): User =
+            user.apply {
+                this.firstName = userCreateApiModel.firstName
+                this.lastName = userCreateApiModel.lastName
+                this.email = userCreateApiModel.email
+                this.admin = userCreateApiModel.isAdmin
+                this.supervisor =
+                        if (userCreateApiModel.supervisor == null) null
+                        else (userRepository.findOneById(userCreateApiModel.supervisor)
+                                ?: throw NotFoundException("User with id ${userCreateApiModel.supervisor} was not found"))
+            }
 }
 
 fun User.toUserDetails(): UserDetails = org.springframework.security.core.userdetails.User

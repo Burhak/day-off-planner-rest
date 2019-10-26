@@ -8,17 +8,21 @@ import org.springframework.stereotype.Component
 @Component
 class LeaveTypeAssembler {
 
-    fun disassemble(leaveTypeCreateApiModel: LeaveTypeCreateApiModel): LeaveType = disassemble(LeaveType(), leaveTypeCreateApiModel)
+    fun disassemble(leaveTypeCreateApiModel: LeaveTypeCreateApiModel): LeaveType =
+            disassemble(LeaveType(), leaveTypeCreateApiModel)
 
-    fun disassemble(leaveType: LeaveType, leaveTypeCreateApiModel: LeaveTypeCreateApiModel): LeaveType = leaveType.apply {
-        this.name = leaveTypeCreateApiModel.name
-        this.approvalNeeded = leaveTypeCreateApiModel.isApprovalNeeded
-        this.limited = leaveTypeCreateApiModel.isLimited
-    }
+    fun disassemble(leaveType: LeaveType, leaveTypeCreateApiModel: LeaveTypeCreateApiModel): LeaveType =
+            leaveType.apply {
+                this.name = leaveTypeCreateApiModel.name
+                this.approvalNeeded = leaveTypeCreateApiModel.isApprovalNeeded
+                this.limit = leaveTypeCreateApiModel.limit
+                this.carryover = leaveTypeCreateApiModel.carryover
+            }
 }
 
 fun LeaveType.toLeaveTypeApiModel(): LeaveTypeApiModel = LeaveTypeApiModel()
         .id(id)
         .name(name)
         .approvalNeeded(approvalNeeded)
-        .limited(limited)
+        .limit(limit)
+        .carryover(carryover)

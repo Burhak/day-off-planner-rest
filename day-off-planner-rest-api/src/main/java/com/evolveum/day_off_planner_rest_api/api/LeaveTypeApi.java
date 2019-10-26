@@ -30,7 +30,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-25T08:08:46.968Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-26T17:47:36.365Z[GMT]")
 @Api(value = "leaveType", description = "the leaveType API")
 public interface LeaveTypeApi {
 
@@ -59,7 +59,7 @@ public interface LeaveTypeApi {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
-                    return new ResponseEntity<>(getObjectMapper().get().readValue("[ {\n  \"approvalNeeded\" : false,\n  \"limited\" : false,\n  \"name\" : \"name\",\n  \"defaultLimitHours\" : 0,\n  \"id\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\"\n}, {\n  \"approvalNeeded\" : false,\n  \"limited\" : false,\n  \"name\" : \"name\",\n  \"defaultLimitHours\" : 0,\n  \"id\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\"\n} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("[ {\n  \"approvalNeeded\" : false,\n  \"name\" : \"name\",\n  \"limit\" : 0,\n  \"carryover\" : 6,\n  \"id\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\"\n}, {\n  \"approvalNeeded\" : false,\n  \"name\" : \"name\",\n  \"limit\" : 0,\n  \"carryover\" : 6,\n  \"id\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\"\n} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
                 } catch (IOException e) {
                     log.error("Couldn't serialize response for content type application/json", e);
                     return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -83,7 +83,7 @@ public interface LeaveTypeApi {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
-                    return new ResponseEntity<>(getObjectMapper().get().readValue("{\n  \"approvalNeeded\" : false,\n  \"limited\" : false,\n  \"name\" : \"name\",\n  \"defaultLimitHours\" : 0,\n  \"id\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\"\n}", LeaveTypeApiModel.class), HttpStatus.NOT_IMPLEMENTED);
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("{\n  \"approvalNeeded\" : false,\n  \"name\" : \"name\",\n  \"limit\" : 0,\n  \"carryover\" : 6,\n  \"id\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\"\n}", LeaveTypeApiModel.class), HttpStatus.NOT_IMPLEMENTED);
                 } catch (IOException e) {
                     log.error("Couldn't serialize response for content type application/json", e);
                     return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

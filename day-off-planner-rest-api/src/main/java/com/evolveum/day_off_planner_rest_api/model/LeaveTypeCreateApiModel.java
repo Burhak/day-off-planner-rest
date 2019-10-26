@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
  * LeaveTypeCreateApiModel
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-25T08:08:46.968Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-26T17:47:36.365Z[GMT]")
 public class LeaveTypeCreateApiModel   {
   @JsonProperty("name")
   private String name = null;
@@ -21,11 +21,11 @@ public class LeaveTypeCreateApiModel   {
   @JsonProperty("approvalNeeded")
   private Boolean approvalNeeded = false;
 
-  @JsonProperty("limited")
-  private Boolean limited = false;
+  @JsonProperty("limit")
+  private Integer limit = null;
 
-  @JsonProperty("defaultLimitHours")
-  private Integer defaultLimitHours = null;
+  @JsonProperty("carryover")
+  private Integer carryover = null;
 
   public LeaveTypeCreateApiModel name(String name) {
     this.name = name;
@@ -67,43 +67,42 @@ public class LeaveTypeCreateApiModel   {
     this.approvalNeeded = approvalNeeded;
   }
 
-  public LeaveTypeCreateApiModel limited(Boolean limited) {
-    this.limited = limited;
+  public LeaveTypeCreateApiModel limit(Integer limit) {
+    this.limit = limit;
     return this;
   }
 
   /**
-   * Get limited
-   * @return limited
-  **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-  public Boolean isLimited() {
-    return limited;
-  }
-
-  public void setLimited(Boolean limited) {
-    this.limited = limited;
-  }
-
-  public LeaveTypeCreateApiModel defaultLimitHours(Integer defaultLimitHours) {
-    this.defaultLimitHours = defaultLimitHours;
-    return this;
-  }
-
-  /**
-   * Get defaultLimitHours
-   * @return defaultLimitHours
+   * Get limit
+   * @return limit
   **/
   @ApiModelProperty(value = "")
 
-  public Integer getDefaultLimitHours() {
-    return defaultLimitHours;
+  public Integer getLimit() {
+    return limit;
   }
 
-  public void setDefaultLimitHours(Integer defaultLimitHours) {
-    this.defaultLimitHours = defaultLimitHours;
+  public void setLimit(Integer limit) {
+    this.limit = limit;
+  }
+
+  public LeaveTypeCreateApiModel carryover(Integer carryover) {
+    this.carryover = carryover;
+    return this;
+  }
+
+  /**
+   * Get carryover
+   * @return carryover
+  **/
+  @ApiModelProperty(value = "")
+
+  public Integer getCarryover() {
+    return carryover;
+  }
+
+  public void setCarryover(Integer carryover) {
+    this.carryover = carryover;
   }
 
 
@@ -118,13 +117,13 @@ public class LeaveTypeCreateApiModel   {
     LeaveTypeCreateApiModel leaveTypeCreateApiModel = (LeaveTypeCreateApiModel) o;
     return Objects.equals(this.name, leaveTypeCreateApiModel.name) &&
         Objects.equals(this.approvalNeeded, leaveTypeCreateApiModel.approvalNeeded) &&
-        Objects.equals(this.limited, leaveTypeCreateApiModel.limited) &&
-        Objects.equals(this.defaultLimitHours, leaveTypeCreateApiModel.defaultLimitHours);
+        Objects.equals(this.limit, leaveTypeCreateApiModel.limit) &&
+        Objects.equals(this.carryover, leaveTypeCreateApiModel.carryover);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, approvalNeeded, limited, defaultLimitHours);
+    return Objects.hash(name, approvalNeeded, limit, carryover);
   }
 
   @Override
@@ -134,8 +133,8 @@ public class LeaveTypeCreateApiModel   {
     
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    approvalNeeded: ").append(toIndentedString(approvalNeeded)).append("\n");
-    sb.append("    limited: ").append(toIndentedString(limited)).append("\n");
-    sb.append("    defaultLimitHours: ").append(toIndentedString(defaultLimitHours)).append("\n");
+    sb.append("    limit: ").append(toIndentedString(limit)).append("\n");
+    sb.append("    carryover: ").append(toIndentedString(carryover)).append("\n");
     sb.append("}");
     return sb.toString();
   }

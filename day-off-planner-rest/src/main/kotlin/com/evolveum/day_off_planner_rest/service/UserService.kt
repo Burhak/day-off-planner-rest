@@ -79,11 +79,13 @@ class UserService(
         if (userRepository.count() == 0L) {
             userRepository.save(
                     User(
-                            "admin",
-                            "admin",
-                            "admin@admin.com",
-                            passwordEncoder.encode("password"),
-                            true
+                            firstName = "admin",
+                            lastName = "admin",
+                            email = "admin@admin.com",
+                            password = passwordEncoder.encode("password"),
+                            admin = true,
+                            jobDescription = "ADMIN",
+                            phone = "12345"
                     )
             )
         }

@@ -15,7 +15,7 @@ import javax.validation.constraints.*;
  * UserLoginResponseApiModel
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-26T19:51:17.728Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-05T14:34:45.695Z[GMT]")
 public class UserLoginResponseApiModel   {
   @JsonProperty("token")
   private String token = null;
@@ -39,9 +39,9 @@ public class UserLoginResponseApiModel   {
    * @return token
   **/
   @ApiModelProperty(required = true, readOnly = true, value = "")
-  @NotNull
+      @NotNull
 
-  public String getToken() {
+    public String getToken() {
     return token;
   }
 
@@ -59,10 +59,10 @@ public class UserLoginResponseApiModel   {
    * @return expiresAt
   **/
   @ApiModelProperty(required = true, readOnly = true, value = "")
-  @NotNull
+      @NotNull
 
-  @Valid
-  public LocalDateTime getExpiresAt() {
+    @Valid
+    public LocalDateTime getExpiresAt() {
     return expiresAt;
   }
 
@@ -80,9 +80,9 @@ public class UserLoginResponseApiModel   {
    * @return tokenType
   **/
   @ApiModelProperty(required = true, readOnly = true, value = "")
-  @NotNull
+      @NotNull
 
-  public String getTokenType() {
+    public String getTokenType() {
     return tokenType;
   }
 
@@ -100,10 +100,10 @@ public class UserLoginResponseApiModel   {
    * @return user
   **/
   @ApiModelProperty(required = true, value = "")
-  @NotNull
+      @NotNull
 
-  @Valid
-  public UserApiModel getUser() {
+    @Valid
+    public UserApiModel getUser() {
     return user;
   }
 

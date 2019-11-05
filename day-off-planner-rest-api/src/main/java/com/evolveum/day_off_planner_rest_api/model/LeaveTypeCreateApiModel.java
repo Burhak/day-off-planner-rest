@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
  * LeaveTypeCreateApiModel
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-26T19:51:17.728Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-05T14:34:45.695Z[GMT]")
 public class LeaveTypeCreateApiModel   {
   @JsonProperty("name")
   private String name = null;
@@ -37,9 +37,9 @@ public class LeaveTypeCreateApiModel   {
    * @return name
   **/
   @ApiModelProperty(required = true, value = "")
-  @NotNull
+      @NotNull
 
-  public String getName() {
+    public String getName() {
     return name;
   }
 
@@ -57,9 +57,9 @@ public class LeaveTypeCreateApiModel   {
    * @return approvalNeeded
   **/
   @ApiModelProperty(required = true, value = "")
-  @NotNull
+      @NotNull
 
-  public Boolean isApprovalNeeded() {
+    public Boolean isApprovalNeeded() {
     return approvalNeeded;
   }
 
@@ -77,8 +77,8 @@ public class LeaveTypeCreateApiModel   {
    * @return limit
   **/
   @ApiModelProperty(value = "")
-
-  public Integer getLimit() {
+  
+    public Integer getLimit() {
     return limit;
   }
 
@@ -96,8 +96,8 @@ public class LeaveTypeCreateApiModel   {
    * @return carryover
   **/
   @ApiModelProperty(value = "")
-
-  public Integer getCarryover() {
+  
+    public Integer getCarryover() {
     return carryover;
   }
 

@@ -14,7 +14,7 @@ import javax.validation.constraints.*;
  * UserCreateApiModel
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-26T19:51:17.728Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-05T14:34:45.695Z[GMT]")
 public class UserCreateApiModel   {
   @JsonProperty("firstName")
   private String firstName = null;
@@ -47,9 +47,9 @@ public class UserCreateApiModel   {
    * @return firstName
   **/
   @ApiModelProperty(required = true, value = "")
-  @NotNull
+      @NotNull
 
-  public String getFirstName() {
+    public String getFirstName() {
     return firstName;
   }
 
@@ -67,9 +67,9 @@ public class UserCreateApiModel   {
    * @return lastName
   **/
   @ApiModelProperty(required = true, value = "")
-  @NotNull
+      @NotNull
 
-  public String getLastName() {
+    public String getLastName() {
     return lastName;
   }
 
@@ -87,9 +87,9 @@ public class UserCreateApiModel   {
    * @return email
   **/
   @ApiModelProperty(required = true, value = "")
-  @NotNull
+      @NotNull
 
-  public String getEmail() {
+    public String getEmail() {
     return email;
   }
 
@@ -107,9 +107,9 @@ public class UserCreateApiModel   {
    * @return supervisor
   **/
   @ApiModelProperty(value = "")
-
-  @Valid
-  public UUID getSupervisor() {
+  
+    @Valid
+    public UUID getSupervisor() {
     return supervisor;
   }
 
@@ -127,9 +127,9 @@ public class UserCreateApiModel   {
    * @return admin
   **/
   @ApiModelProperty(required = true, value = "")
-  @NotNull
+      @NotNull
 
-  public Boolean isAdmin() {
+    public Boolean isAdmin() {
     return admin;
   }
 
@@ -147,9 +147,9 @@ public class UserCreateApiModel   {
    * @return jobDescription
   **/
   @ApiModelProperty(required = true, value = "")
-  @NotNull
+      @NotNull
 
-  public String getJobDescription() {
+    public String getJobDescription() {
     return jobDescription;
   }
 
@@ -167,8 +167,8 @@ public class UserCreateApiModel   {
    * @return phone
   **/
   @ApiModelProperty(value = "")
-
-  public String getPhone() {
+  
+    public String getPhone() {
     return phone;
   }
 

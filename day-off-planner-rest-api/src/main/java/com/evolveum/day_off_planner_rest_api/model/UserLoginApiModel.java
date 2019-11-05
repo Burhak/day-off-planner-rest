@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
  * UserLoginApiModel
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-26T19:51:17.728Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-05T14:34:45.695Z[GMT]")
 public class UserLoginApiModel   {
   @JsonProperty("email")
   private String email = null;
@@ -31,9 +31,9 @@ public class UserLoginApiModel   {
    * @return email
   **/
   @ApiModelProperty(required = true, value = "")
-  @NotNull
+      @NotNull
 
-  public String getEmail() {
+    public String getEmail() {
     return email;
   }
 
@@ -51,9 +51,9 @@ public class UserLoginApiModel   {
    * @return password
   **/
   @ApiModelProperty(required = true, value = "")
-  @NotNull
+      @NotNull
 
-  public String getPassword() {
+    public String getPassword() {
     return password;
   }
 

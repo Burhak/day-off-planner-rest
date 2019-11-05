@@ -15,7 +15,7 @@ import javax.validation.constraints.*;
  * LeaveRequestCreateApiModel
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-26T19:51:17.728Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-05T14:34:45.695Z[GMT]")
 public class LeaveRequestCreateApiModel   {
   @JsonProperty("leaveType")
   private UUID leaveType = null;
@@ -36,10 +36,10 @@ public class LeaveRequestCreateApiModel   {
    * @return leaveType
   **/
   @ApiModelProperty(required = true, value = "")
-  @NotNull
+      @NotNull
 
-  @Valid
-  public UUID getLeaveType() {
+    @Valid
+    public UUID getLeaveType() {
     return leaveType;
   }
 
@@ -57,10 +57,10 @@ public class LeaveRequestCreateApiModel   {
    * @return fromDate
   **/
   @ApiModelProperty(required = true, value = "")
-  @NotNull
+      @NotNull
 
-  @Valid
-  public LocalDateTime getFromDate() {
+    @Valid
+    public LocalDateTime getFromDate() {
     return fromDate;
   }
 
@@ -78,10 +78,10 @@ public class LeaveRequestCreateApiModel   {
    * @return toDate
   **/
   @ApiModelProperty(required = true, value = "")
-  @NotNull
+      @NotNull
 
-  @Valid
-  public LocalDateTime getToDate() {
+    @Valid
+    public LocalDateTime getToDate() {
     return toDate;
   }
 

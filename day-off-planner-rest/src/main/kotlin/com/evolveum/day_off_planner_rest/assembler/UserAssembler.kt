@@ -21,6 +21,8 @@ class UserAssembler(private val userRepository: UserRepository) {
                 this.lastName = userCreateApiModel.lastName
                 this.email = userCreateApiModel.email
                 this.admin = userCreateApiModel.isAdmin
+                this.jobDescription = userCreateApiModel.jobDescription
+                this.phone = userCreateApiModel.phone
                 this.supervisor =
                         if (userCreateApiModel.supervisor == null) null
                         else (userRepository.findOneById(userCreateApiModel.supervisor)
@@ -44,4 +46,6 @@ fun User.toUserApiModel(): UserApiModel = UserApiModel()
         .lastName(lastName)
         .email(email)
         .admin(admin)
+        .jobDescription(jobDescription)
+        .phone(phone)
         .supervisor(supervisor?.id)

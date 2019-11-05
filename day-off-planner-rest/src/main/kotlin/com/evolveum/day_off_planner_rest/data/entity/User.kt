@@ -13,7 +13,9 @@ data class User(
         var email: String = "",
         var password: String = "",
         var admin: Boolean = false,
-        @ManyToOne var supervisor: User? = null
+        @ManyToOne var supervisor: User? = null,
+        var jobDescription: String = "",
+        var phone: String? = null
 ) : Serializable {
     @Id @GeneratedValue
     var id: UUID = UUID.randomUUID()

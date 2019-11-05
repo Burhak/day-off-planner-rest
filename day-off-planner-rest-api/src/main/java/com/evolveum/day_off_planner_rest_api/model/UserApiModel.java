@@ -14,7 +14,7 @@ import javax.validation.constraints.*;
  * UserApiModel
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-26T17:47:36.365Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-26T19:51:17.728Z[GMT]")
 public class UserApiModel   {
   @JsonProperty("id")
   private UUID id = null;
@@ -33,6 +33,12 @@ public class UserApiModel   {
 
   @JsonProperty("admin")
   private Boolean admin = false;
+
+  @JsonProperty("jobDescription")
+  private String jobDescription = null;
+
+  @JsonProperty("phone")
+  private String phone = null;
 
   public UserApiModel id(UUID id) {
     this.id = id;
@@ -155,6 +161,45 @@ public class UserApiModel   {
     this.admin = admin;
   }
 
+  public UserApiModel jobDescription(String jobDescription) {
+    this.jobDescription = jobDescription;
+    return this;
+  }
+
+  /**
+   * Get jobDescription
+   * @return jobDescription
+  **/
+  @ApiModelProperty(required = true, readOnly = true, value = "")
+  @NotNull
+
+  public String getJobDescription() {
+    return jobDescription;
+  }
+
+  public void setJobDescription(String jobDescription) {
+    this.jobDescription = jobDescription;
+  }
+
+  public UserApiModel phone(String phone) {
+    this.phone = phone;
+    return this;
+  }
+
+  /**
+   * Get phone
+   * @return phone
+  **/
+  @ApiModelProperty(readOnly = true, value = "")
+
+  public String getPhone() {
+    return phone;
+  }
+
+  public void setPhone(String phone) {
+    this.phone = phone;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -170,12 +215,14 @@ public class UserApiModel   {
         Objects.equals(this.lastName, userApiModel.lastName) &&
         Objects.equals(this.email, userApiModel.email) &&
         Objects.equals(this.supervisor, userApiModel.supervisor) &&
-        Objects.equals(this.admin, userApiModel.admin);
+        Objects.equals(this.admin, userApiModel.admin) &&
+        Objects.equals(this.jobDescription, userApiModel.jobDescription) &&
+        Objects.equals(this.phone, userApiModel.phone);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, firstName, lastName, email, supervisor, admin);
+    return Objects.hash(id, firstName, lastName, email, supervisor, admin, jobDescription, phone);
   }
 
   @Override
@@ -189,6 +236,8 @@ public class UserApiModel   {
     sb.append("    email: ").append(toIndentedString(email)).append("\n");
     sb.append("    supervisor: ").append(toIndentedString(supervisor)).append("\n");
     sb.append("    admin: ").append(toIndentedString(admin)).append("\n");
+    sb.append("    jobDescription: ").append(toIndentedString(jobDescription)).append("\n");
+    sb.append("    phone: ").append(toIndentedString(phone)).append("\n");
     sb.append("}");
     return sb.toString();
   }

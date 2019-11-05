@@ -3,16 +3,17 @@ package com.evolveum.day_off_planner_rest.service
 import com.evolveum.day_off_planner_rest.assembler.LeaveRequestAssembler
 import com.evolveum.day_off_planner_rest.data.entity.LeaveRequest
 import com.evolveum.day_off_planner_rest.data.entity.LeaveRequestApproval
-import com.evolveum.day_off_planner_rest.data.entity.LeaveType
-import com.evolveum.day_off_planner_rest.data.entity.User
 import com.evolveum.day_off_planner_rest.data.enums.LeaveRequestStatus
 import com.evolveum.day_off_planner_rest.data.repository.LeaveRequestRepository
 import com.evolveum.day_off_planner_rest.exception.LimitExceededException
 import com.evolveum.day_off_planner_rest.exception.WrongParamException
+import com.evolveum.day_off_planner_rest.util.date.DateRange
+import com.evolveum.day_off_planner_rest.util.date.DayStartEnd
+import com.evolveum.day_off_planner_rest.util.date.Year
+import com.evolveum.day_off_planner_rest.util.date.isWeekend
 import com.evolveum.day_off_planner_rest_api.model.LeaveRequestCreateApiModel
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.time.Duration
 import java.time.LocalDateTime
 
 @Service
@@ -21,20 +22,18 @@ class LeaveRequestService(
         private val leaveRequestRepository: LeaveRequestRepository,
         private val leaveRequestAssembler: LeaveRequestAssembler,
         private val userService: UserService,
-        private val settingService: SettingService
+        private val settingService: SettingService,
+        private val limitService: LimitService,
+        private val holidayService: HolidayService
 ) {
+
+    fun duration(from: LocalDateTime, to: LocalDateTime): List<Int> =
+        DateRange(from, to, settingService.getWorkDayStartEnd()).splitToYears().map { it.duration() }
 
     fun createLeaveRequest(leaveRequestCreateApiModel: LeaveRequestCreateApiModel): LeaveRequest {
         val leaveRequest = leaveRequestAssembler.disassemble(leaveRequestCreateApiModel, userService.getLoggedUser())
-        val duration = getDurationWithCheck(leaveRequest.fromDate, leaveRequest.toDate)
 
-//        if (leaveRequest.type.isLimited()) {
-//            val hoursLeft = leaveTypeLimitService.getHoursLeft(leaveRequest.user, leaveRequest.type)
-//            if (hoursLeft < duration) {
-//                throw LimitExceededException("Not enough hours remaining for leave '${leaveRequest.type.name}'")
-//            }
-//            leaveTypeLimitService.setHoursLeft(leaveRequest.user, leaveRequest.type, hoursLeft - duration)
-//        }
+        leaveRequest.checkLimit()
 
         // if user has a supervisor create approvals
         val supervisor = leaveRequest.user.supervisor
@@ -51,35 +50,31 @@ class LeaveRequestService(
         return leaveRequestRepository.save(leaveRequest)
     }
 
-    private fun getDurationWithCheck(start: LocalDateTime, end: LocalDateTime): Int {
-        val (dayStart, dayEnd) = settingService.getWorkDayRange()
-        val hours = Duration.between(start, end).toHours()
+    private fun LeaveRequest.checkLimit() {
+        if (!type.isLimited()) return
 
-        if (hours < 1)
-            throw WrongParamException("End must be at least 1 hour after start")
+        val workDayStartEnd = settingService.getWorkDayStartEnd()
 
-        if (start.hour < dayStart || start.hour > dayEnd - 1)
-            throw WrongParamException("Start time must be between $dayStart:00 (inc) and ${dayEnd - 1}:00 (inc)")
+        DateRange(this, workDayStartEnd).splitToYears().forEach { year ->
+            val requesting = year.duration()
+            val totalRequested = getRequestedHoursForYear(year.year, workDayStartEnd)
 
-        if (end.hour < dayStart + 1 || end.hour > dayEnd)
-            throw WrongParamException("End time must be between ${dayStart + 1}:00 (inc) and $dayEnd:00 (inc)")
-
-        return hours.toInt()
+            val limit = limitService.getUserLimit(user, type, year.year)
+            if (totalRequested + requesting > limit)
+                throw LimitExceededException("Limit of this leave type has been exceeded")
+        }
     }
 
-//    private fun getRequestedHoursForYear(user: User, leaveType: LeaveType, year: Int): Int {
-//        // TODO: filter holidays and weekends
-//        val (dayStart, dayEnd) = settingService.getWorkDayRange()
-//
-//        val yearStart = LocalDateTime.of(year, 1, 1, dayStart, 0, 0)
-//        val yearEnd = LocalDateTime.of(year, 12, 31, dayEnd, 0, 0)
-//
-//        leaveRequestRepository.findLeavesByYear(user, leaveType, year).map { request ->
-//            maxOf(request.fromDate, yearStart).
-//        }
-//    }
-//
-//    private fun LeaveRequest.takeYear(year: Int) {
-//
-//    }
+    private fun Year.duration(): Int {
+        val duration = splitToDays()
+                .filterNot { it.day.isWeekend() || holidayService.isHoliday(it.day) }
+                .sumBy { it.duration() }
+
+        if (duration < 1) throw WrongParamException("End must be at least 1 hour after start")
+
+        return duration
+    }
+
+    private fun LeaveRequest.getRequestedHoursForYear(year: Int, workDayStartEnd: DayStartEnd): Int =
+        leaveRequestRepository.findLeavesByYear(user, type, year).sumBy { DateRange(it, workDayStartEnd).takeYear(year).duration() }
 }

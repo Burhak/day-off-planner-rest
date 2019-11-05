@@ -5,7 +5,7 @@ import com.evolveum.day_off_planner_rest_api.model.UserLoginApiModel
 import com.evolveum.day_off_planner_rest.security.SecurityConstants
 import com.evolveum.day_off_planner_rest.service.AccessTokenService
 import com.evolveum.day_off_planner_rest.util.ObjectMapper
-import com.evolveum.day_off_planner_rest.util.toDate
+import com.evolveum.day_off_planner_rest.util.date.toDate
 import javax.servlet.FilterChain
 import javax.servlet.http.HttpServletResponse
 import javax.servlet.http.HttpServletRequest

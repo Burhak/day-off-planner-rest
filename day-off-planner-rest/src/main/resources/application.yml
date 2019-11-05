@@ -1,6 +1,9 @@
 server:
   port: 9090
 
+holidays:
+  calendar-id: en.slovak#holiday@group.v.calendar.google.com
+
 spring:
   jpa:
     database: POSTGRESQL

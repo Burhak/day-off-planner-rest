@@ -14,7 +14,7 @@ import javax.validation.constraints.*;
  * LeaveTypeApiModel
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-26T19:51:17.728Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-05T14:34:45.695Z[GMT]")
 public class LeaveTypeApiModel   {
   @JsonProperty("id")
   private UUID id = null;
@@ -41,10 +41,10 @@ public class LeaveTypeApiModel   {
    * @return id
   **/
   @ApiModelProperty(required = true, readOnly = true, value = "")
-  @NotNull
+      @NotNull
 
-  @Valid
-  public UUID getId() {
+    @Valid
+    public UUID getId() {
     return id;
   }
 
@@ -62,9 +62,9 @@ public class LeaveTypeApiModel   {
    * @return name
   **/
   @ApiModelProperty(required = true, readOnly = true, value = "")
-  @NotNull
+      @NotNull
 
-  public String getName() {
+    public String getName() {
     return name;
   }
 
@@ -82,9 +82,9 @@ public class LeaveTypeApiModel   {
    * @return approvalNeeded
   **/
   @ApiModelProperty(required = true, readOnly = true, value = "")
-  @NotNull
+      @NotNull
 
-  public Boolean isApprovalNeeded() {
+    public Boolean isApprovalNeeded() {
     return approvalNeeded;
   }
 
@@ -102,8 +102,8 @@ public class LeaveTypeApiModel   {
    * @return limit
   **/
   @ApiModelProperty(readOnly = true, value = "")
-
-  public Integer getLimit() {
+  
+    public Integer getLimit() {
     return limit;
   }
 
@@ -121,8 +121,8 @@ public class LeaveTypeApiModel   {
    * @return carryover
   **/
   @ApiModelProperty(readOnly = true, value = "")
-
-  public Integer getCarryover() {
+  
+    public Integer getCarryover() {
     return carryover;
   }
 

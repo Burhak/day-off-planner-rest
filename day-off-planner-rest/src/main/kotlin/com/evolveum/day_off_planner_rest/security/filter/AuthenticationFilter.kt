@@ -1,10 +1,12 @@
 package com.evolveum.day_off_planner_rest.security.filter
 
 import com.evolveum.day_off_planner_rest.data.entity.AccessToken
+import com.evolveum.day_off_planner_rest.exception.InvalidCredentialsException
 import com.evolveum.day_off_planner_rest_api.model.UserLoginApiModel
 import com.evolveum.day_off_planner_rest.security.SecurityConstants
 import com.evolveum.day_off_planner_rest.service.AccessTokenService
 import com.evolveum.day_off_planner_rest.util.ObjectMapper
+import com.evolveum.day_off_planner_rest.util.sendResponse
 import com.evolveum.day_off_planner_rest.util.date.toDate
 import javax.servlet.FilterChain
 import javax.servlet.http.HttpServletResponse
@@ -48,12 +50,10 @@ class AuthenticationFilter(
 
         val accessToken = accessTokenService.saveAccessToken(AccessToken(userDetails.username, token, expiresAt, SecurityConstants.TOKEN_TYPE))
 
-        res.addHeader(SecurityConstants.HEADER_CONTENT_TYPE, SecurityConstants.CONTENT_TYPE)
-
-        ObjectMapper.writeValue(res.writer, accessTokenService.assembleResponse(accessToken))
+        res.sendResponse(HttpStatus.OK.value(), accessTokenService.assembleResponse(accessToken))
     }
 
     override fun unsuccessfulAuthentication(req: HttpServletRequest, res: HttpServletResponse, exception: AuthenticationException) {
-        res.status = HttpStatus.UNAUTHORIZED.value()
+        res.sendResponse(InvalidCredentialsException(), req.servletPath)
     }
 }

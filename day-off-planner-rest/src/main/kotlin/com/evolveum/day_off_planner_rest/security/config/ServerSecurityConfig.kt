@@ -1,9 +1,11 @@
 package com.evolveum.day_off_planner_rest.security.config
 
+import com.evolveum.day_off_planner_rest.exception.UnauthorizedException
 import com.evolveum.day_off_planner_rest.security.filter.AuthenticationFilter
 import com.evolveum.day_off_planner_rest.security.filter.AuthorizationFilter
 import com.evolveum.day_off_planner_rest.service.AccessTokenService
 import com.evolveum.day_off_planner_rest.service.UserService
+import com.evolveum.day_off_planner_rest.util.sendResponse
 import org.springframework.http.HttpStatus
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
@@ -41,5 +43,8 @@ class ServerSecurityConfig(
                 .logout()
                 .addLogoutHandler { _, _, authentication -> accessTokenService.deleteAccessToken(authentication.name) }
                 .logoutSuccessHandler { _, response, _ -> response.status = HttpStatus.OK.value() }
+                .and()
+                .exceptionHandling()
+                .authenticationEntryPoint { request, response, _ -> response.sendResponse(UnauthorizedException(), request.servletPath) }
     }
 }

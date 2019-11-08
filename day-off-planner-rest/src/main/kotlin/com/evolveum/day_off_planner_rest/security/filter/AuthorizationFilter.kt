@@ -4,8 +4,8 @@ import com.evolveum.day_off_planner_rest.exception.InvalidAccessTokenException
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import com.evolveum.day_off_planner_rest.security.SecurityConstants
 import com.evolveum.day_off_planner_rest.service.AccessTokenService
+import com.evolveum.day_off_planner_rest.util.sendResponse
 import io.jsonwebtoken.Jwts
-import org.springframework.http.HttpStatus
 import javax.servlet.http.HttpServletRequest
 import org.springframework.security.core.context.SecurityContextHolder
 import javax.servlet.FilterChain
@@ -26,7 +26,7 @@ class AuthorizationFilter(
             try {
                 SecurityContextHolder.getContext().authentication = getAuthentication(header.replace(SecurityConstants.TOKEN_PREFIX, ""))
             } catch (e: InvalidAccessTokenException) {
-                res.status = HttpStatus.UNAUTHORIZED.value()
+                res.sendResponse(e, req.servletPath)
                 return
             }
         }

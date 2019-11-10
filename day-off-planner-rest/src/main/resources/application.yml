@@ -1,6 +1,8 @@
 server:
   port: 9090
 
+host: localhost
+
 spring:
   jpa:
     database: POSTGRESQL
@@ -42,7 +44,7 @@ spring:
 
   datasource:
     driverClassName: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/evo-day-off-planner
+    url: jdbc:postgresql://${host}:5432/evo-day-off-planner
     username: postgres
     password: postgres
 

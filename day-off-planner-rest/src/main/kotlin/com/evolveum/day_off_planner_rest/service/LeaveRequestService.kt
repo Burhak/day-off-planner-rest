@@ -28,7 +28,7 @@ class LeaveRequestService(
 ) {
 
     fun duration(from: LocalDateTime, to: LocalDateTime): List<Int> =
-        DateRange(from, to, settingService.getWorkDayStartEnd()).splitToYears().map { it.duration() }
+        DateRange(from, to, settingService.getWorkDayStartEnd(), true).splitToYears().map { it.duration() }
 
     fun createLeaveRequest(leaveRequestCreateApiModel: LeaveRequestCreateApiModel): LeaveRequest {
         val leaveRequest = leaveRequestAssembler.disassemble(leaveRequestCreateApiModel, userService.getLoggedUser())
@@ -55,7 +55,7 @@ class LeaveRequestService(
 
         val workDayStartEnd = settingService.getWorkDayStartEnd()
 
-        DateRange(this, workDayStartEnd).splitToYears().forEach { year ->
+        DateRange(this, workDayStartEnd, true).splitToYears().forEach { year ->
             val requesting = year.duration()
             val totalRequested = getRequestedHoursForYear(year.year, workDayStartEnd)
 
@@ -76,5 +76,6 @@ class LeaveRequestService(
     }
 
     private fun LeaveRequest.getRequestedHoursForYear(year: Int, workDayStartEnd: DayStartEnd): Int =
-        leaveRequestRepository.findLeavesByYear(user, type, year).sumBy { DateRange(it, workDayStartEnd).takeYear(year).duration() }
+        leaveRequestRepository.findLeavesByYear(user, type, year)
+                .sumBy { DateRange(it, workDayStartEnd, false).takeYear(year).duration() }
 }

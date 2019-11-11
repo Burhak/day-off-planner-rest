@@ -10,32 +10,32 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * PasswordResetApiModel
+ * LimitUpdateApiModel
  */
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-11T13:37:50.153Z[GMT]")
-public class PasswordResetApiModel   {
-  @JsonProperty("email")
-  private String email = null;
+public class LimitUpdateApiModel   {
+  @JsonProperty("limit")
+  private Integer limit = null;
 
-  public PasswordResetApiModel email(String email) {
-    this.email = email;
+  public LimitUpdateApiModel limit(Integer limit) {
+    this.limit = limit;
     return this;
   }
 
   /**
-   * Get email
-   * @return email
+   * Get limit
+   * @return limit
   **/
   @ApiModelProperty(required = true, value = "")
       @NotNull
 
-    public String getEmail() {
-    return email;
+    public Integer getLimit() {
+    return limit;
   }
 
-  public void setEmail(String email) {
-    this.email = email;
+  public void setLimit(Integer limit) {
+    this.limit = limit;
   }
 
 
@@ -47,21 +47,21 @@ public class PasswordResetApiModel   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    PasswordResetApiModel passwordResetApiModel = (PasswordResetApiModel) o;
-    return Objects.equals(this.email, passwordResetApiModel.email);
+    LimitUpdateApiModel limitUpdateApiModel = (LimitUpdateApiModel) o;
+    return Objects.equals(this.limit, limitUpdateApiModel.limit);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(email);
+    return Objects.hash(limit);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class PasswordResetApiModel {\n");
+    sb.append("class LimitUpdateApiModel {\n");
     
-    sb.append("    email: ").append(toIndentedString(email)).append("\n");
+    sb.append("    limit: ").append(toIndentedString(limit)).append("\n");
     sb.append("}");
     return sb.toString();
   }

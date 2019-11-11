@@ -10,32 +10,32 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * PasswordResetApiModel
+ * SettingUpdateApiModel
  */
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-11T13:37:50.153Z[GMT]")
-public class PasswordResetApiModel   {
-  @JsonProperty("email")
-  private String email = null;
+public class SettingUpdateApiModel   {
+  @JsonProperty("value")
+  private Integer value = null;
 
-  public PasswordResetApiModel email(String email) {
-    this.email = email;
+  public SettingUpdateApiModel value(Integer value) {
+    this.value = value;
     return this;
   }
 
   /**
-   * Get email
-   * @return email
+   * Get value
+   * @return value
   **/
   @ApiModelProperty(required = true, value = "")
       @NotNull
 
-    public String getEmail() {
-    return email;
+    public Integer getValue() {
+    return value;
   }
 
-  public void setEmail(String email) {
-    this.email = email;
+  public void setValue(Integer value) {
+    this.value = value;
   }
 
 
@@ -47,21 +47,21 @@ public class PasswordResetApiModel   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    PasswordResetApiModel passwordResetApiModel = (PasswordResetApiModel) o;
-    return Objects.equals(this.email, passwordResetApiModel.email);
+    SettingUpdateApiModel settingUpdateApiModel = (SettingUpdateApiModel) o;
+    return Objects.equals(this.value, settingUpdateApiModel.value);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(email);
+    return Objects.hash(value);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class PasswordResetApiModel {\n");
+    sb.append("class SettingUpdateApiModel {\n");
     
-    sb.append("    email: ").append(toIndentedString(email)).append("\n");
+    sb.append("    value: ").append(toIndentedString(value)).append("\n");
     sb.append("}");
     return sb.toString();
   }

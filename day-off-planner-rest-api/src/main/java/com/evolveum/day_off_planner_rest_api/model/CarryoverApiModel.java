@@ -11,21 +11,24 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * LimitApiModel
+ * CarryoverApiModel
  */
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-11T14:13:37.023Z[GMT]")
-public class LimitApiModel   {
+public class CarryoverApiModel   {
   @JsonProperty("user")
   private UUID user = null;
 
   @JsonProperty("leaveType")
   private UUID leaveType = null;
 
-  @JsonProperty("limit")
-  private Integer limit = null;
+  @JsonProperty("year")
+  private Integer year = null;
 
-  public LimitApiModel user(UUID user) {
+  @JsonProperty("carryover")
+  private Integer carryover = null;
+
+  public CarryoverApiModel user(UUID user) {
     this.user = user;
     return this;
   }
@@ -46,7 +49,7 @@ public class LimitApiModel   {
     this.user = user;
   }
 
-  public LimitApiModel leaveType(UUID leaveType) {
+  public CarryoverApiModel leaveType(UUID leaveType) {
     this.leaveType = leaveType;
     return this;
   }
@@ -67,24 +70,44 @@ public class LimitApiModel   {
     this.leaveType = leaveType;
   }
 
-  public LimitApiModel limit(Integer limit) {
-    this.limit = limit;
+  public CarryoverApiModel year(Integer year) {
+    this.year = year;
     return this;
   }
 
   /**
-   * Get limit
-   * @return limit
+   * Get year
+   * @return year
   **/
   @ApiModelProperty(required = true, readOnly = true, value = "")
       @NotNull
 
-    public Integer getLimit() {
-    return limit;
+    public Integer getYear() {
+    return year;
   }
 
-  public void setLimit(Integer limit) {
-    this.limit = limit;
+  public void setYear(Integer year) {
+    this.year = year;
+  }
+
+  public CarryoverApiModel carryover(Integer carryover) {
+    this.carryover = carryover;
+    return this;
+  }
+
+  /**
+   * Get carryover
+   * @return carryover
+  **/
+  @ApiModelProperty(required = true, readOnly = true, value = "")
+      @NotNull
+
+    public Integer getCarryover() {
+    return carryover;
+  }
+
+  public void setCarryover(Integer carryover) {
+    this.carryover = carryover;
   }
 
 
@@ -96,25 +119,27 @@ public class LimitApiModel   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    LimitApiModel limitApiModel = (LimitApiModel) o;
-    return Objects.equals(this.user, limitApiModel.user) &&
-        Objects.equals(this.leaveType, limitApiModel.leaveType) &&
-        Objects.equals(this.limit, limitApiModel.limit);
+    CarryoverApiModel carryoverApiModel = (CarryoverApiModel) o;
+    return Objects.equals(this.user, carryoverApiModel.user) &&
+        Objects.equals(this.leaveType, carryoverApiModel.leaveType) &&
+        Objects.equals(this.year, carryoverApiModel.year) &&
+        Objects.equals(this.carryover, carryoverApiModel.carryover);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(user, leaveType, limit);
+    return Objects.hash(user, leaveType, year, carryover);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class LimitApiModel {\n");
+    sb.append("class CarryoverApiModel {\n");
     
     sb.append("    user: ").append(toIndentedString(user)).append("\n");
     sb.append("    leaveType: ").append(toIndentedString(leaveType)).append("\n");
-    sb.append("    limit: ").append(toIndentedString(limit)).append("\n");
+    sb.append("    year: ").append(toIndentedString(year)).append("\n");
+    sb.append("    carryover: ").append(toIndentedString(carryover)).append("\n");
     sb.append("}");
     return sb.toString();
   }

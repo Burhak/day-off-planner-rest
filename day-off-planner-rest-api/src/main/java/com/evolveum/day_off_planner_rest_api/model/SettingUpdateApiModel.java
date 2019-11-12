@@ -10,55 +10,32 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * UserLoginApiModel
+ * SettingUpdateApiModel
  */
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-11T14:13:37.023Z[GMT]")
-public class UserLoginApiModel   {
-  @JsonProperty("email")
-  private String email = null;
+public class SettingUpdateApiModel   {
+  @JsonProperty("value")
+  private Integer value = null;
 
-  @JsonProperty("password")
-  private String password = null;
-
-  public UserLoginApiModel email(String email) {
-    this.email = email;
+  public SettingUpdateApiModel value(Integer value) {
+    this.value = value;
     return this;
   }
 
   /**
-   * Get email
-   * @return email
+   * Get value
+   * @return value
   **/
   @ApiModelProperty(required = true, value = "")
       @NotNull
 
-    public String getEmail() {
-    return email;
+    public Integer getValue() {
+    return value;
   }
 
-  public void setEmail(String email) {
-    this.email = email;
-  }
-
-  public UserLoginApiModel password(String password) {
-    this.password = password;
-    return this;
-  }
-
-  /**
-   * Get password
-   * @return password
-  **/
-  @ApiModelProperty(required = true, value = "")
-      @NotNull
-
-    public String getPassword() {
-    return password;
-  }
-
-  public void setPassword(String password) {
-    this.password = password;
+  public void setValue(Integer value) {
+    this.value = value;
   }
 
 
@@ -70,23 +47,21 @@ public class UserLoginApiModel   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    UserLoginApiModel userLoginApiModel = (UserLoginApiModel) o;
-    return Objects.equals(this.email, userLoginApiModel.email) &&
-        Objects.equals(this.password, userLoginApiModel.password);
+    SettingUpdateApiModel settingUpdateApiModel = (SettingUpdateApiModel) o;
+    return Objects.equals(this.value, settingUpdateApiModel.value);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(email, password);
+    return Objects.hash(value);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class UserLoginApiModel {\n");
+    sb.append("class SettingUpdateApiModel {\n");
     
-    sb.append("    email: ").append(toIndentedString(email)).append("\n");
-    sb.append("    password: ").append(toIndentedString(password)).append("\n");
+    sb.append("    value: ").append(toIndentedString(value)).append("\n");
     sb.append("}");
     return sb.toString();
   }

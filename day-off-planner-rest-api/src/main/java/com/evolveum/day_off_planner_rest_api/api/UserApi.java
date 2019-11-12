@@ -5,6 +5,8 @@
  */
 package com.evolveum.day_off_planner_rest_api.api;
 
+import com.evolveum.day_off_planner_rest_api.model.CarryoverApiModel;
+import com.evolveum.day_off_planner_rest_api.model.LimitApiModel;
 import com.evolveum.day_off_planner_rest_api.model.PasswordChangeApiModel;
 import com.evolveum.day_off_planner_rest_api.model.PasswordResetApiModel;
 import java.util.UUID;
@@ -32,7 +34,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-05T14:34:45.695Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-11T14:13:37.023Z[GMT]")
 @Api(value = "user", description = "the user API")
 public interface UserApi {
 
@@ -91,6 +93,56 @@ public interface UserApi {
     }
 
 
+    @ApiOperation(value = "Get user carryover for specified leave type and year", nickname = "getCarryover", notes = "", response = CarryoverApiModel.class, authorizations = {
+        @Authorization(value = "bearerAuth")    }, tags={ "user", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = CarryoverApiModel.class),
+        @ApiResponse(code = 404, message = "Not found") })
+    @RequestMapping(value = "/user/carryover/{leaveTypeId}",
+        produces = { "application/json" }, 
+        method = RequestMethod.GET)
+    default ResponseEntity<CarryoverApiModel> getCarryover(@ApiParam(value = "ID of the leave type",required=true) @PathVariable("leaveTypeId") UUID leaveTypeId,@ApiParam(value = "Year (current year if not specified)") @Valid @RequestParam(value = "year", required = false) Integer year) {
+        if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
+            if (getAcceptHeader().get().contains("application/json")) {
+                try {
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("{\n  \"leaveType\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n  \"year\" : 0,\n  \"carryover\" : 6,\n  \"user\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\"\n}", CarryoverApiModel.class), HttpStatus.NOT_IMPLEMENTED);
+                } catch (IOException e) {
+                    log.error("Couldn't serialize response for content type application/json", e);
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            }
+        } else {
+            log.warn("ObjectMapper or HttpServletRequest not configured in default UserApi interface so no example is generated");
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    }
+
+
+    @ApiOperation(value = "Get user individual limit", nickname = "getLimit", notes = "", response = LimitApiModel.class, authorizations = {
+        @Authorization(value = "bearerAuth")    }, tags={ "user", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = LimitApiModel.class),
+        @ApiResponse(code = 404, message = "Not found") })
+    @RequestMapping(value = "/user/limit/{leaveTypeId}",
+        produces = { "application/json" }, 
+        method = RequestMethod.GET)
+    default ResponseEntity<LimitApiModel> getLimit(@ApiParam(value = "ID of the leave type",required=true) @PathVariable("leaveTypeId") UUID leaveTypeId) {
+        if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
+            if (getAcceptHeader().get().contains("application/json")) {
+                try {
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("{\n  \"leaveType\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n  \"limit\" : 0,\n  \"user\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\"\n}", LimitApiModel.class), HttpStatus.NOT_IMPLEMENTED);
+                } catch (IOException e) {
+                    log.error("Couldn't serialize response for content type application/json", e);
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            }
+        } else {
+            log.warn("ObjectMapper or HttpServletRequest not configured in default UserApi interface so no example is generated");
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    }
+
+
     @ApiOperation(value = "Get currently logged user", nickname = "getLoggedUser", notes = "", response = UserApiModel.class, authorizations = {
         @Authorization(value = "bearerAuth")    }, tags={ "user", })
     @ApiResponses(value = { 
@@ -118,7 +170,8 @@ public interface UserApi {
     @ApiOperation(value = "Get user by ID", nickname = "getUserById", notes = "", response = UserApiModel.class, authorizations = {
         @Authorization(value = "bearerAuth")    }, tags={ "user", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = UserApiModel.class) })
+        @ApiResponse(code = 200, message = "OK", response = UserApiModel.class),
+        @ApiResponse(code = 404, message = "Not found") })
     @RequestMapping(value = "/user/{id}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)

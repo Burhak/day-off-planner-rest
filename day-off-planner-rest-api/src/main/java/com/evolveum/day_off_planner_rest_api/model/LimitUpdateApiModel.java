@@ -10,55 +10,32 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * UserLoginApiModel
+ * LimitUpdateApiModel
  */
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-11T14:13:37.023Z[GMT]")
-public class UserLoginApiModel   {
-  @JsonProperty("email")
-  private String email = null;
+public class LimitUpdateApiModel   {
+  @JsonProperty("limit")
+  private Integer limit = null;
 
-  @JsonProperty("password")
-  private String password = null;
-
-  public UserLoginApiModel email(String email) {
-    this.email = email;
+  public LimitUpdateApiModel limit(Integer limit) {
+    this.limit = limit;
     return this;
   }
 
   /**
-   * Get email
-   * @return email
+   * Get limit
+   * @return limit
   **/
   @ApiModelProperty(required = true, value = "")
       @NotNull
 
-    public String getEmail() {
-    return email;
+    public Integer getLimit() {
+    return limit;
   }
 
-  public void setEmail(String email) {
-    this.email = email;
-  }
-
-  public UserLoginApiModel password(String password) {
-    this.password = password;
-    return this;
-  }
-
-  /**
-   * Get password
-   * @return password
-  **/
-  @ApiModelProperty(required = true, value = "")
-      @NotNull
-
-    public String getPassword() {
-    return password;
-  }
-
-  public void setPassword(String password) {
-    this.password = password;
+  public void setLimit(Integer limit) {
+    this.limit = limit;
   }
 
 
@@ -70,23 +47,21 @@ public class UserLoginApiModel   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    UserLoginApiModel userLoginApiModel = (UserLoginApiModel) o;
-    return Objects.equals(this.email, userLoginApiModel.email) &&
-        Objects.equals(this.password, userLoginApiModel.password);
+    LimitUpdateApiModel limitUpdateApiModel = (LimitUpdateApiModel) o;
+    return Objects.equals(this.limit, limitUpdateApiModel.limit);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(email, password);
+    return Objects.hash(limit);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class UserLoginApiModel {\n");
+    sb.append("class LimitUpdateApiModel {\n");
     
-    sb.append("    email: ").append(toIndentedString(email)).append("\n");
-    sb.append("    password: ").append(toIndentedString(password)).append("\n");
+    sb.append("    limit: ").append(toIndentedString(limit)).append("\n");
     sb.append("}");
     return sb.toString();
   }

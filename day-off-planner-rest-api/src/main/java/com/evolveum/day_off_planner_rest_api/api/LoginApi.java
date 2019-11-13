@@ -30,7 +30,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-11T14:13:37.023Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-13T20:47:09.172Z[GMT]")
 @Api(value = "login", description = "the login API")
 public interface LoginApi {
 
@@ -61,7 +61,7 @@ public interface LoginApi {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
-                    return new ResponseEntity<>(getObjectMapper().get().readValue("{\n  \"tokenType\" : \"tokenType\",\n  \"user\" : {\n    \"firstName\" : \"firstName\",\n    \"lastName\" : \"lastName\",\n    \"phone\" : \"phone\",\n    \"admin\" : false,\n    \"jobDescription\" : \"jobDescription\",\n    \"id\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"email\" : \"\",\n    \"supervisor\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\"\n  },\n  \"expiresAt\" : \"2000-01-23T04:56:07.000+00:00\",\n  \"token\" : \"token\"\n}", UserLoginResponseApiModel.class), HttpStatus.NOT_IMPLEMENTED);
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("{\n  \"tokenType\" : \"tokenType\",\n  \"user\" : {\n    \"firstName\" : \"firstName\",\n    \"lastName\" : \"lastName\",\n    \"phone\" : \"phone\",\n    \"admin\" : false,\n    \"approvers\" : [ \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\", \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\" ],\n    \"jobDescription\" : \"jobDescription\",\n    \"id\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"email\" : \"\",\n    \"supervisor\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\"\n  },\n  \"expiresAt\" : \"2000-01-23T04:56:07.000+00:00\",\n  \"token\" : \"token\"\n}", UserLoginResponseApiModel.class), HttpStatus.NOT_IMPLEMENTED);
                 } catch (IOException e) {
                     log.error("Couldn't serialize response for content type application/json", e);
                     return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

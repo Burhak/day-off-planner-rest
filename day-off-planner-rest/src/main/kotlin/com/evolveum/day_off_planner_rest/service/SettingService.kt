@@ -1,22 +1,33 @@
 package com.evolveum.day_off_planner_rest.service
 
+import com.evolveum.day_off_planner_rest.assembler.SettingAssembler
 import com.evolveum.day_off_planner_rest.data.entity.Setting
 import com.evolveum.day_off_planner_rest.data.enums.SettingType
 import com.evolveum.day_off_planner_rest.data.repository.SettingRepository
 import com.evolveum.day_off_planner_rest.exception.InvalidSettingException
 import com.evolveum.day_off_planner_rest.exception.NotFoundException
 import com.evolveum.day_off_planner_rest.util.date.DayStartEnd
+import com.evolveum.day_off_planner_rest_api.model.SettingUpdateApiModel
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import javax.annotation.PostConstruct
 
 @Service
 @Transactional
-class SettingService(private val settingRepository: SettingRepository) {
+class SettingService(
+        private val settingRepository: SettingRepository,
+        private val settingAssembler: SettingAssembler
+) {
+
+    fun getAllSettings(): List<Setting> = settingRepository.findAll()
 
     fun getSettingByKey(key: String): Setting = settingRepository.findOneByKey(key) ?: throw NotFoundException("Setting with key $key was not found")
 
     fun getSettingByType(type: SettingType): Setting = getSettingByKey(type.key)
+
+    fun updateSetting(settingUpdateApiModel: SettingUpdateApiModel, key: String): Setting {
+        return settingRepository.save(settingAssembler.disassemble(getSettingByKey(key), settingUpdateApiModel))
+    }
 
     fun getWorkDayStartEnd(): DayStartEnd {
         val dayStart = getSettingByType(SettingType.WORKDAY_START).getValueWithThrow()

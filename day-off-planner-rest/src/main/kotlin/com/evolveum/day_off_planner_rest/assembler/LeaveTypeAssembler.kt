@@ -16,7 +16,7 @@ class LeaveTypeAssembler {
                 this.name = leaveTypeCreateApiModel.name
                 this.approvalNeeded = leaveTypeCreateApiModel.isApprovalNeeded
                 this.limit = leaveTypeCreateApiModel.limit
-                this.carryover = leaveTypeCreateApiModel.carryover
+                this.carryover = if (limit != null) leaveTypeCreateApiModel.carryover else null
             }
 }
 

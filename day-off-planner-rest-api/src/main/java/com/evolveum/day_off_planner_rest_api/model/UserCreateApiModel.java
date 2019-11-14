@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -14,7 +16,7 @@ import javax.validation.constraints.*;
  * UserCreateApiModel
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-11T14:13:37.023Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-13T20:47:09.172Z[GMT]")
 public class UserCreateApiModel   {
   @JsonProperty("firstName")
   private String firstName = null;
@@ -36,6 +38,10 @@ public class UserCreateApiModel   {
 
   @JsonProperty("phone")
   private String phone = null;
+
+  @JsonProperty("approvers")
+  @Valid
+  private List<UUID> approvers = new ArrayList<>();
 
   public UserCreateApiModel firstName(String firstName) {
     this.firstName = firstName;
@@ -176,6 +182,31 @@ public class UserCreateApiModel   {
     this.phone = phone;
   }
 
+  public UserCreateApiModel approvers(List<UUID> approvers) {
+    this.approvers = approvers;
+    return this;
+  }
+
+  public UserCreateApiModel addApproversItem(UUID approversItem) {
+    this.approvers.add(approversItem);
+    return this;
+  }
+
+  /**
+   * Get approvers
+   * @return approvers
+  **/
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+    @Valid
+    public List<UUID> getApprovers() {
+    return approvers;
+  }
+
+  public void setApprovers(List<UUID> approvers) {
+    this.approvers = approvers;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -192,12 +223,13 @@ public class UserCreateApiModel   {
         Objects.equals(this.supervisor, userCreateApiModel.supervisor) &&
         Objects.equals(this.admin, userCreateApiModel.admin) &&
         Objects.equals(this.jobDescription, userCreateApiModel.jobDescription) &&
-        Objects.equals(this.phone, userCreateApiModel.phone);
+        Objects.equals(this.phone, userCreateApiModel.phone) &&
+        Objects.equals(this.approvers, userCreateApiModel.approvers);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(firstName, lastName, email, supervisor, admin, jobDescription, phone);
+    return Objects.hash(firstName, lastName, email, supervisor, admin, jobDescription, phone, approvers);
   }
 
   @Override
@@ -212,6 +244,7 @@ public class UserCreateApiModel   {
     sb.append("    admin: ").append(toIndentedString(admin)).append("\n");
     sb.append("    jobDescription: ").append(toIndentedString(jobDescription)).append("\n");
     sb.append("    phone: ").append(toIndentedString(phone)).append("\n");
+    sb.append("    approvers: ").append(toIndentedString(approvers)).append("\n");
     sb.append("}");
     return sb.toString();
   }

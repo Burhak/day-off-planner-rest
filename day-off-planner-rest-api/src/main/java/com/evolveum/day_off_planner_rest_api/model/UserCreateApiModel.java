@@ -14,7 +14,7 @@ import javax.validation.constraints.*;
  * UserCreateApiModel
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-15T19:18:32.265Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-05T14:34:45.695Z[GMT]")
 public class UserCreateApiModel   {
   @JsonProperty("firstName")
   private String firstName = null;
@@ -31,6 +31,12 @@ public class UserCreateApiModel   {
   @JsonProperty("admin")
   private Boolean admin = false;
 
+  @JsonProperty("jobDescription")
+  private String jobDescription = null;
+
+  @JsonProperty("phone")
+  private String phone = null;
+
   public UserCreateApiModel firstName(String firstName) {
     this.firstName = firstName;
     return this;
@@ -41,9 +47,9 @@ public class UserCreateApiModel   {
    * @return firstName
   **/
   @ApiModelProperty(required = true, value = "")
-  @NotNull
+      @NotNull
 
-  public String getFirstName() {
+    public String getFirstName() {
     return firstName;
   }
 
@@ -61,9 +67,9 @@ public class UserCreateApiModel   {
    * @return lastName
   **/
   @ApiModelProperty(required = true, value = "")
-  @NotNull
+      @NotNull
 
-  public String getLastName() {
+    public String getLastName() {
     return lastName;
   }
 
@@ -81,9 +87,9 @@ public class UserCreateApiModel   {
    * @return email
   **/
   @ApiModelProperty(required = true, value = "")
-  @NotNull
+      @NotNull
 
-  public String getEmail() {
+    public String getEmail() {
     return email;
   }
 
@@ -101,9 +107,9 @@ public class UserCreateApiModel   {
    * @return supervisor
   **/
   @ApiModelProperty(value = "")
-
-  @Valid
-  public UUID getSupervisor() {
+  
+    @Valid
+    public UUID getSupervisor() {
     return supervisor;
   }
 
@@ -121,14 +127,53 @@ public class UserCreateApiModel   {
    * @return admin
   **/
   @ApiModelProperty(required = true, value = "")
-  @NotNull
+      @NotNull
 
-  public Boolean isAdmin() {
+    public Boolean isAdmin() {
     return admin;
   }
 
   public void setAdmin(Boolean admin) {
     this.admin = admin;
+  }
+
+  public UserCreateApiModel jobDescription(String jobDescription) {
+    this.jobDescription = jobDescription;
+    return this;
+  }
+
+  /**
+   * Get jobDescription
+   * @return jobDescription
+  **/
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
+    public String getJobDescription() {
+    return jobDescription;
+  }
+
+  public void setJobDescription(String jobDescription) {
+    this.jobDescription = jobDescription;
+  }
+
+  public UserCreateApiModel phone(String phone) {
+    this.phone = phone;
+    return this;
+  }
+
+  /**
+   * Get phone
+   * @return phone
+  **/
+  @ApiModelProperty(value = "")
+  
+    public String getPhone() {
+    return phone;
+  }
+
+  public void setPhone(String phone) {
+    this.phone = phone;
   }
 
 
@@ -145,12 +190,14 @@ public class UserCreateApiModel   {
         Objects.equals(this.lastName, userCreateApiModel.lastName) &&
         Objects.equals(this.email, userCreateApiModel.email) &&
         Objects.equals(this.supervisor, userCreateApiModel.supervisor) &&
-        Objects.equals(this.admin, userCreateApiModel.admin);
+        Objects.equals(this.admin, userCreateApiModel.admin) &&
+        Objects.equals(this.jobDescription, userCreateApiModel.jobDescription) &&
+        Objects.equals(this.phone, userCreateApiModel.phone);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(firstName, lastName, email, supervisor, admin);
+    return Objects.hash(firstName, lastName, email, supervisor, admin, jobDescription, phone);
   }
 
   @Override
@@ -163,6 +210,8 @@ public class UserCreateApiModel   {
     sb.append("    email: ").append(toIndentedString(email)).append("\n");
     sb.append("    supervisor: ").append(toIndentedString(supervisor)).append("\n");
     sb.append("    admin: ").append(toIndentedString(admin)).append("\n");
+    sb.append("    jobDescription: ").append(toIndentedString(jobDescription)).append("\n");
+    sb.append("    phone: ").append(toIndentedString(phone)).append("\n");
     sb.append("}");
     return sb.toString();
   }

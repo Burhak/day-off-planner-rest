@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
  * PasswordResetApiModel
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-15T19:18:32.265Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-05T14:34:45.695Z[GMT]")
 public class PasswordResetApiModel   {
   @JsonProperty("email")
   private String email = null;
@@ -28,9 +28,9 @@ public class PasswordResetApiModel   {
    * @return email
   **/
   @ApiModelProperty(required = true, value = "")
-  @NotNull
+      @NotNull
 
-  public String getEmail() {
+    public String getEmail() {
     return email;
   }
 

@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
  * LeaveTypeCreateApiModel
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-15T19:18:32.265Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-05T14:34:45.695Z[GMT]")
 public class LeaveTypeCreateApiModel   {
   @JsonProperty("name")
   private String name = null;
@@ -21,11 +21,11 @@ public class LeaveTypeCreateApiModel   {
   @JsonProperty("approvalNeeded")
   private Boolean approvalNeeded = false;
 
-  @JsonProperty("limited")
-  private Boolean limited = false;
+  @JsonProperty("limit")
+  private Integer limit = null;
 
-  @JsonProperty("halfDayAllowed")
-  private Boolean halfDayAllowed = false;
+  @JsonProperty("carryover")
+  private Integer carryover = null;
 
   public LeaveTypeCreateApiModel name(String name) {
     this.name = name;
@@ -37,9 +37,9 @@ public class LeaveTypeCreateApiModel   {
    * @return name
   **/
   @ApiModelProperty(required = true, value = "")
-  @NotNull
+      @NotNull
 
-  public String getName() {
+    public String getName() {
     return name;
   }
 
@@ -57,9 +57,9 @@ public class LeaveTypeCreateApiModel   {
    * @return approvalNeeded
   **/
   @ApiModelProperty(required = true, value = "")
-  @NotNull
+      @NotNull
 
-  public Boolean isApprovalNeeded() {
+    public Boolean isApprovalNeeded() {
     return approvalNeeded;
   }
 
@@ -67,44 +67,42 @@ public class LeaveTypeCreateApiModel   {
     this.approvalNeeded = approvalNeeded;
   }
 
-  public LeaveTypeCreateApiModel limited(Boolean limited) {
-    this.limited = limited;
+  public LeaveTypeCreateApiModel limit(Integer limit) {
+    this.limit = limit;
     return this;
   }
 
   /**
-   * Get limited
-   * @return limited
+   * Get limit
+   * @return limit
   **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-  public Boolean isLimited() {
-    return limited;
+  @ApiModelProperty(value = "")
+  
+    public Integer getLimit() {
+    return limit;
   }
 
-  public void setLimited(Boolean limited) {
-    this.limited = limited;
+  public void setLimit(Integer limit) {
+    this.limit = limit;
   }
 
-  public LeaveTypeCreateApiModel halfDayAllowed(Boolean halfDayAllowed) {
-    this.halfDayAllowed = halfDayAllowed;
+  public LeaveTypeCreateApiModel carryover(Integer carryover) {
+    this.carryover = carryover;
     return this;
   }
 
   /**
-   * Get halfDayAllowed
-   * @return halfDayAllowed
+   * Get carryover
+   * @return carryover
   **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-  public Boolean isHalfDayAllowed() {
-    return halfDayAllowed;
+  @ApiModelProperty(value = "")
+  
+    public Integer getCarryover() {
+    return carryover;
   }
 
-  public void setHalfDayAllowed(Boolean halfDayAllowed) {
-    this.halfDayAllowed = halfDayAllowed;
+  public void setCarryover(Integer carryover) {
+    this.carryover = carryover;
   }
 
 
@@ -119,13 +117,13 @@ public class LeaveTypeCreateApiModel   {
     LeaveTypeCreateApiModel leaveTypeCreateApiModel = (LeaveTypeCreateApiModel) o;
     return Objects.equals(this.name, leaveTypeCreateApiModel.name) &&
         Objects.equals(this.approvalNeeded, leaveTypeCreateApiModel.approvalNeeded) &&
-        Objects.equals(this.limited, leaveTypeCreateApiModel.limited) &&
-        Objects.equals(this.halfDayAllowed, leaveTypeCreateApiModel.halfDayAllowed);
+        Objects.equals(this.limit, leaveTypeCreateApiModel.limit) &&
+        Objects.equals(this.carryover, leaveTypeCreateApiModel.carryover);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, approvalNeeded, limited, halfDayAllowed);
+    return Objects.hash(name, approvalNeeded, limit, carryover);
   }
 
   @Override
@@ -135,8 +133,8 @@ public class LeaveTypeCreateApiModel   {
     
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    approvalNeeded: ").append(toIndentedString(approvalNeeded)).append("\n");
-    sb.append("    limited: ").append(toIndentedString(limited)).append("\n");
-    sb.append("    halfDayAllowed: ").append(toIndentedString(halfDayAllowed)).append("\n");
+    sb.append("    limit: ").append(toIndentedString(limit)).append("\n");
+    sb.append("    carryover: ").append(toIndentedString(carryover)).append("\n");
     sb.append("}");
     return sb.toString();
   }

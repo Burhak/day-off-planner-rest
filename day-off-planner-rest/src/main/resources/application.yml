@@ -1,0 +1,68 @@
+server:
+  port: 9090
+
+host: localhost
+
+spring:
+  jpa:
+    database: POSTGRESQL
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        globally_quoted_identifiers: true
+        hbm2ddl:
+          delimiter: ;
+      javax:
+        persistence:
+          schema-generation:
+            create-source: metadata
+            scripts:
+              action: create
+              create-target: day-off-planner-rest/db_schema.sql
+
+  mail:
+    host: smtp.gmail.com
+    port: 465
+    username: evolveum.mail.bot@gmail.com
+    password: ziveitprojekty
+    properties:
+      mail:
+        smtp:
+          auth: true
+          timeout: 5000
+          connectiontimeout: 5000
+          writetimeout: 5000
+          socketFactory:
+            port: 465
+            class: javax.net.ssl.SSLSocketFactory
+
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://${host}:5432/evo-day-off-planner
+    username: postgres
+    password: postgres
+
+  flyway:
+    baseline-on-migrate: true
+    baseline-version: 0
+    enabled: true
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
+
+mailgun:
+    domain: mail.havrisak.online
+    api_key: 8c28bb018fc0caa8a09b3127a0f53d83-9c988ee3-057adb6e

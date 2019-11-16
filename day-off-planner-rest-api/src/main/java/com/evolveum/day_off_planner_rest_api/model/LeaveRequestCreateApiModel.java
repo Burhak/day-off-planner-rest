@@ -15,13 +15,10 @@ import javax.validation.constraints.*;
  * LeaveRequestCreateApiModel
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-15T19:18:32.265Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-05T14:34:45.695Z[GMT]")
 public class LeaveRequestCreateApiModel   {
   @JsonProperty("leaveType")
   private UUID leaveType = null;
-
-  @JsonProperty("user")
-  private UUID user = null;
 
   @JsonProperty("fromDate")
   private LocalDateTime fromDate = null;
@@ -39,36 +36,15 @@ public class LeaveRequestCreateApiModel   {
    * @return leaveType
   **/
   @ApiModelProperty(required = true, value = "")
-  @NotNull
+      @NotNull
 
-  @Valid
-  public UUID getLeaveType() {
+    @Valid
+    public UUID getLeaveType() {
     return leaveType;
   }
 
   public void setLeaveType(UUID leaveType) {
     this.leaveType = leaveType;
-  }
-
-  public LeaveRequestCreateApiModel user(UUID user) {
-    this.user = user;
-    return this;
-  }
-
-  /**
-   * Get user
-   * @return user
-  **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-  @Valid
-  public UUID getUser() {
-    return user;
-  }
-
-  public void setUser(UUID user) {
-    this.user = user;
   }
 
   public LeaveRequestCreateApiModel fromDate(LocalDateTime fromDate) {
@@ -81,10 +57,10 @@ public class LeaveRequestCreateApiModel   {
    * @return fromDate
   **/
   @ApiModelProperty(required = true, value = "")
-  @NotNull
+      @NotNull
 
-  @Valid
-  public LocalDateTime getFromDate() {
+    @Valid
+    public LocalDateTime getFromDate() {
     return fromDate;
   }
 
@@ -102,10 +78,10 @@ public class LeaveRequestCreateApiModel   {
    * @return toDate
   **/
   @ApiModelProperty(required = true, value = "")
-  @NotNull
+      @NotNull
 
-  @Valid
-  public LocalDateTime getToDate() {
+    @Valid
+    public LocalDateTime getToDate() {
     return toDate;
   }
 
@@ -124,14 +100,13 @@ public class LeaveRequestCreateApiModel   {
     }
     LeaveRequestCreateApiModel leaveRequestCreateApiModel = (LeaveRequestCreateApiModel) o;
     return Objects.equals(this.leaveType, leaveRequestCreateApiModel.leaveType) &&
-        Objects.equals(this.user, leaveRequestCreateApiModel.user) &&
         Objects.equals(this.fromDate, leaveRequestCreateApiModel.fromDate) &&
         Objects.equals(this.toDate, leaveRequestCreateApiModel.toDate);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(leaveType, user, fromDate, toDate);
+    return Objects.hash(leaveType, fromDate, toDate);
   }
 
   @Override
@@ -140,7 +115,6 @@ public class LeaveRequestCreateApiModel   {
     sb.append("class LeaveRequestCreateApiModel {\n");
     
     sb.append("    leaveType: ").append(toIndentedString(leaveType)).append("\n");
-    sb.append("    user: ").append(toIndentedString(user)).append("\n");
     sb.append("    fromDate: ").append(toIndentedString(fromDate)).append("\n");
     sb.append("    toDate: ").append(toIndentedString(toDate)).append("\n");
     sb.append("}");

@@ -14,7 +14,7 @@ import javax.validation.constraints.*;
  * LeaveTypeApiModel
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-15T19:18:32.265Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-05T14:34:45.695Z[GMT]")
 public class LeaveTypeApiModel   {
   @JsonProperty("id")
   private UUID id = null;
@@ -25,11 +25,11 @@ public class LeaveTypeApiModel   {
   @JsonProperty("approvalNeeded")
   private Boolean approvalNeeded = false;
 
-  @JsonProperty("limited")
-  private Boolean limited = false;
+  @JsonProperty("limit")
+  private Integer limit = null;
 
-  @JsonProperty("halfDayAllowed")
-  private Boolean halfDayAllowed = false;
+  @JsonProperty("carryover")
+  private Integer carryover = null;
 
   public LeaveTypeApiModel id(UUID id) {
     this.id = id;
@@ -41,10 +41,10 @@ public class LeaveTypeApiModel   {
    * @return id
   **/
   @ApiModelProperty(required = true, readOnly = true, value = "")
-  @NotNull
+      @NotNull
 
-  @Valid
-  public UUID getId() {
+    @Valid
+    public UUID getId() {
     return id;
   }
 
@@ -62,9 +62,9 @@ public class LeaveTypeApiModel   {
    * @return name
   **/
   @ApiModelProperty(required = true, readOnly = true, value = "")
-  @NotNull
+      @NotNull
 
-  public String getName() {
+    public String getName() {
     return name;
   }
 
@@ -82,9 +82,9 @@ public class LeaveTypeApiModel   {
    * @return approvalNeeded
   **/
   @ApiModelProperty(required = true, readOnly = true, value = "")
-  @NotNull
+      @NotNull
 
-  public Boolean isApprovalNeeded() {
+    public Boolean isApprovalNeeded() {
     return approvalNeeded;
   }
 
@@ -92,44 +92,42 @@ public class LeaveTypeApiModel   {
     this.approvalNeeded = approvalNeeded;
   }
 
-  public LeaveTypeApiModel limited(Boolean limited) {
-    this.limited = limited;
+  public LeaveTypeApiModel limit(Integer limit) {
+    this.limit = limit;
     return this;
   }
 
   /**
-   * Get limited
-   * @return limited
+   * Get limit
+   * @return limit
   **/
-  @ApiModelProperty(required = true, readOnly = true, value = "")
-  @NotNull
-
-  public Boolean isLimited() {
-    return limited;
+  @ApiModelProperty(readOnly = true, value = "")
+  
+    public Integer getLimit() {
+    return limit;
   }
 
-  public void setLimited(Boolean limited) {
-    this.limited = limited;
+  public void setLimit(Integer limit) {
+    this.limit = limit;
   }
 
-  public LeaveTypeApiModel halfDayAllowed(Boolean halfDayAllowed) {
-    this.halfDayAllowed = halfDayAllowed;
+  public LeaveTypeApiModel carryover(Integer carryover) {
+    this.carryover = carryover;
     return this;
   }
 
   /**
-   * Get halfDayAllowed
-   * @return halfDayAllowed
+   * Get carryover
+   * @return carryover
   **/
-  @ApiModelProperty(required = true, readOnly = true, value = "")
-  @NotNull
-
-  public Boolean isHalfDayAllowed() {
-    return halfDayAllowed;
+  @ApiModelProperty(readOnly = true, value = "")
+  
+    public Integer getCarryover() {
+    return carryover;
   }
 
-  public void setHalfDayAllowed(Boolean halfDayAllowed) {
-    this.halfDayAllowed = halfDayAllowed;
+  public void setCarryover(Integer carryover) {
+    this.carryover = carryover;
   }
 
 
@@ -145,13 +143,13 @@ public class LeaveTypeApiModel   {
     return Objects.equals(this.id, leaveTypeApiModel.id) &&
         Objects.equals(this.name, leaveTypeApiModel.name) &&
         Objects.equals(this.approvalNeeded, leaveTypeApiModel.approvalNeeded) &&
-        Objects.equals(this.limited, leaveTypeApiModel.limited) &&
-        Objects.equals(this.halfDayAllowed, leaveTypeApiModel.halfDayAllowed);
+        Objects.equals(this.limit, leaveTypeApiModel.limit) &&
+        Objects.equals(this.carryover, leaveTypeApiModel.carryover);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, approvalNeeded, limited, halfDayAllowed);
+    return Objects.hash(id, name, approvalNeeded, limit, carryover);
   }
 
   @Override
@@ -162,8 +160,8 @@ public class LeaveTypeApiModel   {
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    approvalNeeded: ").append(toIndentedString(approvalNeeded)).append("\n");
-    sb.append("    limited: ").append(toIndentedString(limited)).append("\n");
-    sb.append("    halfDayAllowed: ").append(toIndentedString(halfDayAllowed)).append("\n");
+    sb.append("    limit: ").append(toIndentedString(limit)).append("\n");
+    sb.append("    carryover: ").append(toIndentedString(carryover)).append("\n");
     sb.append("}");
     return sb.toString();
   }

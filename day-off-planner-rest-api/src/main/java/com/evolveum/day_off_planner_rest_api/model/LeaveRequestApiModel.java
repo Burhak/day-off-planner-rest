@@ -16,7 +16,7 @@ import javax.validation.constraints.*;
  * LeaveRequestApiModel
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-10-15T19:18:32.265Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-05T14:34:45.695Z[GMT]")
 public class LeaveRequestApiModel   {
   @JsonProperty("id")
   private UUID id = null;
@@ -80,10 +80,10 @@ public class LeaveRequestApiModel   {
    * @return id
   **/
   @ApiModelProperty(required = true, readOnly = true, value = "")
-  @NotNull
+      @NotNull
 
-  @Valid
-  public UUID getId() {
+    @Valid
+    public UUID getId() {
     return id;
   }
 
@@ -101,10 +101,10 @@ public class LeaveRequestApiModel   {
    * @return leaveType
   **/
   @ApiModelProperty(required = true, readOnly = true, value = "")
-  @NotNull
+      @NotNull
 
-  @Valid
-  public UUID getLeaveType() {
+    @Valid
+    public UUID getLeaveType() {
     return leaveType;
   }
 
@@ -122,10 +122,10 @@ public class LeaveRequestApiModel   {
    * @return user
   **/
   @ApiModelProperty(required = true, readOnly = true, value = "")
-  @NotNull
+      @NotNull
 
-  @Valid
-  public UUID getUser() {
+    @Valid
+    public UUID getUser() {
     return user;
   }
 
@@ -143,10 +143,10 @@ public class LeaveRequestApiModel   {
    * @return fromDate
   **/
   @ApiModelProperty(required = true, readOnly = true, value = "")
-  @NotNull
+      @NotNull
 
-  @Valid
-  public LocalDateTime getFromDate() {
+    @Valid
+    public LocalDateTime getFromDate() {
     return fromDate;
   }
 
@@ -164,10 +164,10 @@ public class LeaveRequestApiModel   {
    * @return toDate
   **/
   @ApiModelProperty(required = true, readOnly = true, value = "")
-  @NotNull
+      @NotNull
 
-  @Valid
-  public LocalDateTime getToDate() {
+    @Valid
+    public LocalDateTime getToDate() {
     return toDate;
   }
 
@@ -185,9 +185,9 @@ public class LeaveRequestApiModel   {
    * @return status
   **/
   @ApiModelProperty(required = true, readOnly = true, value = "")
-  @NotNull
+      @NotNull
 
-  public StatusEnum getStatus() {
+    public StatusEnum getStatus() {
     return status;
   }
 

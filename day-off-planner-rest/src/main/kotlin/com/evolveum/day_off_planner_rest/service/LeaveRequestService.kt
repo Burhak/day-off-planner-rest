@@ -24,7 +24,8 @@ class LeaveRequestService(
         private val userService: UserService,
         private val settingService: SettingService,
         private val limitService: LimitService,
-        private val holidayService: HolidayService
+        private val holidayService: HolidayService,
+        private val emailService: EmailService
 ) {
 
     fun duration(from: LocalDateTime, to: LocalDateTime): List<Int> =
@@ -41,13 +42,24 @@ class LeaveRequestService(
             leaveRequest.approvals = listOf(LeaveRequestApproval(leaveRequest, supervisor)) +
                     leaveRequest.user.approvers.map { approver -> LeaveRequestApproval(leaveRequest, approver) }
             leaveRequest.status = LeaveRequestStatus.PENDING
-            // TODO: send emails to approvers + something to user
         } else {
             leaveRequest.status = LeaveRequestStatus.APPROVED
-            // TODO: send confirmation email to user
         }
 
-        return leaveRequestRepository.save(leaveRequest)
+        return leaveRequestRepository.save(leaveRequest).apply {
+            if (status == LeaveRequestStatus.PENDING) {
+                approvals.forEach {
+                    emailService.sendMessage(
+                            it.approver.email,
+                            "Leave request approval",
+                            "User ${user.fullName} has requested ${type.name}. Please visit .../$id to approve/reject this request.")
+                }
+
+                emailService.sendMessage(user.email, "Leave request submitted", "Your leave request (${type.name}) is waiting for approval. You will be notified once approved/rejected.")
+            } else {
+                emailService.sendMessage(user.email, "Leave request approved", "Your leave request (${type.name}) was APPROVED.")
+            }
+        }
     }
 
     private fun LeaveRequest.checkLimit() {

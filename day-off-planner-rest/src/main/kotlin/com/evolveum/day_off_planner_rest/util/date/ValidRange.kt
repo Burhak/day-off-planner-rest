@@ -6,7 +6,7 @@ import java.time.temporal.*
 abstract class ValidRange(from: Temporal, to: Temporal, dayStart: Int, dayEnd: Int, validate: Boolean) {
     init {
         if (from.until(to, ChronoUnit.HOURS) < 1)
-            throw WrongParamException("Start time must be ONE hour before end time")
+            throw WrongParamException("Start time must be at least ONE hour before end time")
 
         if (validate) {
             val fromHour = from[ChronoField.HOUR_OF_DAY]

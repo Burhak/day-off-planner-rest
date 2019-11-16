@@ -24,12 +24,14 @@ data class User(
 
     @OneToMany(mappedBy = "supervisor")
     @JvmSuppressWildcards
-    var employees: List<User> = listOf()
+    var employees: List<User> = mutableListOf()
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "approver",
             joinColumns = [JoinColumn(name = "user_id", referencedColumnName = "id")],
             inverseJoinColumns = [JoinColumn(name = "approver_id", referencedColumnName = "id")])
     @JvmSuppressWildcards
-    var approvers: List<User> = listOf()
+    var approvers: List<User> = mutableListOf()
+
+    val fullName: String get() = "$firstName $lastName"
 }

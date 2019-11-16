@@ -1,16 +1,16 @@
 package com.evolveum.day_off_planner_rest.assembler
 
 import com.evolveum.day_off_planner_rest.data.entity.User
-import com.evolveum.day_off_planner_rest.data.repository.UserRepository
-import com.evolveum.day_off_planner_rest.exception.NotFoundException
+import com.evolveum.day_off_planner_rest.service.UserService
 import com.evolveum.day_off_planner_rest_api.model.UserApiModel
 import com.evolveum.day_off_planner_rest_api.model.UserCreateApiModel
+import org.springframework.context.annotation.Lazy
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Component
 
 @Component
-class UserAssembler(private val userRepository: UserRepository) {
+class UserAssembler(@Lazy private val userService: UserService) {
 
     fun disassemble(userCreateApiModel: UserCreateApiModel): User =
             disassemble(User(), userCreateApiModel)
@@ -25,8 +25,8 @@ class UserAssembler(private val userRepository: UserRepository) {
                 this.phone = userCreateApiModel.phone
                 this.supervisor =
                         if (userCreateApiModel.supervisor == null) null
-                        else (userRepository.findOneById(userCreateApiModel.supervisor)
-                                ?: throw NotFoundException("User with id ${userCreateApiModel.supervisor} was not found"))
+                        else userService.getUserById(userCreateApiModel.supervisor)
+                this.approvers = userCreateApiModel.approvers.map { userService.getUserById(it) }
             }
 }
 
@@ -49,3 +49,4 @@ fun User.toUserApiModel(): UserApiModel = UserApiModel()
         .jobDescription(jobDescription)
         .phone(phone)
         .supervisor(supervisor?.id)
+        .approvers(approvers.map { it.id })

@@ -1,6 +1,7 @@
 package com.evolveum.day_off_planner_rest.service
 
 import kong.unirest.Unirest
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.mail.SimpleMailMessage
 import org.springframework.mail.javamail.JavaMailSender
@@ -13,46 +14,58 @@ import javax.mail.internet.InternetAddress
 @Service
 class EmailService(private val mailSender: JavaMailSender) {
 
-    @Value("\${mailgun.domain}")
-    private val domain: String = ""
+    @Value("\${mailgun.url}")
+    private val url: String = ""
 
     @Value("\${mailgun.api_key}")
     private val apiKey: String = ""
 
-    private val messageQueue = LinkedBlockingQueue<Message>()
+    private val messageQueue = LinkedBlockingQueue<MessageInfo>()
 
     fun sendMessage(recipient: String, subject: String, messageText: String) {
-        sendMailgunMessage(recipient, subject, messageText)
+        sendMailgunMessage(MessageInfo(recipient, subject, messageText))
     }
 
-    private fun sendMimeMessage(recipient: String, subject: String, messageText: String) {
+    private fun sendMimeMessage(messageInfo: MessageInfo) {
         val message = mailSender.createMimeMessage().apply {
-            setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient))
-            setSubject(subject)
-            setContent(messageText, "text/html; charset=utf-8")
+            setRecipients(Message.RecipientType.TO, InternetAddress.parse(messageInfo.recipient))
+            setSubject(messageInfo.subject)
+            setContent(messageInfo.messageText, "text/html; charset=utf-8")
         }
 
         mailSender.send(message)
     }
 
-    private fun sendSimpleMessage(recipient: String, subject: String, messageText: String) {
+    private fun sendSimpleMessage(messageInfo: MessageInfo) {
         val message = SimpleMailMessage().apply {
-            setTo(recipient)
-            setSubject(subject)
-            setText(messageText)
+            setTo(messageInfo.recipient)
+            setSubject(messageInfo.subject)
+            setText(messageInfo.messageText)
         }
         mailSender.send(message)
     }
 
-    private fun sendMailgunMessage(recipient: String, subject: String, messageText: String) {
-        val response = Unirest.post("https://api.mailgun.net/v3/$domain/messages")
+    private fun sendMailgunMessage(messageInfo: MessageInfo) {
+        Unirest.post("$url/messages")
                 .basicAuth("api", apiKey)
                 .queryString("from", "evolveum.mail.bot@gmail.com")
-                .queryString("to", recipient)
-                .queryString("subject", subject)
-                .queryString("text", messageText)
-                .asJsonAsync()
+                .queryString("to", messageInfo.recipient)
+                .queryString("subject", messageInfo.subject)
+                .queryString("text", messageInfo.messageText)
+                .asObjectAsync(MailgunResponse::class.java)
+                .thenAccept { response ->
+                    response.ifSuccess { logger.info("Successfully sent Mailgun message to {} with subject '{}'", messageInfo.recipient, messageInfo.subject) }
+                    response.ifFailure { logger.error("Failed to send message using Mailgun. Status: {}, message: {}", response.status, response.body.message) }
+                }
     }
 
+    private data class MessageInfo(val recipient: String, val subject: String, val messageText: String)
+
+    private class MailgunResponse(val message: String)
+
     private fun getSender() = InternetAddress.getLocalAddress((mailSender as JavaMailSenderImpl).session)
+
+    companion object {
+        private val logger = LoggerFactory.getLogger(this::class.java)
+    }
 }

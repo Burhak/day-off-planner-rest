@@ -22,8 +22,11 @@ class EmailService(private val mailSender: JavaMailSender) {
     private val messageQueue = LinkedBlockingQueue<Message>()
 
     fun sendMessage(recipient: String, subject: String, messageText: String) {
+        sendMailgunMessage(recipient, subject, messageText)
+    }
+
+    private fun sendMimeMessage(recipient: String, subject: String, messageText: String) {
         val message = mailSender.createMimeMessage().apply {
-//            setFrom(sender)
             setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient))
             setSubject(subject)
             setContent(messageText, "text/html; charset=utf-8")
@@ -32,18 +35,16 @@ class EmailService(private val mailSender: JavaMailSender) {
         mailSender.send(message)
     }
 
-    fun sendSimpleMessage(recipient: String, subject: String, messageText: String) {
+    private fun sendSimpleMessage(recipient: String, subject: String, messageText: String) {
         val message = SimpleMailMessage().apply {
-//            setFrom(getSender().address)
             setTo(recipient)
             setSubject(subject)
             setText(messageText)
         }
         mailSender.send(message)
-        mailgun(recipient, subject, messageText)
     }
 
-    fun mailgun(recipient: String, subject: String, messageText: String) {
+    private fun sendMailgunMessage(recipient: String, subject: String, messageText: String) {
         val response = Unirest.post("https://api.mailgun.net/v3/$domain/messages")
                 .basicAuth("api", apiKey)
                 .queryString("from", "evolveum.mail.bot@gmail.com")

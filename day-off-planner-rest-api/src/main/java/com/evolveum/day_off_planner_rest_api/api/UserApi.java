@@ -34,7 +34,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-13T20:47:09.172Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-17T10:30:03.526Z[GMT]")
 @Api(value = "user", description = "the user API")
 public interface UserApi {
 
@@ -98,10 +98,10 @@ public interface UserApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK", response = CarryoverApiModel.class),
         @ApiResponse(code = 404, message = "Not found") })
-    @RequestMapping(value = "/user/carryover/{leaveTypeId}",
+    @RequestMapping(value = "/user/{userId}/carryover/{leaveTypeId}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    default ResponseEntity<CarryoverApiModel> getCarryover(@ApiParam(value = "ID of the leave type",required=true) @PathVariable("leaveTypeId") UUID leaveTypeId,@ApiParam(value = "Year (current year if not specified)") @Valid @RequestParam(value = "year", required = false) Integer year) {
+    default ResponseEntity<CarryoverApiModel> getCarryover(@ApiParam(value = "User ID",required=true) @PathVariable("userId") UUID userId,@ApiParam(value = "ID of the leave type",required=true) @PathVariable("leaveTypeId") UUID leaveTypeId,@ApiParam(value = "Year (current year if not specified)") @Valid @RequestParam(value = "year", required = false) Integer year) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
@@ -123,10 +123,10 @@ public interface UserApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK", response = LimitApiModel.class),
         @ApiResponse(code = 404, message = "Not found") })
-    @RequestMapping(value = "/user/limit/{leaveTypeId}",
+    @RequestMapping(value = "/user/{userId}/limit/{leaveTypeId}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    default ResponseEntity<LimitApiModel> getLimit(@ApiParam(value = "ID of the leave type",required=true) @PathVariable("leaveTypeId") UUID leaveTypeId) {
+    default ResponseEntity<LimitApiModel> getLimit(@ApiParam(value = "User ID",required=true) @PathVariable("userId") UUID userId,@ApiParam(value = "ID of the leave type",required=true) @PathVariable("leaveTypeId") UUID leaveTypeId) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {

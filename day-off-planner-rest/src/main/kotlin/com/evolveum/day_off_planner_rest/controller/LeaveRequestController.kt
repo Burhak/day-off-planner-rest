@@ -24,4 +24,9 @@ class LeaveRequestController(private val leaveRequestService: LeaveRequestServic
         if (approve == null) throw WrongParamException("Parameter 'approve' is not set")
         return ResponseEntity(leaveRequestService.approve(id, approve).toLeaveRequestApprovalApiModel(), HttpStatus.OK)
     }
+
+    override fun forceApproveLeaveRequest(id: UUID, approve: Boolean?): ResponseEntity<LeaveRequestApiModel> {
+        if (approve == null) throw WrongParamException("Parameter 'approve' is not set")
+        return ResponseEntity(leaveRequestService.forceApprove(id, approve).toLeaveRequestApiModel(), HttpStatus.OK)
+    }
 }

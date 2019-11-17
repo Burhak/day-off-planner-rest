@@ -91,15 +91,28 @@ class LeaveRequestService(
         return leaveRequestApprovalRepository.save(approval).also { leaveRequest.checkVoting() }
     }
 
+    fun forceApprove(id: UUID, approve: Boolean): LeaveRequest {
+        val leaveRequest = getLeaveRequestById(id)
+        val user = userService.getLoggedUser()
+
+        if (user != leaveRequest.user.supervisor)
+            throw NotAllowedException("Only supervisor can force approve leave request")
+
+        if (leaveRequest.status != LeaveRequestStatus.PENDING)
+            throw AlreadyResolvedException("This leave request has been already ${leaveRequest.status}")
+
+        return if (approve) leaveRequest.approve() else leaveRequest.reject()
+    }
+
     private fun getApproval(approver: User, leaveRequest: LeaveRequest): LeaveRequestApproval? =
             leaveRequestApprovalRepository.findOne(approver, leaveRequest)
 
     private fun LeaveRequest.checkVoting() {
         when {
             approvals.any { it.approved == null } -> return     // some approvals are not resolved yet
-            approvals.all { it.approved == true } -> approve()  // all approval are approved => approve request
-            approvals.all { it.approved == false } -> reject()  // all approval are approved => approve request
-            else -> if (user.supervisor != null) emailService.sendMessage(
+            approvals.all { it.approved == true } -> approve()  // all approvals are approved => approve request
+            approvals.all { it.approved == false } -> reject()  // all approvals are rejected => reject request
+            else -> if (user.supervisor != null) emailService.sendMessage(  // notify supervisor on conflict
                     user.supervisor!!.email,
                     "${user.fullName} - approval conflict",
                     "All approvers have voted in leave request of ${user.fullName} (${type.name}) but their votes differ. Resolve this conflict by visiting .../leave/$id"
@@ -107,16 +120,16 @@ class LeaveRequestService(
         }
     }
 
-    private fun LeaveRequest.approve() {
+    private fun LeaveRequest.approve(): LeaveRequest {
         status = LeaveRequestStatus.APPROVED
-        leaveRequestRepository.save(this)
         emailService.sendMessage(user.email, "Leaver request approved", "Your leave request (${type.name}) was APPROVED.")
+        return leaveRequestRepository.save(this)
     }
 
-    private fun LeaveRequest.reject() {
+    private fun LeaveRequest.reject(): LeaveRequest {
         status = LeaveRequestStatus.REJECTED
-        leaveRequestRepository.save(this)
         emailService.sendMessage(user.email, "Leaver request rejected", "Your leave request (${type.name}) was REJECTED.")
+        return leaveRequestRepository.save(this)
     }
 
     private fun LeaveRequest.checkLimit() {

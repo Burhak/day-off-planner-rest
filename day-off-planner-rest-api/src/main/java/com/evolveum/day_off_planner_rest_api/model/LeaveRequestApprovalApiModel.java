@@ -14,7 +14,7 @@ import javax.validation.constraints.*;
  * LeaveRequestApprovalApiModel
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-17T18:30:33.748Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-17T18:43:16.876Z[GMT]")
 public class LeaveRequestApprovalApiModel   {
   @JsonProperty("leaveRequest")
   private UUID leaveRequest = null;

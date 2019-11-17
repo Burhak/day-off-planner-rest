@@ -6,9 +6,9 @@ import com.evolveum.day_off_planner_rest.data.entity.LeaveRequestApproval
 import com.evolveum.day_off_planner_rest.data.entity.LeaveType
 import com.evolveum.day_off_planner_rest.data.entity.User
 import com.evolveum.day_off_planner_rest.data.enums.LeaveRequestStatus
+import com.evolveum.day_off_planner_rest.data.repository.LeaveRequestApprovalRepository
 import com.evolveum.day_off_planner_rest.data.repository.LeaveRequestRepository
-import com.evolveum.day_off_planner_rest.exception.LimitExceededException
-import com.evolveum.day_off_planner_rest.exception.WrongParamException
+import com.evolveum.day_off_planner_rest.exception.*
 import com.evolveum.day_off_planner_rest.util.date.DateRange
 import com.evolveum.day_off_planner_rest.util.date.DayStartEnd
 import com.evolveum.day_off_planner_rest.util.date.Year
@@ -17,13 +17,13 @@ import com.evolveum.day_off_planner_rest_api.model.LeaveRequestCreateApiModel
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.util.*
 
 @Service
 @Transactional
 class LeaveRequestService(
         private val leaveRequestRepository: LeaveRequestRepository,
+        private val leaveRequestApprovalRepository: LeaveRequestApprovalRepository,
         private val leaveRequestAssembler: LeaveRequestAssembler,
         private val userService: UserService,
         private val settingService: SettingService,
@@ -33,8 +33,8 @@ class LeaveRequestService(
         private val leaveTypeService: LeaveTypeService
 ) {
 
-    fun duration(from: LocalDateTime, to: LocalDateTime): List<Int> =
-        DateRange(from, to, settingService.getWorkDayStartEnd(), true).splitToYears().map { it.duration() }
+    fun getLeaveRequestById(id: UUID): LeaveRequest = leaveRequestRepository.findOneById(id)
+            ?: throw NotFoundException("Leave request with id $id was not found")
 
     fun getRequestedHours(userId: UUID, leaveTypeId: UUID, year: Int?): Int = getRequestedHoursForYear(
             userService.getUserById(userId),
@@ -64,7 +64,7 @@ class LeaveRequestService(
                     emailService.sendMessage(
                             it.approver.email,
                             "Leave request approval",
-                            "User ${user.fullName} has requested ${type.name}. Please visit .../$id to approve/reject this request.")
+                            "User ${user.fullName} has requested ${type.name}. Please visit .../leave/$id to approve/reject this request.")
                 }
 
                 emailService.sendMessage(user.email, "Leave request submitted", "Your leave request (${type.name}) is waiting for approval. You will be notified once approved/rejected.")
@@ -72,6 +72,51 @@ class LeaveRequestService(
                 emailService.sendMessage(user.email, "Leave request approved", "Your leave request (${type.name}) was APPROVED.")
             }
         }
+    }
+
+    fun approve(id: UUID, approve: Boolean): LeaveRequestApproval {
+        val leaveRequest = getLeaveRequestById(id)
+        val user = userService.getLoggedUser()
+
+        val approval = getApproval(user, leaveRequest) ?:
+            throw NotAllowedException("You are not one of approvers for this leave request")
+
+        if (leaveRequest.status != LeaveRequestStatus.PENDING)
+            throw AlreadyResolvedException("This leave request has been already ${leaveRequest.status}")
+
+        if (approval.approved != null)
+            throw NotAllowedException("You have already voted for this leave request")
+
+        approval.approved = approve
+        return leaveRequestApprovalRepository.save(approval).also { leaveRequest.checkVoting() }
+    }
+
+    private fun getApproval(approver: User, leaveRequest: LeaveRequest): LeaveRequestApproval? =
+            leaveRequestApprovalRepository.findOne(approver, leaveRequest)
+
+    private fun LeaveRequest.checkVoting() {
+        when {
+            approvals.any { it.approved == null } -> return     // some approvals are not resolved yet
+            approvals.all { it.approved == true } -> approve()  // all approval are approved => approve request
+            approvals.all { it.approved == false } -> reject()  // all approval are approved => approve request
+            else -> if (user.supervisor != null) emailService.sendMessage(
+                    user.supervisor!!.email,
+                    "${user.fullName} - approval conflict",
+                    "All approvers have voted in leave request of ${user.fullName} (${type.name}) but their votes differ. Resolve this conflict by visiting .../leave/$id"
+            )
+        }
+    }
+
+    private fun LeaveRequest.approve() {
+        status = LeaveRequestStatus.APPROVED
+        leaveRequestRepository.save(this)
+        emailService.sendMessage(user.email, "Leaver request approved", "Your leave request (${type.name}) was APPROVED.")
+    }
+
+    private fun LeaveRequest.reject() {
+        status = LeaveRequestStatus.REJECTED
+        leaveRequestRepository.save(this)
+        emailService.sendMessage(user.email, "Leaver request rejected", "Your leave request (${type.name}) was REJECTED.")
     }
 
     private fun LeaveRequest.checkLimit() {

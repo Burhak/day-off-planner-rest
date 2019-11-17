@@ -29,9 +29,11 @@ class UserService(
 
     override fun loadUserByUsername(username: String): UserDetails = getUserByEmail(username).toUserDetails()
 
-    fun getUserById(id: UUID): User = userRepository.findOneById(id) ?: throw NotFoundException("User with id $id was not found")
+    fun getUserById(id: UUID): User = userRepository.findOneById(id)
+            ?: throw NotFoundException("User with id $id was not found")
 
-    fun getUserByEmail(email: String): User = userRepository.findOneByEmail(email) ?: throw NotFoundException("User with email $email was not found")
+    fun getUserByEmail(email: String): User = userRepository.findOneByEmail(email)
+            ?: throw NotFoundException("User with email $email was not found")
 
     fun getLoggedUser(): User = getUserByEmail(SecurityContextHolder.getContext().authentication.name)
 
@@ -39,7 +41,8 @@ class UserService(
 
     fun createUser(userCreateApiModel: UserCreateApiModel): User {
         val password = generateRandomPassword()
-        val user = userRepository.save(userAssembler.disassemble(userCreateApiModel).apply { this.password = passwordEncoder.encode(password) })
+        val user = userRepository.saveAndFlush(userAssembler.disassemble(userCreateApiModel)
+                .apply { this.password = passwordEncoder.encode(password) })
 
         emailService.sendMessage(user.email, "Account created", "Welcome to Day Off Planner! Your password is: $password")
 

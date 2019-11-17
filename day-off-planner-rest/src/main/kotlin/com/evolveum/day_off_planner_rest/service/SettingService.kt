@@ -21,7 +21,8 @@ class SettingService(
 
     fun getAllSettings(): List<Setting> = settingRepository.findAll()
 
-    fun getSettingByKey(key: String): Setting = settingRepository.findOneByKey(key) ?: throw NotFoundException("Setting with key $key was not found")
+    fun getSettingByKey(key: String): Setting = settingRepository.findOneByKey(key)
+            ?: throw NotFoundException("Setting with key $key was not found")
 
     fun getSettingByType(type: SettingType): Setting = getSettingByKey(type.key)
 

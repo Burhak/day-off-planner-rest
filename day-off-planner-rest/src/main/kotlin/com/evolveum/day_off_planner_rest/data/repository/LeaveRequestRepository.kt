@@ -12,6 +12,9 @@ import java.util.*
 @Repository
 interface LeaveRequestRepository : JpaRepository<LeaveRequest, UUID> {
 
+    @Query(value = "select lr from LeaveRequest lr where lr.id = :id")
+    fun findOneById(@Param("id") id: UUID): LeaveRequest?
+
     @Query(value = """
         select lr from LeaveRequest lr
             where lr.user = :user

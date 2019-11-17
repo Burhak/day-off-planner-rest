@@ -18,7 +18,8 @@ class LeaveTypeService(
         private val leaveTypeAssembler: LeaveTypeAssembler
 ) {
 
-    fun getLeaveTypeById(id: UUID): LeaveType = leaveTypeRepository.findOneById(id) ?: throw NotFoundException("Leave type with id $id was not found")
+    fun getLeaveTypeById(id: UUID): LeaveType = leaveTypeRepository.findOneById(id)
+            ?: throw NotFoundException("Leave type with id $id was not found")
 
     fun getAllLeaveTypes(): List<LeaveType> = leaveTypeRepository.findAllNotDeleted()
 

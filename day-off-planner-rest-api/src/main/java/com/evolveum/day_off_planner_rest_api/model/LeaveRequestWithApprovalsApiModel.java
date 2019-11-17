@@ -1,23 +1,26 @@
 package com.evolveum.day_off_planner_rest_api.model;
 
 import java.util.Objects;
+import com.evolveum.day_off_planner_rest_api.model.LeaveRequestApprovalApiModel;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * LeaveRequestApiModel
+ * LeaveRequestWithApprovalsApiModel
  */
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-17T18:30:33.748Z[GMT]")
-public class LeaveRequestApiModel   {
+public class LeaveRequestWithApprovalsApiModel   {
   @JsonProperty("id")
   private UUID id = null;
 
@@ -70,7 +73,11 @@ public class LeaveRequestApiModel   {
   @JsonProperty("status")
   private StatusEnum status = null;
 
-  public LeaveRequestApiModel id(UUID id) {
+  @JsonProperty("approvals")
+  @Valid
+  private List<LeaveRequestApprovalApiModel> approvals = new ArrayList<>();
+
+  public LeaveRequestWithApprovalsApiModel id(UUID id) {
     this.id = id;
     return this;
   }
@@ -91,7 +98,7 @@ public class LeaveRequestApiModel   {
     this.id = id;
   }
 
-  public LeaveRequestApiModel leaveType(UUID leaveType) {
+  public LeaveRequestWithApprovalsApiModel leaveType(UUID leaveType) {
     this.leaveType = leaveType;
     return this;
   }
@@ -112,7 +119,7 @@ public class LeaveRequestApiModel   {
     this.leaveType = leaveType;
   }
 
-  public LeaveRequestApiModel user(UUID user) {
+  public LeaveRequestWithApprovalsApiModel user(UUID user) {
     this.user = user;
     return this;
   }
@@ -133,7 +140,7 @@ public class LeaveRequestApiModel   {
     this.user = user;
   }
 
-  public LeaveRequestApiModel fromDate(LocalDateTime fromDate) {
+  public LeaveRequestWithApprovalsApiModel fromDate(LocalDateTime fromDate) {
     this.fromDate = fromDate;
     return this;
   }
@@ -154,7 +161,7 @@ public class LeaveRequestApiModel   {
     this.fromDate = fromDate;
   }
 
-  public LeaveRequestApiModel toDate(LocalDateTime toDate) {
+  public LeaveRequestWithApprovalsApiModel toDate(LocalDateTime toDate) {
     this.toDate = toDate;
     return this;
   }
@@ -175,7 +182,7 @@ public class LeaveRequestApiModel   {
     this.toDate = toDate;
   }
 
-  public LeaveRequestApiModel status(StatusEnum status) {
+  public LeaveRequestWithApprovalsApiModel status(StatusEnum status) {
     this.status = status;
     return this;
   }
@@ -195,6 +202,31 @@ public class LeaveRequestApiModel   {
     this.status = status;
   }
 
+  public LeaveRequestWithApprovalsApiModel approvals(List<LeaveRequestApprovalApiModel> approvals) {
+    this.approvals = approvals;
+    return this;
+  }
+
+  public LeaveRequestWithApprovalsApiModel addApprovalsItem(LeaveRequestApprovalApiModel approvalsItem) {
+    this.approvals.add(approvalsItem);
+    return this;
+  }
+
+  /**
+   * Get approvals
+   * @return approvals
+  **/
+  @ApiModelProperty(required = true, readOnly = true, value = "")
+      @NotNull
+    @Valid
+    public List<LeaveRequestApprovalApiModel> getApprovals() {
+    return approvals;
+  }
+
+  public void setApprovals(List<LeaveRequestApprovalApiModel> approvals) {
+    this.approvals = approvals;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -204,24 +236,25 @@ public class LeaveRequestApiModel   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    LeaveRequestApiModel leaveRequestApiModel = (LeaveRequestApiModel) o;
-    return Objects.equals(this.id, leaveRequestApiModel.id) &&
-        Objects.equals(this.leaveType, leaveRequestApiModel.leaveType) &&
-        Objects.equals(this.user, leaveRequestApiModel.user) &&
-        Objects.equals(this.fromDate, leaveRequestApiModel.fromDate) &&
-        Objects.equals(this.toDate, leaveRequestApiModel.toDate) &&
-        Objects.equals(this.status, leaveRequestApiModel.status);
+    LeaveRequestWithApprovalsApiModel leaveRequestWithApprovalsApiModel = (LeaveRequestWithApprovalsApiModel) o;
+    return Objects.equals(this.id, leaveRequestWithApprovalsApiModel.id) &&
+        Objects.equals(this.leaveType, leaveRequestWithApprovalsApiModel.leaveType) &&
+        Objects.equals(this.user, leaveRequestWithApprovalsApiModel.user) &&
+        Objects.equals(this.fromDate, leaveRequestWithApprovalsApiModel.fromDate) &&
+        Objects.equals(this.toDate, leaveRequestWithApprovalsApiModel.toDate) &&
+        Objects.equals(this.status, leaveRequestWithApprovalsApiModel.status) &&
+        Objects.equals(this.approvals, leaveRequestWithApprovalsApiModel.approvals);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, leaveType, user, fromDate, toDate, status);
+    return Objects.hash(id, leaveType, user, fromDate, toDate, status, approvals);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class LeaveRequestApiModel {\n");
+    sb.append("class LeaveRequestWithApprovalsApiModel {\n");
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    leaveType: ").append(toIndentedString(leaveType)).append("\n");
@@ -229,6 +262,7 @@ public class LeaveRequestApiModel   {
     sb.append("    fromDate: ").append(toIndentedString(fromDate)).append("\n");
     sb.append("    toDate: ").append(toIndentedString(toDate)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
+    sb.append("    approvals: ").append(toIndentedString(approvals)).append("\n");
     sb.append("}");
     return sb.toString();
   }

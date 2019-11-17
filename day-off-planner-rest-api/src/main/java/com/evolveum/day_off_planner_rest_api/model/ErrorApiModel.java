@@ -14,7 +14,7 @@ import javax.validation.constraints.*;
  * ErrorApiModel
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-17T17:10:02.127Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-17T18:30:33.748Z[GMT]")
 public class ErrorApiModel   {
   @JsonProperty("timestamp")
   private LocalDateTime timestamp = null;

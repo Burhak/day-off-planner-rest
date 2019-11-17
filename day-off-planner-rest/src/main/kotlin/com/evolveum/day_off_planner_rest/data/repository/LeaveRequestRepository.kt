@@ -16,8 +16,8 @@ interface LeaveRequestRepository : JpaRepository<LeaveRequest, UUID> {
         select lr from LeaveRequest lr
             where lr.user = :user
             and lr.type = :leaveType
-            and lr.status in ('PENDING, APPROVED')
+            and lr.status in ('PENDING', 'APPROVED')
             and year(lr.fromDate) <= :year
-            and year(lr.toDate) <= :year""")
+            and year(lr.toDate) >= :year""")
     fun findLeavesByYear(@Param("user") user: User, @Param("leaveType") leaveType: LeaveType, @Param("year") year: Int): List<LeaveRequest>
 }

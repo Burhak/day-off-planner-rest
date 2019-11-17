@@ -25,11 +25,11 @@ class LimitService(
         private val limitAssembler: LimitAssembler
 ) {
 
-    fun getIndividualLimit(leaveTypeId: UUID): IndividualLimit? =
-            getIndividualLimit(userService.getLoggedUser(), leaveTypeService.getLeaveTypeById(leaveTypeId))
+    fun getIndividualLimit(userId: UUID, leaveTypeId: UUID): IndividualLimit? =
+            getIndividualLimit(userService.getUserById(userId), leaveTypeService.getLeaveTypeById(leaveTypeId))
 
-    fun getCarryover(leaveTypeId: UUID, year: Int?): Carryover? =
-            getCarryover(userService.getLoggedUser(), leaveTypeService.getLeaveTypeById(leaveTypeId), year ?: LocalDate.now().year)
+    fun getCarryover(userId: UUID, leaveTypeId: UUID, year: Int?): Carryover? =
+            getCarryover(userService.getUserById(userId), leaveTypeService.getLeaveTypeById(leaveTypeId), year ?: LocalDate.now().year)
 
     fun getUserLimit(user: User, leaveType: LeaveType, year: Int): Int {
         val carryover = getCarryover(user, leaveType, year)?.hours ?: 0

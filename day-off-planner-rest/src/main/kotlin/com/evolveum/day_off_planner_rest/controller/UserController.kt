@@ -2,7 +2,9 @@ package com.evolveum.day_off_planner_rest.controller
 
 import com.evolveum.day_off_planner_rest.assembler.toCarryoverApiModel
 import com.evolveum.day_off_planner_rest.assembler.toLimitApiModel
+import com.evolveum.day_off_planner_rest.assembler.toRequestHoursApiModel
 import com.evolveum.day_off_planner_rest.assembler.toUserApiModel
+import com.evolveum.day_off_planner_rest.service.LeaveRequestService
 import com.evolveum.day_off_planner_rest.service.LimitService
 import com.evolveum.day_off_planner_rest_api.api.UserApi
 import com.evolveum.day_off_planner_rest.service.UserService
@@ -15,7 +17,8 @@ import java.util.*
 @RestController
 class UserController(
         private val userService: UserService,
-        private val limitService: LimitService
+        private val limitService: LimitService,
+        private val leaveRequestService: LeaveRequestService
 ) : UserApi {
 
     override fun getAllUsers(): ResponseEntity<MutableList<UserApiModel>> {
@@ -40,11 +43,15 @@ class UserController(
         return ResponseEntity(userService.getLoggedUser().toUserApiModel(), HttpStatus.OK)
     }
 
-    override fun getLimit(leaveTypeId: UUID): ResponseEntity<LimitApiModel> {
-        return ResponseEntity(limitService.getIndividualLimit(leaveTypeId)?.toLimitApiModel(), HttpStatus.OK)
+    override fun getLimit(userId: UUID, leaveTypeId: UUID): ResponseEntity<LimitApiModel> {
+        return ResponseEntity(limitService.getIndividualLimit(userId, leaveTypeId)?.toLimitApiModel(), HttpStatus.OK)
     }
 
-    override fun getCarryover(leaveTypeId: UUID, year: Int?): ResponseEntity<CarryoverApiModel> {
-        return ResponseEntity(limitService.getCarryover(leaveTypeId, year)?.toCarryoverApiModel(), HttpStatus.OK)
+    override fun getCarryover(userId: UUID, leaveTypeId: UUID, year: Int?): ResponseEntity<CarryoverApiModel> {
+        return ResponseEntity(limitService.getCarryover(userId, leaveTypeId, year)?.toCarryoverApiModel(), HttpStatus.OK)
+    }
+
+    override fun getRequestedHours(userId: UUID, leaveTypeId: UUID, year: Int?): ResponseEntity<RequestedHoursApiModel> {
+        return ResponseEntity(leaveRequestService.getRequestedHours(userId, leaveTypeId, year).toRequestHoursApiModel(userId, leaveTypeId, year), HttpStatus.OK)
     }
 }

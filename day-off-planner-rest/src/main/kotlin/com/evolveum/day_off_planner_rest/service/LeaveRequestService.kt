@@ -3,6 +3,8 @@ package com.evolveum.day_off_planner_rest.service
 import com.evolveum.day_off_planner_rest.assembler.LeaveRequestAssembler
 import com.evolveum.day_off_planner_rest.data.entity.LeaveRequest
 import com.evolveum.day_off_planner_rest.data.entity.LeaveRequestApproval
+import com.evolveum.day_off_planner_rest.data.entity.LeaveType
+import com.evolveum.day_off_planner_rest.data.entity.User
 import com.evolveum.day_off_planner_rest.data.enums.LeaveRequestStatus
 import com.evolveum.day_off_planner_rest.data.repository.LeaveRequestRepository
 import com.evolveum.day_off_planner_rest.exception.LimitExceededException
@@ -14,7 +16,9 @@ import com.evolveum.day_off_planner_rest.util.date.isWeekend
 import com.evolveum.day_off_planner_rest_api.model.LeaveRequestCreateApiModel
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.LocalDate
 import java.time.LocalDateTime
+import java.util.*
 
 @Service
 @Transactional
@@ -25,11 +29,19 @@ class LeaveRequestService(
         private val settingService: SettingService,
         private val limitService: LimitService,
         private val holidayService: HolidayService,
-        private val emailService: EmailService
+        private val emailService: EmailService,
+        private val leaveTypeService: LeaveTypeService
 ) {
 
     fun duration(from: LocalDateTime, to: LocalDateTime): List<Int> =
         DateRange(from, to, settingService.getWorkDayStartEnd(), true).splitToYears().map { it.duration() }
+
+    fun getRequestedHours(userId: UUID, leaveTypeId: UUID, year: Int?): Int = getRequestedHoursForYear(
+            userService.getUserById(userId),
+            leaveTypeService.getLeaveTypeById(leaveTypeId),
+            year ?: LocalDate.now().year,
+            settingService.getWorkDayStartEnd()
+    )
 
     fun createLeaveRequest(leaveRequestCreateApiModel: LeaveRequestCreateApiModel): LeaveRequest {
         val leaveRequest = leaveRequestAssembler.disassemble(leaveRequestCreateApiModel, userService.getLoggedUser())
@@ -69,7 +81,7 @@ class LeaveRequestService(
 
         DateRange(this, workDayStartEnd, true).splitToYears().forEach { year ->
             val requesting = year.duration()
-            val totalRequested = getRequestedHoursForYear(year.year, workDayStartEnd)
+            val totalRequested = getRequestedHoursForYear(user, type, year.year, workDayStartEnd)
 
             val limit = limitService.getUserLimit(user, type, year.year)
             if (totalRequested + requesting > limit)
@@ -87,7 +99,7 @@ class LeaveRequestService(
         return duration
     }
 
-    private fun LeaveRequest.getRequestedHoursForYear(year: Int, workDayStartEnd: DayStartEnd): Int =
-        leaveRequestRepository.findLeavesByYear(user, type, year)
-                .sumBy { DateRange(it, workDayStartEnd, false).takeYear(year).duration() }
+    private fun getRequestedHoursForYear(user: User, leaveType: LeaveType, year: Int, workDayStartEnd: DayStartEnd): Int =
+            leaveRequestRepository.findLeavesByYear(user, leaveType, year)
+                    .sumBy { DateRange(it, workDayStartEnd, false).takeYear(year).duration() }
 }

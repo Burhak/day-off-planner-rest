@@ -4,10 +4,7 @@ import com.evolveum.day_off_planner_rest.data.entity.LeaveRequest
 import com.evolveum.day_off_planner_rest.data.entity.LeaveRequestApproval
 import com.evolveum.day_off_planner_rest.data.entity.User
 import com.evolveum.day_off_planner_rest.service.LeaveTypeService
-import com.evolveum.day_off_planner_rest_api.model.LeaveRequestApiModel
-import com.evolveum.day_off_planner_rest_api.model.LeaveRequestApprovalApiModel
-import com.evolveum.day_off_planner_rest_api.model.LeaveRequestCreateApiModel
-import com.evolveum.day_off_planner_rest_api.model.RequestedHoursApiModel
+import com.evolveum.day_off_planner_rest_api.model.*
 import org.springframework.stereotype.Component
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
@@ -34,6 +31,11 @@ fun LeaveRequest.toLeaveRequestApiModel(): LeaveRequestApiModel = LeaveRequestAp
         .status(LeaveRequestApiModel.StatusEnum.fromValue(status.name))
         .fromDate(fromDate)
         .toDate(toDate)
+
+fun LeaveRequest.toLeaveRequestWithApprovalsApiModel(): LeaveRequestWithApprovalsApiModel = LeaveRequestWithApprovalsApiModel()
+        .leaveRequest(this.toLeaveRequestApiModel())
+        .approvals(approvals.map { it.toLeaveRequestApprovalApiModel() })
+
 
 fun Int.toRequestHoursApiModel(userId: UUID, leaveTypeId: UUID, year: Int?): RequestedHoursApiModel = RequestedHoursApiModel()
         .user(userId)

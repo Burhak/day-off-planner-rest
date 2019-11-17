@@ -70,36 +70,53 @@ class LeaveRequestService(
                 emailService.sendMessage(user.email, "Leave request submitted", "Your leave request (${type.name}) is waiting for approval. You will be notified once approved/rejected.")
             } else {
                 emailService.sendMessage(user.email, "Leave request approved", "Your leave request (${type.name}) was APPROVED.")
+                if (user.supervisor != null)
+                    emailService.sendMessage(
+                            user.supervisor!!.email,
+                            "${user.fullName} - ${type.name}",
+                            "User ${user.fullName} has created new leave (${type.name})"
+                    )
+
             }
         }
     }
 
-    fun approve(id: UUID, approve: Boolean): LeaveRequestApproval {
+    fun cancelLeaveRequest(id: UUID): LeaveRequest {
+        val leaveRequest = getLeaveRequestById(id)
+        val user = userService.getLoggedUser()
+
+        if (user != leaveRequest.user)
+            throw NotAllowedException("You are not allowed to cancel this leave request")
+
+        leaveRequest.canCancel()
+
+        return leaveRequest.cancel()
+    }
+
+    fun approveLeaveRequest(id: UUID, approve: Boolean): LeaveRequest {
         val leaveRequest = getLeaveRequestById(id)
         val user = userService.getLoggedUser()
 
         val approval = getApproval(user, leaveRequest) ?:
             throw NotAllowedException("You are not one of approvers for this leave request")
 
-        if (leaveRequest.status != LeaveRequestStatus.PENDING)
-            throw AlreadyResolvedException("This leave request has been already ${leaveRequest.status}")
+        leaveRequest.checkPending()
 
         if (approval.approved != null)
             throw NotAllowedException("You have already voted for this leave request")
 
-        approval.approved = approve
-        return leaveRequestApprovalRepository.save(approval).also { leaveRequest.checkVoting() }
+        leaveRequestApprovalRepository.save(approval.apply { approved = approve })
+        return leaveRequest.processVoting()
     }
 
-    fun forceApprove(id: UUID, approve: Boolean): LeaveRequest {
+    fun forceApproveLeaveRequest(id: UUID, approve: Boolean): LeaveRequest {
         val leaveRequest = getLeaveRequestById(id)
         val user = userService.getLoggedUser()
 
         if (user != leaveRequest.user.supervisor)
             throw NotAllowedException("Only supervisor can force approve leave request")
 
-        if (leaveRequest.status != LeaveRequestStatus.PENDING)
-            throw AlreadyResolvedException("This leave request has been already ${leaveRequest.status}")
+        leaveRequest.checkPending()
 
         return if (approve) leaveRequest.approve() else leaveRequest.reject()
     }
@@ -107,16 +124,15 @@ class LeaveRequestService(
     private fun getApproval(approver: User, leaveRequest: LeaveRequest): LeaveRequestApproval? =
             leaveRequestApprovalRepository.findOne(approver, leaveRequest)
 
-    private fun LeaveRequest.checkVoting() {
-        when {
-            approvals.any { it.approved == null } -> return     // some approvals are not resolved yet
-            approvals.all { it.approved == true } -> approve()  // all approvals are approved => approve request
-            approvals.all { it.approved == false } -> reject()  // all approvals are rejected => reject request
-            else -> if (user.supervisor != null) emailService.sendMessage(  // notify supervisor on conflict
-                    user.supervisor!!.email,
-                    "${user.fullName} - approval conflict",
-                    "All approvers have voted in leave request of ${user.fullName} (${type.name}) but their votes differ. Resolve this conflict by visiting .../leave/$id"
-            )
+    private fun LeaveRequest.processVoting(): LeaveRequest = when {
+        approvals.any { it.approved == null } -> this               // some approvals are not resolved yet
+        approvals.all { it.approved == true } -> approve()          // all approvals are approved => approve request
+        approvals.all { it.approved == false } -> reject()          // all approvals are rejected => reject request
+        else -> this.apply {
+            if (user.supervisor != null) emailService.sendMessage(  // notify supervisor on conflict
+                user.supervisor!!.email,
+                "${user.fullName} - approval conflict",
+                "All approvers have voted in leave request of ${user.fullName} (${type.name}) but their votes differ. Resolve this conflict by visiting .../leave/$id")
         }
     }
 
@@ -129,6 +145,11 @@ class LeaveRequestService(
     private fun LeaveRequest.reject(): LeaveRequest {
         status = LeaveRequestStatus.REJECTED
         emailService.sendMessage(user.email, "Leaver request rejected", "Your leave request (${type.name}) was REJECTED.")
+        return leaveRequestRepository.save(this)
+    }
+
+    private fun LeaveRequest.cancel(): LeaveRequest {
+        status = LeaveRequestStatus.CANCELLED
         return leaveRequestRepository.save(this)
     }
 
@@ -145,6 +166,16 @@ class LeaveRequestService(
             if (totalRequested + requesting > limit)
                 throw LimitExceededException("Limit of this leave type has been exceeded")
         }
+    }
+
+    private fun LeaveRequest.checkPending() {
+        if (status != LeaveRequestStatus.PENDING)
+            throw AlreadyResolvedException("This leave request has been already $status")
+    }
+
+    private fun LeaveRequest.canCancel() {
+        if (status != LeaveRequestStatus.PENDING && status != LeaveRequestStatus.APPROVED)
+            throw AlreadyResolvedException("This leave request has been already $status")
     }
 
     private fun Year.duration(): Int {

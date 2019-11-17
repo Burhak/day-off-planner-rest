@@ -14,7 +14,7 @@ import javax.validation.constraints.*;
  * RequestedHoursApiModel
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-17T18:30:33.748Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-17T18:42:04.761Z[GMT]")
 public class RequestedHoursApiModel   {
   @JsonProperty("user")
   private UUID user = null;

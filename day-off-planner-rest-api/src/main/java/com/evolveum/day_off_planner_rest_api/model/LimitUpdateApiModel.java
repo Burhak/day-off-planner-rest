@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
  * LimitUpdateApiModel
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-17T18:42:04.761Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-17T18:43:16.876Z[GMT]")
 public class LimitUpdateApiModel   {
   @JsonProperty("limit")
   private Integer limit = null;

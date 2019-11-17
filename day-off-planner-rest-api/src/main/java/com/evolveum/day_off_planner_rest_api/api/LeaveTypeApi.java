@@ -30,7 +30,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-17T10:48:41.986Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-17T13:37:51.392Z[GMT]")
 @Api(value = "leaveType", description = "the leaveType API")
 public interface LeaveTypeApi {
 
@@ -75,7 +75,8 @@ public interface LeaveTypeApi {
     @ApiOperation(value = "Get leave type by ID", nickname = "getLeaveTypeById", notes = "", response = LeaveTypeApiModel.class, authorizations = {
         @Authorization(value = "bearerAuth")    }, tags={ "leaveType", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = LeaveTypeApiModel.class) })
+        @ApiResponse(code = 200, message = "OK", response = LeaveTypeApiModel.class),
+        @ApiResponse(code = 404, message = "Not found") })
     @RequestMapping(value = "/leaveType/{id}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)

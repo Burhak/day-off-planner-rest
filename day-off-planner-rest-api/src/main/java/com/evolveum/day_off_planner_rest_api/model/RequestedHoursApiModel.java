@@ -11,11 +11,11 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * CarryoverApiModel
+ * RequestedHoursApiModel
  */
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-17T10:48:41.986Z[GMT]")
-public class CarryoverApiModel   {
+public class RequestedHoursApiModel   {
   @JsonProperty("user")
   private UUID user = null;
 
@@ -25,10 +25,10 @@ public class CarryoverApiModel   {
   @JsonProperty("year")
   private Integer year = null;
 
-  @JsonProperty("carryover")
-  private Integer carryover = null;
+  @JsonProperty("requestedHours")
+  private Integer requestedHours = null;
 
-  public CarryoverApiModel user(UUID user) {
+  public RequestedHoursApiModel user(UUID user) {
     this.user = user;
     return this;
   }
@@ -49,7 +49,7 @@ public class CarryoverApiModel   {
     this.user = user;
   }
 
-  public CarryoverApiModel leaveType(UUID leaveType) {
+  public RequestedHoursApiModel leaveType(UUID leaveType) {
     this.leaveType = leaveType;
     return this;
   }
@@ -70,7 +70,7 @@ public class CarryoverApiModel   {
     this.leaveType = leaveType;
   }
 
-  public CarryoverApiModel year(Integer year) {
+  public RequestedHoursApiModel year(Integer year) {
     this.year = year;
     return this;
   }
@@ -90,24 +90,24 @@ public class CarryoverApiModel   {
     this.year = year;
   }
 
-  public CarryoverApiModel carryover(Integer carryover) {
-    this.carryover = carryover;
+  public RequestedHoursApiModel requestedHours(Integer requestedHours) {
+    this.requestedHours = requestedHours;
     return this;
   }
 
   /**
-   * Get carryover
-   * @return carryover
+   * Get requestedHours
+   * @return requestedHours
   **/
   @ApiModelProperty(required = true, readOnly = true, value = "")
       @NotNull
 
-    public Integer getCarryover() {
-    return carryover;
+    public Integer getRequestedHours() {
+    return requestedHours;
   }
 
-  public void setCarryover(Integer carryover) {
-    this.carryover = carryover;
+  public void setRequestedHours(Integer requestedHours) {
+    this.requestedHours = requestedHours;
   }
 
 
@@ -119,27 +119,27 @@ public class CarryoverApiModel   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    CarryoverApiModel carryoverApiModel = (CarryoverApiModel) o;
-    return Objects.equals(this.user, carryoverApiModel.user) &&
-        Objects.equals(this.leaveType, carryoverApiModel.leaveType) &&
-        Objects.equals(this.year, carryoverApiModel.year) &&
-        Objects.equals(this.carryover, carryoverApiModel.carryover);
+    RequestedHoursApiModel requestedHoursApiModel = (RequestedHoursApiModel) o;
+    return Objects.equals(this.user, requestedHoursApiModel.user) &&
+        Objects.equals(this.leaveType, requestedHoursApiModel.leaveType) &&
+        Objects.equals(this.year, requestedHoursApiModel.year) &&
+        Objects.equals(this.requestedHours, requestedHoursApiModel.requestedHours);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(user, leaveType, year, carryover);
+    return Objects.hash(user, leaveType, year, requestedHours);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class CarryoverApiModel {\n");
+    sb.append("class RequestedHoursApiModel {\n");
     
     sb.append("    user: ").append(toIndentedString(user)).append("\n");
     sb.append("    leaveType: ").append(toIndentedString(leaveType)).append("\n");
     sb.append("    year: ").append(toIndentedString(year)).append("\n");
-    sb.append("    carryover: ").append(toIndentedString(carryover)).append("\n");
+    sb.append("    requestedHours: ").append(toIndentedString(requestedHours)).append("\n");
     sb.append("}");
     return sb.toString();
   }

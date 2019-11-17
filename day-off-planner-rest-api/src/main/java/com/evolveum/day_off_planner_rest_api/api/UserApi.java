@@ -9,6 +9,7 @@ import com.evolveum.day_off_planner_rest_api.model.CarryoverApiModel;
 import com.evolveum.day_off_planner_rest_api.model.LimitApiModel;
 import com.evolveum.day_off_planner_rest_api.model.PasswordChangeApiModel;
 import com.evolveum.day_off_planner_rest_api.model.PasswordResetApiModel;
+import com.evolveum.day_off_planner_rest_api.model.RequestedHoursApiModel;
 import java.util.UUID;
 import com.evolveum.day_off_planner_rest_api.model.UserApiModel;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -34,7 +35,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-17T10:30:03.526Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-17T10:48:41.986Z[GMT]")
 @Api(value = "user", description = "the user API")
 public interface UserApi {
 
@@ -155,6 +156,31 @@ public interface UserApi {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
                     return new ResponseEntity<>(getObjectMapper().get().readValue("{\n  \"firstName\" : \"firstName\",\n  \"lastName\" : \"lastName\",\n  \"phone\" : \"phone\",\n  \"admin\" : false,\n  \"approvers\" : [ \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\", \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\" ],\n  \"jobDescription\" : \"jobDescription\",\n  \"id\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n  \"email\" : \"\",\n  \"supervisor\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\"\n}", UserApiModel.class), HttpStatus.NOT_IMPLEMENTED);
+                } catch (IOException e) {
+                    log.error("Couldn't serialize response for content type application/json", e);
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            }
+        } else {
+            log.warn("ObjectMapper or HttpServletRequest not configured in default UserApi interface so no example is generated");
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    }
+
+
+    @ApiOperation(value = "Get user requested hours for specified leave type and year", nickname = "getRequestedHours", notes = "", response = RequestedHoursApiModel.class, authorizations = {
+        @Authorization(value = "bearerAuth")    }, tags={ "user", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = RequestedHoursApiModel.class),
+        @ApiResponse(code = 404, message = "Not found") })
+    @RequestMapping(value = "/user/{userId}/requestedHours/{leaveTypeId}",
+        produces = { "application/json" }, 
+        method = RequestMethod.GET)
+    default ResponseEntity<RequestedHoursApiModel> getRequestedHours(@ApiParam(value = "User ID",required=true) @PathVariable("userId") UUID userId,@ApiParam(value = "ID of the leave type",required=true) @PathVariable("leaveTypeId") UUID leaveTypeId,@ApiParam(value = "Year (current year if not specified)") @Valid @RequestParam(value = "year", required = false) Integer year) {
+        if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
+            if (getAcceptHeader().get().contains("application/json")) {
+                try {
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("{\n  \"leaveType\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n  \"year\" : 0,\n  \"requestedHours\" : 6,\n  \"user\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\"\n}", RequestedHoursApiModel.class), HttpStatus.NOT_IMPLEMENTED);
                 } catch (IOException e) {
                     log.error("Couldn't serialize response for content type application/json", e);
                     return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

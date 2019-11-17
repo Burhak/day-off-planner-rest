@@ -1,18 +1,25 @@
 package com.evolveum.day_off_planner_rest.controller
 
+import com.evolveum.day_off_planner_rest.assembler.toCarryoverApiModel
+import com.evolveum.day_off_planner_rest.assembler.toLimitApiModel
+import com.evolveum.day_off_planner_rest.assembler.toRequestHoursApiModel
 import com.evolveum.day_off_planner_rest.assembler.toUserApiModel
+import com.evolveum.day_off_planner_rest.service.LeaveRequestService
+import com.evolveum.day_off_planner_rest.service.LimitService
 import com.evolveum.day_off_planner_rest_api.api.UserApi
-import com.evolveum.day_off_planner_rest_api.model.UserApiModel
 import com.evolveum.day_off_planner_rest.service.UserService
-import com.evolveum.day_off_planner_rest_api.model.PasswordChangeApiModel
-import com.evolveum.day_off_planner_rest_api.model.PasswordResetApiModel
+import com.evolveum.day_off_planner_rest_api.model.*
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RestController
 import java.util.*
 
 @RestController
-class UserController(private val userService: UserService) : UserApi {
+class UserController(
+        private val userService: UserService,
+        private val limitService: LimitService,
+        private val leaveRequestService: LeaveRequestService
+) : UserApi {
 
     override fun getAllUsers(): ResponseEntity<MutableList<UserApiModel>> {
         return ResponseEntity(userService.getAllUsers().map { it.toUserApiModel() }.toMutableList(), HttpStatus.OK)
@@ -34,5 +41,17 @@ class UserController(private val userService: UserService) : UserApi {
 
     override fun getLoggedUser(): ResponseEntity<UserApiModel> {
         return ResponseEntity(userService.getLoggedUser().toUserApiModel(), HttpStatus.OK)
+    }
+
+    override fun getLimit(userId: UUID, leaveTypeId: UUID): ResponseEntity<LimitApiModel> {
+        return ResponseEntity(limitService.getIndividualLimit(userId, leaveTypeId)?.toLimitApiModel(), HttpStatus.OK)
+    }
+
+    override fun getCarryover(userId: UUID, leaveTypeId: UUID, year: Int?): ResponseEntity<CarryoverApiModel> {
+        return ResponseEntity(limitService.getCarryover(userId, leaveTypeId, year)?.toCarryoverApiModel(), HttpStatus.OK)
+    }
+
+    override fun getRequestedHours(userId: UUID, leaveTypeId: UUID, year: Int?): ResponseEntity<RequestedHoursApiModel> {
+        return ResponseEntity(leaveRequestService.getRequestedHours(userId, leaveTypeId, year).toRequestHoursApiModel(userId, leaveTypeId, year), HttpStatus.OK)
     }
 }

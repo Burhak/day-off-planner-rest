@@ -54,4 +54,8 @@ class UserController(
     override fun getRequestedHours(userId: UUID, leaveTypeId: UUID, year: Int?): ResponseEntity<RequestedHoursApiModel> {
         return ResponseEntity(leaveRequestService.getRequestedHours(userId, leaveTypeId, year).toRequestHoursApiModel(userId, leaveTypeId, year), HttpStatus.OK)
     }
+
+    override fun isApprover(id: UUID): ResponseEntity<Boolean> {
+        return ResponseEntity(userService.isApprover(id), HttpStatus.OK)
+    }
 }

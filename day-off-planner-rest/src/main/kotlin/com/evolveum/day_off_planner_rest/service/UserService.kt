@@ -39,6 +39,8 @@ class UserService(
 
     fun getAllUsers(): List<User> = userRepository.findAllNotDeleted()
 
+    fun isApprover(id: UUID): Boolean = userRepository.isApprover(getUserById(id))
+
     fun createUser(userCreateApiModel: UserCreateApiModel): User {
         val password = generateRandomPassword()
         val user = userRepository.saveAndFlush(userAssembler.disassemble(userCreateApiModel)

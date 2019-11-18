@@ -14,7 +14,7 @@ import javax.validation.constraints.*;
  * LimitApiModel
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-18T08:11:22.026Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-18T18:18:19.542Z[GMT]")
 public class LimitApiModel   {
   @JsonProperty("user")
   private UUID user = null;

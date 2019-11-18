@@ -16,7 +16,7 @@ import javax.validation.constraints.*;
  * UserApiModel
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-17T18:43:16.876Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-18T07:49:35.675Z[GMT]")
 public class UserApiModel   {
   @JsonProperty("id")
   private UUID id = null;
@@ -41,6 +41,9 @@ public class UserApiModel   {
 
   @JsonProperty("phone")
   private String phone = null;
+
+  @JsonProperty("approver")
+  private Boolean approver = false;
 
   @JsonProperty("approvers")
   @Valid
@@ -206,6 +209,26 @@ public class UserApiModel   {
     this.phone = phone;
   }
 
+  public UserApiModel approver(Boolean approver) {
+    this.approver = approver;
+    return this;
+  }
+
+  /**
+   * Get approver
+   * @return approver
+  **/
+  @ApiModelProperty(required = true, readOnly = true, value = "")
+      @NotNull
+
+    public Boolean isApprover() {
+    return approver;
+  }
+
+  public void setApprover(Boolean approver) {
+    this.approver = approver;
+  }
+
   public UserApiModel approvers(List<UUID> approvers) {
     this.approvers = approvers;
     return this;
@@ -249,12 +272,13 @@ public class UserApiModel   {
         Objects.equals(this.admin, userApiModel.admin) &&
         Objects.equals(this.jobDescription, userApiModel.jobDescription) &&
         Objects.equals(this.phone, userApiModel.phone) &&
+        Objects.equals(this.approver, userApiModel.approver) &&
         Objects.equals(this.approvers, userApiModel.approvers);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, firstName, lastName, email, supervisor, admin, jobDescription, phone, approvers);
+    return Objects.hash(id, firstName, lastName, email, supervisor, admin, jobDescription, phone, approver, approvers);
   }
 
   @Override
@@ -270,6 +294,7 @@ public class UserApiModel   {
     sb.append("    admin: ").append(toIndentedString(admin)).append("\n");
     sb.append("    jobDescription: ").append(toIndentedString(jobDescription)).append("\n");
     sb.append("    phone: ").append(toIndentedString(phone)).append("\n");
+    sb.append("    approver: ").append(toIndentedString(approver)).append("\n");
     sb.append("    approvers: ").append(toIndentedString(approvers)).append("\n");
     sb.append("}");
     return sb.toString();

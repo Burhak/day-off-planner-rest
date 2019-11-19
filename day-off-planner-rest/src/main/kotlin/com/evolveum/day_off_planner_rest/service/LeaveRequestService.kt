@@ -9,19 +9,21 @@ import com.evolveum.day_off_planner_rest.data.enums.LeaveRequestStatus
 import com.evolveum.day_off_planner_rest.data.repository.LeaveRequestApprovalRepository
 import com.evolveum.day_off_planner_rest.data.repository.LeaveRequestRepository
 import com.evolveum.day_off_planner_rest.exception.*
-import com.evolveum.day_off_planner_rest.util.date.DateRange
-import com.evolveum.day_off_planner_rest.util.date.DayStartEnd
-import com.evolveum.day_off_planner_rest.util.date.Year
-import com.evolveum.day_off_planner_rest.util.date.isWeekend
+import com.evolveum.day_off_planner_rest.util.date.*
 import com.evolveum.day_off_planner_rest_api.model.LeaveRequestCreateApiModel
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.sql.Timestamp
 import java.time.LocalDate
 import java.util.*
+import javax.persistence.EntityManager
+import javax.persistence.PersistenceContext
+import javax.persistence.criteria.Predicate
 
 @Service
 @Transactional
 class LeaveRequestService(
+        @PersistenceContext private val entityManager: EntityManager,
         private val leaveRequestRepository: LeaveRequestRepository,
         private val leaveRequestApprovalRepository: LeaveRequestApprovalRepository,
         private val leaveRequestAssembler: LeaveRequestAssembler,
@@ -36,12 +38,41 @@ class LeaveRequestService(
     fun getLeaveRequestById(id: UUID): LeaveRequest = leaveRequestRepository.findOneById(id)
             ?: throw NotFoundException("Leave request with id $id was not found")
 
+    fun getLeaveRequestByIdWithApproverCheck(id: UUID): LeaveRequest = getLeaveRequestById(id)
+            .also { if (it.approvals.isNotEmpty()) getApproval(userService.getLoggedUser(), it) }
+
     fun getRequestedHours(userId: UUID, leaveTypeId: UUID, year: Int?): Int = getRequestedHoursForYear(
             userService.getUserById(userId),
             leaveTypeService.getLeaveTypeById(leaveTypeId),
             year ?: LocalDate.now().year,
             settingService.getWorkDayStartEnd()
     )
+
+    fun filterLeaveRequests(from: LocalDate?, to: LocalDate?, status: List<LeaveRequestStatus>, users: List<UUID>, leaveTypes: List<UUID>): List<LeaveRequest> {
+        val builder = entityManager.criteriaBuilder
+        val query = builder.createQuery(LeaveRequest::class.java)
+        val root = query.from(LeaveRequest::class.java)
+
+        val predicates = mutableListOf<Predicate>()
+
+        if (from != null)
+            predicates.add(builder.greaterThanOrEqualTo(root.get<Timestamp>("toDate"), from.toTimestamp()))
+
+        if (to != null)
+            predicates.add(builder.lessThan(root.get<Timestamp>("fromDate"), to.plusDays(1).toTimestamp()))
+
+        if (status.isNotEmpty())
+            predicates.add(root.get<LeaveRequestStatus>("status").`in`(status))
+
+        if (users.isNotEmpty())
+            predicates.add(root.get<User>("user").`in`(users.map { userService.getUserById(it) }))
+
+        if (leaveTypes.isNotEmpty())
+            predicates.add(root.get<LeaveType>("type").`in`(leaveTypes.map { leaveTypeService.getLeaveTypeById(it) }))
+
+        query.where(*predicates.toTypedArray())
+        return entityManager.createQuery(query).resultList
+    }
 
     fun createLeaveRequest(leaveRequestCreateApiModel: LeaveRequestCreateApiModel): LeaveRequest {
         val leaveRequest = leaveRequestAssembler.disassemble(leaveRequestCreateApiModel, userService.getLoggedUser())
@@ -89,7 +120,6 @@ class LeaveRequestService(
             throw NotAllowedException("You are not allowed to cancel this leave request")
 
         leaveRequest.canCancel()
-
         return leaveRequest.cancel()
     }
 
@@ -97,8 +127,7 @@ class LeaveRequestService(
         val leaveRequest = getLeaveRequestById(id)
         val user = userService.getLoggedUser()
 
-        val approval = getApproval(user, leaveRequest) ?:
-            throw NotAllowedException("You are not one of approvers for this leave request")
+        val approval = getApproval(user, leaveRequest)
 
         leaveRequest.checkPending()
 
@@ -121,8 +150,9 @@ class LeaveRequestService(
         return if (approve) leaveRequest.approve() else leaveRequest.reject()
     }
 
-    private fun getApproval(approver: User, leaveRequest: LeaveRequest): LeaveRequestApproval? =
+    private fun getApproval(approver: User, leaveRequest: LeaveRequest): LeaveRequestApproval =
             leaveRequestApprovalRepository.findOne(approver, leaveRequest)
+                    ?: throw NotAllowedException("You are not one of approvers for this leave request")
 
     private fun LeaveRequest.processVoting(): LeaveRequest = when {
         approvals.any { it.approved == null } -> this               // some approvals are not resolved yet

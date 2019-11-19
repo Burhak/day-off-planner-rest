@@ -2,6 +2,7 @@ package com.evolveum.day_off_planner_rest.controller
 
 import com.evolveum.day_off_planner_rest.assembler.toLeaveRequestApiModel
 import com.evolveum.day_off_planner_rest.assembler.toLeaveRequestWithApprovalsApiModel
+import com.evolveum.day_off_planner_rest.data.enums.LeaveRequestStatus
 import com.evolveum.day_off_planner_rest.exception.WrongParamException
 import com.evolveum.day_off_planner_rest.service.LeaveRequestService
 import com.evolveum.day_off_planner_rest_api.api.LeaveApi
@@ -11,13 +12,22 @@ import com.evolveum.day_off_planner_rest_api.model.LeaveRequestWithApprovalsApiM
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RestController
+import java.time.LocalDate
 import java.util.*
 
 @RestController
 class LeaveRequestController(private val leaveRequestService: LeaveRequestService) : LeaveApi {
 
-    override fun getLeaveRequestById(id: UUID): ResponseEntity<LeaveRequestWithApprovalsApiModel> {
-        return ResponseEntity(leaveRequestService.getLeaveRequestById(id).toLeaveRequestWithApprovalsApiModel(), HttpStatus.OK)
+    override fun getLeaveRequestById(id: UUID): ResponseEntity<LeaveRequestApiModel> {
+        return ResponseEntity(leaveRequestService.getLeaveRequestById(id).toLeaveRequestApiModel(), HttpStatus.OK)
+    }
+
+    override fun getLeaveRequestByIdWithApprovals(id: UUID): ResponseEntity<LeaveRequestWithApprovalsApiModel> {
+        return ResponseEntity(leaveRequestService.getLeaveRequestByIdWithApproverCheck(id).toLeaveRequestWithApprovalsApiModel(), HttpStatus.OK)
+    }
+
+    override fun filterLeaveRequests(from: LocalDate?, to: LocalDate?, status: MutableList<String>?, users: MutableList<UUID>?, leaveTypes: MutableList<UUID>?): ResponseEntity<MutableList<LeaveRequestApiModel>> {
+        return ResponseEntity(leaveRequestService.filterLeaveRequests(from, to, status?.map { LeaveRequestStatus.valueOf(it) } ?: listOf(), users ?: listOf(), leaveTypes ?: listOf()).map { it.toLeaveRequestApiModel() }.toMutableList(), HttpStatus.OK)
     }
 
     override fun createLeaveRequest(body: LeaveRequestCreateApiModel): ResponseEntity<LeaveRequestApiModel> {

@@ -6,8 +6,8 @@
 package com.evolveum.day_off_planner_rest_api.api;
 
 import com.evolveum.day_off_planner_rest_api.model.LeaveRequestApiModel;
-import com.evolveum.day_off_planner_rest_api.model.LeaveRequestApprovalApiModel;
 import com.evolveum.day_off_planner_rest_api.model.LeaveRequestCreateApiModel;
+import com.evolveum.day_off_planner_rest_api.model.LeaveRequestWithApprovalsApiModel;
 import java.util.UUID;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
@@ -32,7 +32,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-17T17:10:02.127Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-18T08:11:22.026Z[GMT]")
 @Api(value = "leave", description = "the leave API")
 public interface LeaveApi {
 
@@ -50,19 +50,46 @@ public interface LeaveApi {
         return getRequest().map(r -> r.getHeader("Accept"));
     }
 
-    @ApiOperation(value = "Approve/reject leave request with given ID", nickname = "approveLeaveRequest", notes = "", response = LeaveRequestApprovalApiModel.class, authorizations = {
+    @ApiOperation(value = "Approve/reject leave request with given ID", nickname = "approveLeaveRequest", notes = "", response = LeaveRequestWithApprovalsApiModel.class, authorizations = {
         @Authorization(value = "bearerAuth")    }, tags={ "leave", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = LeaveRequestApprovalApiModel.class),
+        @ApiResponse(code = 200, message = "OK", response = LeaveRequestWithApprovalsApiModel.class),
+        @ApiResponse(code = 403, message = "Only approvers / already voted"),
         @ApiResponse(code = 404, message = "Not found") })
     @RequestMapping(value = "/leave/{id}/approve",
         produces = { "application/json" }, 
         method = RequestMethod.POST)
-    default ResponseEntity<LeaveRequestApprovalApiModel> approveLeaveRequest(@ApiParam(value = "Leave request ID",required=true) @PathVariable("id") UUID id,@NotNull @ApiParam(value = "Whether to approve (true) or reject (false) leave request", required = true) @Valid @RequestParam(value = "approve", required = true) Boolean approve) {
+    default ResponseEntity<LeaveRequestWithApprovalsApiModel> approveLeaveRequest(@ApiParam(value = "Leave request ID",required=true) @PathVariable("id") UUID id,@NotNull @ApiParam(value = "Whether to approve (true) or reject (false) leave request", required = true) @Valid @RequestParam(value = "approve", required = true) Boolean approve) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
-                    return new ResponseEntity<>(getObjectMapper().get().readValue("{\n  \"approver\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n  \"leaveRequest\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n  \"approved\" : true\n}", LeaveRequestApprovalApiModel.class), HttpStatus.NOT_IMPLEMENTED);
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("{\n  \"leaveRequest\" : {\n    \"fromDate\" : \"2000-01-23T04:56:07.000+00:00\",\n    \"leaveType\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"toDate\" : \"2000-01-23T04:56:07.000+00:00\",\n    \"id\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"user\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"status\" : \"APPROVED\"\n  },\n  \"approvals\" : [ {\n    \"approver\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"leaveRequest\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"approved\" : true\n  }, {\n    \"approver\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"leaveRequest\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"approved\" : true\n  } ]\n}", LeaveRequestWithApprovalsApiModel.class), HttpStatus.NOT_IMPLEMENTED);
+                } catch (IOException e) {
+                    log.error("Couldn't serialize response for content type application/json", e);
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            }
+        } else {
+            log.warn("ObjectMapper or HttpServletRequest not configured in default LeaveApi interface so no example is generated");
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    }
+
+
+    @ApiOperation(value = "Cancel leave request with given ID", nickname = "cancelLeaveRequest", notes = "", response = LeaveRequestApiModel.class, authorizations = {
+        @Authorization(value = "bearerAuth")    }, tags={ "leave", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = LeaveRequestApiModel.class),
+        @ApiResponse(code = 403, message = "Only requesting user can cancel"),
+        @ApiResponse(code = 404, message = "Not found") })
+    @RequestMapping(value = "/leave/{id}/cancel",
+        produces = { "application/json" }, 
+        method = RequestMethod.POST)
+    default ResponseEntity<LeaveRequestApiModel> cancelLeaveRequest(@ApiParam(value = "Leave request ID",required=true) @PathVariable("id") UUID id) {
+        if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
+            if (getAcceptHeader().get().contains("application/json")) {
+                try {
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("{\n  \"fromDate\" : \"2000-01-23T04:56:07.000+00:00\",\n  \"leaveType\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n  \"toDate\" : \"2000-01-23T04:56:07.000+00:00\",\n  \"id\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n  \"user\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n  \"status\" : \"APPROVED\"\n}", LeaveRequestApiModel.class), HttpStatus.NOT_IMPLEMENTED);
                 } catch (IOException e) {
                     log.error("Couldn't serialize response for content type application/json", e);
                     return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -100,19 +127,20 @@ public interface LeaveApi {
     }
 
 
-    @ApiOperation(value = "FORCE approve/reject leave request with given ID (only supervisor)", nickname = "forceApproveLeaveRequest", notes = "", response = LeaveRequestApiModel.class, authorizations = {
+    @ApiOperation(value = "FORCE approve/reject leave request with given ID (only supervisor)", nickname = "forceApproveLeaveRequest", notes = "", response = LeaveRequestWithApprovalsApiModel.class, authorizations = {
         @Authorization(value = "bearerAuth")    }, tags={ "leave", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = LeaveRequestApiModel.class),
+        @ApiResponse(code = 200, message = "OK", response = LeaveRequestWithApprovalsApiModel.class),
+        @ApiResponse(code = 403, message = "Only supervisor can force approve"),
         @ApiResponse(code = 404, message = "Not found") })
     @RequestMapping(value = "/leave/{id}/forceApprove",
         produces = { "application/json" }, 
         method = RequestMethod.POST)
-    default ResponseEntity<LeaveRequestApiModel> forceApproveLeaveRequest(@ApiParam(value = "Leave request ID",required=true) @PathVariable("id") UUID id,@NotNull @ApiParam(value = "Whether to approve (true) or reject (false) leave request", required = true) @Valid @RequestParam(value = "approve", required = true) Boolean approve) {
+    default ResponseEntity<LeaveRequestWithApprovalsApiModel> forceApproveLeaveRequest(@ApiParam(value = "Leave request ID",required=true) @PathVariable("id") UUID id,@NotNull @ApiParam(value = "Whether to approve (true) or reject (false) leave request", required = true) @Valid @RequestParam(value = "approve", required = true) Boolean approve) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
-                    return new ResponseEntity<>(getObjectMapper().get().readValue("{\n  \"fromDate\" : \"2000-01-23T04:56:07.000+00:00\",\n  \"leaveType\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n  \"toDate\" : \"2000-01-23T04:56:07.000+00:00\",\n  \"id\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n  \"user\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n  \"status\" : \"APPROVED\"\n}", LeaveRequestApiModel.class), HttpStatus.NOT_IMPLEMENTED);
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("{\n  \"leaveRequest\" : {\n    \"fromDate\" : \"2000-01-23T04:56:07.000+00:00\",\n    \"leaveType\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"toDate\" : \"2000-01-23T04:56:07.000+00:00\",\n    \"id\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"user\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"status\" : \"APPROVED\"\n  },\n  \"approvals\" : [ {\n    \"approver\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"leaveRequest\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"approved\" : true\n  }, {\n    \"approver\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"leaveRequest\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"approved\" : true\n  } ]\n}", LeaveRequestWithApprovalsApiModel.class), HttpStatus.NOT_IMPLEMENTED);
                 } catch (IOException e) {
                     log.error("Couldn't serialize response for content type application/json", e);
                     return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -125,19 +153,20 @@ public interface LeaveApi {
     }
 
 
-    @ApiOperation(value = "Get leave request by ID", nickname = "getLeaveRequestById", notes = "", response = LeaveRequestApiModel.class, authorizations = {
+    @ApiOperation(value = "Get leave request by ID", nickname = "getLeaveRequestById", notes = "", response = LeaveRequestWithApprovalsApiModel.class, authorizations = {
         @Authorization(value = "bearerAuth")    }, tags={ "leave", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = LeaveRequestApiModel.class),
+        @ApiResponse(code = 200, message = "OK", response = LeaveRequestWithApprovalsApiModel.class),
+        @ApiResponse(code = 403, message = "Only approvers can see datails"),
         @ApiResponse(code = 404, message = "Not found") })
     @RequestMapping(value = "/leave/{id}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    default ResponseEntity<LeaveRequestApiModel> getLeaveRequestById(@ApiParam(value = "Leave request ID",required=true) @PathVariable("id") UUID id) {
+    default ResponseEntity<LeaveRequestWithApprovalsApiModel> getLeaveRequestById(@ApiParam(value = "Leave request ID",required=true) @PathVariable("id") UUID id) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
-                    return new ResponseEntity<>(getObjectMapper().get().readValue("{\n  \"fromDate\" : \"2000-01-23T04:56:07.000+00:00\",\n  \"leaveType\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n  \"toDate\" : \"2000-01-23T04:56:07.000+00:00\",\n  \"id\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n  \"user\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n  \"status\" : \"APPROVED\"\n}", LeaveRequestApiModel.class), HttpStatus.NOT_IMPLEMENTED);
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("{\n  \"leaveRequest\" : {\n    \"fromDate\" : \"2000-01-23T04:56:07.000+00:00\",\n    \"leaveType\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"toDate\" : \"2000-01-23T04:56:07.000+00:00\",\n    \"id\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"user\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"status\" : \"APPROVED\"\n  },\n  \"approvals\" : [ {\n    \"approver\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"leaveRequest\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"approved\" : true\n  }, {\n    \"approver\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"leaveRequest\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"approved\" : true\n  } ]\n}", LeaveRequestWithApprovalsApiModel.class), HttpStatus.NOT_IMPLEMENTED);
                 } catch (IOException e) {
                     log.error("Couldn't serialize response for content type application/json", e);
                     return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

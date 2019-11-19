@@ -18,4 +18,7 @@ interface UserRepository : JpaRepository<User, UUID> {
 
     @Query(value = "select u from User u where u.deleted = false")
     fun findAllNotDeleted(): List<User>
+
+    @Query(value = "select case when count(u) > 0 then true else false end from User u where ((u.supervisor = :user) or (:user member of u.approvers))")
+    fun isApprover(@Param("user") user: User): Boolean
 }

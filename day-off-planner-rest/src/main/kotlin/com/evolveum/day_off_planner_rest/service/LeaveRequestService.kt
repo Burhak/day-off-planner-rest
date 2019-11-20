@@ -1,15 +1,14 @@
 package com.evolveum.day_off_planner_rest.service
 
 import com.evolveum.day_off_planner_rest.assembler.LeaveRequestAssembler
-import com.evolveum.day_off_planner_rest.data.entity.LeaveRequest
-import com.evolveum.day_off_planner_rest.data.entity.LeaveRequestApproval
-import com.evolveum.day_off_planner_rest.data.entity.LeaveType
-import com.evolveum.day_off_planner_rest.data.entity.User
+import com.evolveum.day_off_planner_rest.data.entity.*
 import com.evolveum.day_off_planner_rest.data.enums.LeaveRequestStatus
 import com.evolveum.day_off_planner_rest.data.repository.LeaveRequestApprovalRepository
+import com.evolveum.day_off_planner_rest.data.repository.LeaveRequestMessageRepository
 import com.evolveum.day_off_planner_rest.data.repository.LeaveRequestRepository
 import com.evolveum.day_off_planner_rest.exception.*
 import com.evolveum.day_off_planner_rest.util.date.*
+import com.evolveum.day_off_planner_rest_api.model.LeaveRequestAddMessageApiModel
 import com.evolveum.day_off_planner_rest_api.model.LeaveRequestCreateApiModel
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -26,6 +25,7 @@ class LeaveRequestService(
         @PersistenceContext private val entityManager: EntityManager,
         private val leaveRequestRepository: LeaveRequestRepository,
         private val leaveRequestApprovalRepository: LeaveRequestApprovalRepository,
+        private val leaveRequestMessageRepository: LeaveRequestMessageRepository,
         private val leaveRequestAssembler: LeaveRequestAssembler,
         private val userService: UserService,
         private val settingService: SettingService,
@@ -75,7 +75,7 @@ class LeaveRequestService(
             approvers.forEach { approverId -> predicates.add(builder.equal(approverPath, userService.getUserById(approverId))) }
         }
 
-        query.where(*predicates.toTypedArray())
+        query.where(*predicates.toTypedArray()).orderBy(builder.desc(root.get<LocalDateTime>("fromDate")), builder.desc(root.get<LocalDateTime>("toDate")))
         return entityManager.createQuery(query).resultList
     }
 
@@ -153,6 +153,24 @@ class LeaveRequestService(
         leaveRequest.checkPending()
 
         return if (approve) leaveRequest.approve() else leaveRequest.reject()
+    }
+
+    fun addMessage(leaveRequestAddMessageApiModel: LeaveRequestAddMessageApiModel, id: UUID): LeaveRequest {
+        val leaveRequest = getLeaveRequestById(id)
+        val user = userService.getLoggedUser()
+        getApproval(user, leaveRequest)
+
+        leaveRequestMessageRepository.save(LeaveRequestMessage(leaveRequest, user, leaveRequestAddMessageApiModel.message))
+
+        // notify rest of approvers
+        leaveRequest.approvals.filter { it.approver != user }.forEach {
+            emailService.sendMessage(
+                    it.approver.email,
+                    "New message - ${leaveRequest.user.fullName} (${leaveRequest.type.name})",
+                    "New message was added to leave request of ${leaveRequest.user.fullName} (${leaveRequest.type.name}): \n\n${leaveRequestAddMessageApiModel.message}"
+            )
+        }
+        return leaveRequest
     }
 
     private fun getApproval(approver: User, leaveRequest: LeaveRequest): LeaveRequestApproval =

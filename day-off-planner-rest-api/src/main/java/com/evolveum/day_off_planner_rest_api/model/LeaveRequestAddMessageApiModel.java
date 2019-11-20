@@ -10,55 +10,32 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * UserLoginApiModel
+ * LeaveRequestAddMessageApiModel
  */
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-20T17:21:05.197Z[GMT]")
-public class UserLoginApiModel   {
-  @JsonProperty("email")
-  private String email = null;
+public class LeaveRequestAddMessageApiModel   {
+  @JsonProperty("message")
+  private String message = null;
 
-  @JsonProperty("password")
-  private String password = null;
-
-  public UserLoginApiModel email(String email) {
-    this.email = email;
+  public LeaveRequestAddMessageApiModel message(String message) {
+    this.message = message;
     return this;
   }
 
   /**
-   * Get email
-   * @return email
+   * Get message
+   * @return message
   **/
   @ApiModelProperty(required = true, value = "")
       @NotNull
 
-    public String getEmail() {
-    return email;
+    public String getMessage() {
+    return message;
   }
 
-  public void setEmail(String email) {
-    this.email = email;
-  }
-
-  public UserLoginApiModel password(String password) {
-    this.password = password;
-    return this;
-  }
-
-  /**
-   * Get password
-   * @return password
-  **/
-  @ApiModelProperty(required = true, value = "")
-      @NotNull
-
-    public String getPassword() {
-    return password;
-  }
-
-  public void setPassword(String password) {
-    this.password = password;
+  public void setMessage(String message) {
+    this.message = message;
   }
 
 
@@ -70,23 +47,21 @@ public class UserLoginApiModel   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    UserLoginApiModel userLoginApiModel = (UserLoginApiModel) o;
-    return Objects.equals(this.email, userLoginApiModel.email) &&
-        Objects.equals(this.password, userLoginApiModel.password);
+    LeaveRequestAddMessageApiModel leaveRequestAddMessageApiModel = (LeaveRequestAddMessageApiModel) o;
+    return Objects.equals(this.message, leaveRequestAddMessageApiModel.message);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(email, password);
+    return Objects.hash(message);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class UserLoginApiModel {\n");
+    sb.append("class LeaveRequestAddMessageApiModel {\n");
     
-    sb.append("    email: ").append(toIndentedString(email)).append("\n");
-    sb.append("    password: ").append(toIndentedString(password)).append("\n");
+    sb.append("    message: ").append(toIndentedString(message)).append("\n");
     sb.append("}");
     return sb.toString();
   }

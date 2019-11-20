@@ -2,6 +2,7 @@ package com.evolveum.day_off_planner_rest.assembler
 
 import com.evolveum.day_off_planner_rest.data.entity.LeaveRequest
 import com.evolveum.day_off_planner_rest.data.entity.LeaveRequestApproval
+import com.evolveum.day_off_planner_rest.data.entity.LeaveRequestMessage
 import com.evolveum.day_off_planner_rest.data.entity.User
 import com.evolveum.day_off_planner_rest.service.LeaveTypeService
 import com.evolveum.day_off_planner_rest_api.model.*
@@ -35,7 +36,7 @@ fun LeaveRequest.toLeaveRequestApiModel(): LeaveRequestApiModel = LeaveRequestAp
 fun LeaveRequest.toLeaveRequestWithApprovalsApiModel(): LeaveRequestWithApprovalsApiModel = LeaveRequestWithApprovalsApiModel()
         .leaveRequest(this.toLeaveRequestApiModel())
         .approvals(approvals.map { it.toLeaveRequestApprovalApiModel() })
-
+        .messages(messages.sortedByDescending { it.timestamp }.map { it.toLeaveRequestMessageApiModel() })
 
 fun Int.toRequestHoursApiModel(userId: UUID, leaveTypeId: UUID, year: Int?): RequestedHoursApiModel = RequestedHoursApiModel()
         .user(userId)
@@ -47,3 +48,9 @@ fun LeaveRequestApproval.toLeaveRequestApprovalApiModel(): LeaveRequestApprovalA
         .approver(approver.id)
         .leaveRequest(leaveRequest.id)
         .approved(approved)
+
+fun LeaveRequestMessage.toLeaveRequestMessageApiModel(): LeaveRequestMessageApiModel = LeaveRequestMessageApiModel()
+        .approver(approver.id)
+        .leaveRequest(leaveRequest.id)
+        .message(message)
+        .timestamp(timestamp)

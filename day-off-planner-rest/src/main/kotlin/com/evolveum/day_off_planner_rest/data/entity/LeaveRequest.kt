@@ -26,4 +26,8 @@ data class LeaveRequest(
     @OneToMany(mappedBy = "leaveRequest", cascade = [CascadeType.ALL])
     @JvmSuppressWildcards
     var approvals: List<LeaveRequestApproval> = mutableListOf()
+
+    @OneToMany(mappedBy = "leaveRequest", cascade = [CascadeType.ALL])
+    @JvmSuppressWildcards
+    var messages: List<LeaveRequestMessage> = mutableListOf()
 }

@@ -14,7 +14,7 @@ import javax.validation.constraints.*;
  * CarryoverApiModel
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-19T16:35:41.943Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-20T13:15:02.460Z[GMT]")
 public class CarryoverApiModel   {
   @JsonProperty("user")
   private UUID user = null;

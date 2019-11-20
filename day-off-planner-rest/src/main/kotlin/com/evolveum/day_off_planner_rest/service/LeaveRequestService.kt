@@ -13,8 +13,8 @@ import com.evolveum.day_off_planner_rest.util.date.*
 import com.evolveum.day_off_planner_rest_api.model.LeaveRequestCreateApiModel
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.sql.Timestamp
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.util.*
 import javax.persistence.EntityManager
 import javax.persistence.PersistenceContext
@@ -48,7 +48,7 @@ class LeaveRequestService(
             settingService.getWorkDayStartEnd()
     )
 
-    fun filterLeaveRequests(from: LocalDate?, to: LocalDate?, status: List<LeaveRequestStatus>, users: List<UUID>, leaveTypes: List<UUID>): List<LeaveRequest> {
+    fun filterLeaveRequests(from: LocalDate?, to: LocalDate?, status: List<LeaveRequestStatus>, users: List<UUID>, leaveTypes: List<UUID>, approvers: List<UUID>): List<LeaveRequest> {
         val builder = entityManager.criteriaBuilder
         val query = builder.createQuery(LeaveRequest::class.java)
         val root = query.from(LeaveRequest::class.java)
@@ -56,10 +56,10 @@ class LeaveRequestService(
         val predicates = mutableListOf<Predicate>()
 
         if (from != null)
-            predicates.add(builder.greaterThanOrEqualTo(root.get<Timestamp>("toDate"), from.toTimestamp()))
+            predicates.add(builder.greaterThanOrEqualTo(root.get<LocalDateTime>("toDate"), from.atStartOfDay()))
 
         if (to != null)
-            predicates.add(builder.lessThan(root.get<Timestamp>("fromDate"), to.plusDays(1).toTimestamp()))
+            predicates.add(builder.lessThan(root.get<LocalDateTime>("fromDate"), to.plusDays(1).atStartOfDay()))
 
         if (status.isNotEmpty())
             predicates.add(root.get<LeaveRequestStatus>("status").`in`(status))
@@ -69,6 +69,11 @@ class LeaveRequestService(
 
         if (leaveTypes.isNotEmpty())
             predicates.add(root.get<LeaveType>("type").`in`(leaveTypes.map { leaveTypeService.getLeaveTypeById(it) }))
+
+        if (approvers.isNotEmpty()) {
+            val approverPath = root.joinList<LeaveRequest, LeaveRequestApproval>("approvals").get<User>("approver")
+            approvers.forEach { approverId -> predicates.add(builder.equal(approverPath, userService.getUserById(approverId))) }
+        }
 
         query.where(*predicates.toTypedArray())
         return entityManager.createQuery(query).resultList

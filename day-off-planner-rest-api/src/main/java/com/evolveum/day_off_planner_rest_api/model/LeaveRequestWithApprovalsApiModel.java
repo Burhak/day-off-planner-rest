@@ -3,6 +3,7 @@ package com.evolveum.day_off_planner_rest_api.model;
 import java.util.Objects;
 import com.evolveum.day_off_planner_rest_api.model.LeaveRequestApiModel;
 import com.evolveum.day_off_planner_rest_api.model.LeaveRequestApprovalApiModel;
+import com.evolveum.day_off_planner_rest_api.model.LeaveRequestMessageApiModel;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
@@ -17,7 +18,7 @@ import javax.validation.constraints.*;
  * LeaveRequestWithApprovalsApiModel
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-20T13:15:02.460Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-20T17:21:05.197Z[GMT]")
 public class LeaveRequestWithApprovalsApiModel   {
   @JsonProperty("leaveRequest")
   private LeaveRequestApiModel leaveRequest = null;
@@ -25,6 +26,10 @@ public class LeaveRequestWithApprovalsApiModel   {
   @JsonProperty("approvals")
   @Valid
   private List<LeaveRequestApprovalApiModel> approvals = new ArrayList<>();
+
+  @JsonProperty("messages")
+  @Valid
+  private List<LeaveRequestMessageApiModel> messages = null;
 
   public LeaveRequestWithApprovalsApiModel leaveRequest(LeaveRequestApiModel leaveRequest) {
     this.leaveRequest = leaveRequest;
@@ -72,6 +77,33 @@ public class LeaveRequestWithApprovalsApiModel   {
     this.approvals = approvals;
   }
 
+  public LeaveRequestWithApprovalsApiModel messages(List<LeaveRequestMessageApiModel> messages) {
+    this.messages = messages;
+    return this;
+  }
+
+  public LeaveRequestWithApprovalsApiModel addMessagesItem(LeaveRequestMessageApiModel messagesItem) {
+    if (this.messages == null) {
+      this.messages = new ArrayList<>();
+    }
+    this.messages.add(messagesItem);
+    return this;
+  }
+
+  /**
+   * Get messages
+   * @return messages
+  **/
+  @ApiModelProperty(readOnly = true, value = "")
+      @Valid
+    public List<LeaveRequestMessageApiModel> getMessages() {
+    return messages;
+  }
+
+  public void setMessages(List<LeaveRequestMessageApiModel> messages) {
+    this.messages = messages;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -83,12 +115,13 @@ public class LeaveRequestWithApprovalsApiModel   {
     }
     LeaveRequestWithApprovalsApiModel leaveRequestWithApprovalsApiModel = (LeaveRequestWithApprovalsApiModel) o;
     return Objects.equals(this.leaveRequest, leaveRequestWithApprovalsApiModel.leaveRequest) &&
-        Objects.equals(this.approvals, leaveRequestWithApprovalsApiModel.approvals);
+        Objects.equals(this.approvals, leaveRequestWithApprovalsApiModel.approvals) &&
+        Objects.equals(this.messages, leaveRequestWithApprovalsApiModel.messages);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(leaveRequest, approvals);
+    return Objects.hash(leaveRequest, approvals, messages);
   }
 
   @Override
@@ -98,6 +131,7 @@ public class LeaveRequestWithApprovalsApiModel   {
     
     sb.append("    leaveRequest: ").append(toIndentedString(leaveRequest)).append("\n");
     sb.append("    approvals: ").append(toIndentedString(approvals)).append("\n");
+    sb.append("    messages: ").append(toIndentedString(messages)).append("\n");
     sb.append("}");
     return sb.toString();
   }

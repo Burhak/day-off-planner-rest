@@ -5,6 +5,7 @@
  */
 package com.evolveum.day_off_planner_rest_api.api;
 
+import com.evolveum.day_off_planner_rest_api.model.LeaveRequestAddMessageApiModel;
 import com.evolveum.day_off_planner_rest_api.model.LeaveRequestApiModel;
 import com.evolveum.day_off_planner_rest_api.model.LeaveRequestCreateApiModel;
 import com.evolveum.day_off_planner_rest_api.model.LeaveRequestWithApprovalsApiModel;
@@ -33,7 +34,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-20T13:15:02.460Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-20T17:21:05.197Z[GMT]")
 @Api(value = "leave", description = "the leave API")
 public interface LeaveApi {
 
@@ -51,6 +52,31 @@ public interface LeaveApi {
         return getRequest().map(r -> r.getHeader("Accept"));
     }
 
+    @ApiOperation(value = "Add a message to leave request with given ID", nickname = "addMessage", notes = "", response = LeaveRequestWithApprovalsApiModel.class, authorizations = {
+        @Authorization(value = "bearerAuth")    }, tags={ "leave", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 201, message = "Created", response = LeaveRequestWithApprovalsApiModel.class) })
+    @RequestMapping(value = "/leave/{id}/message",
+        produces = { "application/json" }, 
+        consumes = { "application/json" },
+        method = RequestMethod.POST)
+    default ResponseEntity<LeaveRequestWithApprovalsApiModel> addMessage(@ApiParam(value = "Message to be added to leave request" ,required=true )  @Valid @RequestBody LeaveRequestAddMessageApiModel body,@ApiParam(value = "Leave request ID",required=true) @PathVariable("id") UUID id) {
+        if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
+            if (getAcceptHeader().get().contains("application/json")) {
+                try {
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("{\n  \"leaveRequest\" : {\n    \"fromDate\" : \"2000-01-23T04:56:07.000+00:00\",\n    \"leaveType\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"toDate\" : \"2000-01-23T04:56:07.000+00:00\",\n    \"id\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"user\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"status\" : \"APPROVED\"\n  },\n  \"approvals\" : [ {\n    \"approver\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"leaveRequest\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"approved\" : true\n  }, {\n    \"approver\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"leaveRequest\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"approved\" : true\n  } ],\n  \"messages\" : [ {\n    \"approver\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"leaveRequest\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"message\" : \"message\",\n    \"timestamp\" : \"2000-01-23T04:56:07.000+00:00\"\n  }, {\n    \"approver\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"leaveRequest\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"message\" : \"message\",\n    \"timestamp\" : \"2000-01-23T04:56:07.000+00:00\"\n  } ]\n}", LeaveRequestWithApprovalsApiModel.class), HttpStatus.NOT_IMPLEMENTED);
+                } catch (IOException e) {
+                    log.error("Couldn't serialize response for content type application/json", e);
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            }
+        } else {
+            log.warn("ObjectMapper or HttpServletRequest not configured in default LeaveApi interface so no example is generated");
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    }
+
+
     @ApiOperation(value = "Approve/reject leave request with given ID", nickname = "approveLeaveRequest", notes = "", response = LeaveRequestWithApprovalsApiModel.class, authorizations = {
         @Authorization(value = "bearerAuth")    }, tags={ "leave", })
     @ApiResponses(value = { 
@@ -64,7 +90,7 @@ public interface LeaveApi {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
-                    return new ResponseEntity<>(getObjectMapper().get().readValue("{\n  \"leaveRequest\" : {\n    \"fromDate\" : \"2000-01-23T04:56:07.000+00:00\",\n    \"leaveType\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"toDate\" : \"2000-01-23T04:56:07.000+00:00\",\n    \"id\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"user\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"status\" : \"APPROVED\"\n  },\n  \"approvals\" : [ {\n    \"approver\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"leaveRequest\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"approved\" : true\n  }, {\n    \"approver\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"leaveRequest\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"approved\" : true\n  } ]\n}", LeaveRequestWithApprovalsApiModel.class), HttpStatus.NOT_IMPLEMENTED);
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("{\n  \"leaveRequest\" : {\n    \"fromDate\" : \"2000-01-23T04:56:07.000+00:00\",\n    \"leaveType\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"toDate\" : \"2000-01-23T04:56:07.000+00:00\",\n    \"id\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"user\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"status\" : \"APPROVED\"\n  },\n  \"approvals\" : [ {\n    \"approver\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"leaveRequest\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"approved\" : true\n  }, {\n    \"approver\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"leaveRequest\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"approved\" : true\n  } ],\n  \"messages\" : [ {\n    \"approver\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"leaveRequest\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"message\" : \"message\",\n    \"timestamp\" : \"2000-01-23T04:56:07.000+00:00\"\n  }, {\n    \"approver\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"leaveRequest\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"message\" : \"message\",\n    \"timestamp\" : \"2000-01-23T04:56:07.000+00:00\"\n  } ]\n}", LeaveRequestWithApprovalsApiModel.class), HttpStatus.NOT_IMPLEMENTED);
                 } catch (IOException e) {
                     log.error("Couldn't serialize response for content type application/json", e);
                     return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -165,7 +191,7 @@ public interface LeaveApi {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
-                    return new ResponseEntity<>(getObjectMapper().get().readValue("{\n  \"leaveRequest\" : {\n    \"fromDate\" : \"2000-01-23T04:56:07.000+00:00\",\n    \"leaveType\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"toDate\" : \"2000-01-23T04:56:07.000+00:00\",\n    \"id\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"user\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"status\" : \"APPROVED\"\n  },\n  \"approvals\" : [ {\n    \"approver\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"leaveRequest\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"approved\" : true\n  }, {\n    \"approver\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"leaveRequest\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"approved\" : true\n  } ]\n}", LeaveRequestWithApprovalsApiModel.class), HttpStatus.NOT_IMPLEMENTED);
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("{\n  \"leaveRequest\" : {\n    \"fromDate\" : \"2000-01-23T04:56:07.000+00:00\",\n    \"leaveType\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"toDate\" : \"2000-01-23T04:56:07.000+00:00\",\n    \"id\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"user\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"status\" : \"APPROVED\"\n  },\n  \"approvals\" : [ {\n    \"approver\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"leaveRequest\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"approved\" : true\n  }, {\n    \"approver\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"leaveRequest\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"approved\" : true\n  } ],\n  \"messages\" : [ {\n    \"approver\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"leaveRequest\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"message\" : \"message\",\n    \"timestamp\" : \"2000-01-23T04:56:07.000+00:00\"\n  }, {\n    \"approver\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"leaveRequest\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"message\" : \"message\",\n    \"timestamp\" : \"2000-01-23T04:56:07.000+00:00\"\n  } ]\n}", LeaveRequestWithApprovalsApiModel.class), HttpStatus.NOT_IMPLEMENTED);
                 } catch (IOException e) {
                     log.error("Couldn't serialize response for content type application/json", e);
                     return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -216,7 +242,7 @@ public interface LeaveApi {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
-                    return new ResponseEntity<>(getObjectMapper().get().readValue("{\n  \"leaveRequest\" : {\n    \"fromDate\" : \"2000-01-23T04:56:07.000+00:00\",\n    \"leaveType\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"toDate\" : \"2000-01-23T04:56:07.000+00:00\",\n    \"id\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"user\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"status\" : \"APPROVED\"\n  },\n  \"approvals\" : [ {\n    \"approver\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"leaveRequest\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"approved\" : true\n  }, {\n    \"approver\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"leaveRequest\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"approved\" : true\n  } ]\n}", LeaveRequestWithApprovalsApiModel.class), HttpStatus.NOT_IMPLEMENTED);
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("{\n  \"leaveRequest\" : {\n    \"fromDate\" : \"2000-01-23T04:56:07.000+00:00\",\n    \"leaveType\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"toDate\" : \"2000-01-23T04:56:07.000+00:00\",\n    \"id\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"user\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"status\" : \"APPROVED\"\n  },\n  \"approvals\" : [ {\n    \"approver\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"leaveRequest\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"approved\" : true\n  }, {\n    \"approver\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"leaveRequest\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"approved\" : true\n  } ],\n  \"messages\" : [ {\n    \"approver\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"leaveRequest\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"message\" : \"message\",\n    \"timestamp\" : \"2000-01-23T04:56:07.000+00:00\"\n  }, {\n    \"approver\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"leaveRequest\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n    \"message\" : \"message\",\n    \"timestamp\" : \"2000-01-23T04:56:07.000+00:00\"\n  } ]\n}", LeaveRequestWithApprovalsApiModel.class), HttpStatus.NOT_IMPLEMENTED);
                 } catch (IOException e) {
                     log.error("Couldn't serialize response for content type application/json", e);
                     return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

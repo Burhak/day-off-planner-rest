@@ -33,7 +33,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-19T16:35:41.943Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-20T13:15:02.460Z[GMT]")
 @Api(value = "leave", description = "the leave API")
 public interface LeaveApi {
 
@@ -135,7 +135,7 @@ public interface LeaveApi {
     @RequestMapping(value = "/leave/filter",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    default ResponseEntity<List<LeaveRequestApiModel>> filterLeaveRequests(@ApiParam(value = "From date") @Valid @RequestParam(value = "from", required = false) LocalDate from,@ApiParam(value = "To date") @Valid @RequestParam(value = "to", required = false) LocalDate to,@ApiParam(value = "List of statuses to include in result (all if not set)", allowableValues = "APPROVED, REJECTED, PENDING, CANCELLED") @Valid @RequestParam(value = "status", required = false) List<String> status,@ApiParam(value = "List of users to include in result (all if not set)") @Valid @RequestParam(value = "users", required = false) List<UUID> users,@ApiParam(value = "List of leave types to include in result (all if not set)") @Valid @RequestParam(value = "leaveTypes", required = false) List<UUID> leaveTypes) {
+    default ResponseEntity<List<LeaveRequestApiModel>> filterLeaveRequests(@ApiParam(value = "From date") @Valid @RequestParam(value = "from", required = false) LocalDate from,@ApiParam(value = "To date") @Valid @RequestParam(value = "to", required = false) LocalDate to,@ApiParam(value = "List of statuses to include in result (all if not set)", allowableValues = "APPROVED, REJECTED, PENDING, CANCELLED") @Valid @RequestParam(value = "status", required = false) List<String> status,@ApiParam(value = "List of users to include in result (all if not set)") @Valid @RequestParam(value = "users", required = false) List<UUID> users,@ApiParam(value = "List of leave types to include in result (all if not set)") @Valid @RequestParam(value = "leaveTypes", required = false) List<UUID> leaveTypes,@ApiParam(value = "List of approvers to include in result (all if not set)") @Valid @RequestParam(value = "approvers", required = false) List<UUID> approvers) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {

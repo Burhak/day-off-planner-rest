@@ -9,6 +9,7 @@ import com.evolveum.day_off_planner_rest_api.api.LeaveApi
 import com.evolveum.day_off_planner_rest_api.model.LeaveRequestApiModel
 import com.evolveum.day_off_planner_rest_api.model.LeaveRequestCreateApiModel
 import com.evolveum.day_off_planner_rest_api.model.LeaveRequestWithApprovalsApiModel
+import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RestController
@@ -24,10 +25,6 @@ class LeaveRequestController(private val leaveRequestService: LeaveRequestServic
 
     override fun getLeaveRequestByIdWithApprovals(id: UUID): ResponseEntity<LeaveRequestWithApprovalsApiModel> {
         return ResponseEntity(leaveRequestService.getLeaveRequestByIdWithApproverCheck(id).toLeaveRequestWithApprovalsApiModel(), HttpStatus.OK)
-    }
-
-    override fun filterLeaveRequests(from: LocalDate?, to: LocalDate?, status: MutableList<String>?, users: MutableList<UUID>?, leaveTypes: MutableList<UUID>?): ResponseEntity<MutableList<LeaveRequestApiModel>> {
-        return ResponseEntity(leaveRequestService.filterLeaveRequests(from, to, status?.map { LeaveRequestStatus.valueOf(it) } ?: listOf(), users ?: listOf(), leaveTypes ?: listOf()).map { it.toLeaveRequestApiModel() }.toMutableList(), HttpStatus.OK)
     }
 
     override fun createLeaveRequest(body: LeaveRequestCreateApiModel): ResponseEntity<LeaveRequestApiModel> {
@@ -46,5 +43,23 @@ class LeaveRequestController(private val leaveRequestService: LeaveRequestServic
     override fun forceApproveLeaveRequest(id: UUID, approve: Boolean?): ResponseEntity<LeaveRequestWithApprovalsApiModel> {
         if (approve == null) throw WrongParamException("Parameter 'approve' is not set")
         return ResponseEntity(leaveRequestService.forceApproveLeaveRequest(id, approve).toLeaveRequestWithApprovalsApiModel(), HttpStatus.OK)
+    }
+
+    override fun filterLeaveRequests(
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) from: LocalDate?,
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) to: LocalDate?,
+            status: MutableList<String>?,
+            users: MutableList<UUID>?,
+            leaveTypes: MutableList<UUID>?,
+            approvers: MutableList<UUID>?
+    ): ResponseEntity<MutableList<LeaveRequestApiModel>> {
+        return ResponseEntity(leaveRequestService.filterLeaveRequests(
+                from,
+                to,
+                status?.map { LeaveRequestStatus.valueOf(it) } ?: listOf(),
+                users ?: listOf(),
+                leaveTypes ?: listOf(),
+                approvers ?: listOf()
+        ).map { it.toLeaveRequestApiModel() }.toMutableList(), HttpStatus.OK)
     }
 }

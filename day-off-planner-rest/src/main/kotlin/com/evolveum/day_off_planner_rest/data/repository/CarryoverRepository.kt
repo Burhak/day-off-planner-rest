@@ -14,4 +14,7 @@ interface CarryoverRepository : JpaRepository<Carryover, UUID> {
 
     @Query(value = "select c from Carryover c where c.user = :user and c.leaveType = :leaveType and c.year = :year")
     fun findOne(@Param("user") user: User, @Param("leaveType") leaveType: LeaveType, @Param("year") year: Int): Carryover?
+
+    @Query(value = "select c from Carryover c where c.user = :user and c.year = :year")
+    fun findAllByUser(@Param("user") user: User, @Param("year") year: Int): List<Carryover>
 }

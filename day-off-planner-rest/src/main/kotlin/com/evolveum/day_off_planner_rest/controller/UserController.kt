@@ -43,8 +43,16 @@ class UserController(
         return ResponseEntity(userService.getLoggedUser().toUserApiModel(), HttpStatus.OK)
     }
 
+    override fun getAllLimits(userId: UUID): ResponseEntity<MutableList<LimitApiModel>> {
+        return ResponseEntity(limitService.getAllIndividualLimits(userId).map { it.toLimitApiModel() }.toMutableList(), HttpStatus.OK)
+    }
+
     override fun getLimit(userId: UUID, leaveTypeId: UUID): ResponseEntity<LimitApiModel> {
         return ResponseEntity(limitService.getIndividualLimit(userId, leaveTypeId)?.toLimitApiModel(), HttpStatus.OK)
+    }
+
+    override fun getAllCarryovers(userId: UUID, year: Int?): ResponseEntity<MutableList<CarryoverApiModel>> {
+        return ResponseEntity(limitService.getAllCarryovers(userId, year).map { it.toCarryoverApiModel() }.toMutableList(), HttpStatus.OK)
     }
 
     override fun getCarryover(userId: UUID, leaveTypeId: UUID, year: Int?): ResponseEntity<CarryoverApiModel> {

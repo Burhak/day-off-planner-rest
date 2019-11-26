@@ -14,4 +14,7 @@ interface IndividualLimitRepository : JpaRepository<IndividualLimit, UUID> {
 
     @Query(value = "select il from IndividualLimit il where il.user = :user and il.leaveType = :leaveType")
     fun findOne(@Param("user") user: User, @Param("leaveType") leaveType: LeaveType): IndividualLimit?
+
+    @Query(value = "select il from IndividualLimit il where il.user = :user")
+    fun findAllByUser(@Param("user") user: User): List<IndividualLimit>
 }

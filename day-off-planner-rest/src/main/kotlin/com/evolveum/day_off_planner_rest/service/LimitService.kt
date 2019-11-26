@@ -25,8 +25,14 @@ class LimitService(
         private val limitAssembler: LimitAssembler
 ) {
 
+    fun getAllIndividualLimits(userId: UUID): List<IndividualLimit> =
+            limitRepository.findAllByUser(userService.getUserById(userId)).filter { it.leaveType.isLimited() }
+
     fun getIndividualLimit(userId: UUID, leaveTypeId: UUID): IndividualLimit? =
             getIndividualLimit(userService.getUserById(userId), leaveTypeService.getLeaveTypeById(leaveTypeId))
+
+    fun getAllCarryovers(userId: UUID, year: Int?): List<Carryover> =
+            carryoverRepository.findAllByUser(userService.getUserById(userId), year ?: LocalDate.now().year).filter { it.leaveType.supportsCarryover() }
 
     fun getCarryover(userId: UUID, leaveTypeId: UUID, year: Int?): Carryover? =
             getCarryover(userService.getUserById(userId), leaveTypeService.getLeaveTypeById(leaveTypeId), year ?: LocalDate.now().year)
@@ -54,8 +60,11 @@ class LimitService(
             limitRepository.findOne(user, leaveType.checkIfLimited())
 
     private fun getCarryover(user: User, leaveType: LeaveType, year: Int): Carryover? =
-            carryoverRepository.findOne(user, leaveType.checkIfLimited(), year)
+            carryoverRepository.findOne(user, leaveType.checkIfSupportsCarryover(), year)
 
     private fun LeaveType.checkIfLimited(): LeaveType =
             if (isLimited()) this else throw NotLimitedException("This leave type is not limited")
+
+    private fun LeaveType.checkIfSupportsCarryover(): LeaveType =
+            if (supportsCarryover()) this else throw NotLimitedException("This leave type does not support carryover")
 }

@@ -35,7 +35,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-20T17:21:05.197Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-26T09:10:06.516Z[GMT]")
 @Api(value = "user", description = "the user API")
 public interface UserApi {
 
@@ -63,6 +63,56 @@ public interface UserApi {
         method = RequestMethod.POST)
     default ResponseEntity<Void> changePassword(@ApiParam(value = "User old and new password" ,required=true )  @Valid @RequestBody PasswordChangeApiModel body) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
+        } else {
+            log.warn("ObjectMapper or HttpServletRequest not configured in default UserApi interface so no example is generated");
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    }
+
+
+    @ApiOperation(value = "Get user carryovers for specified year", nickname = "getAllCarryovers", notes = "", response = CarryoverApiModel.class, responseContainer = "List", authorizations = {
+        @Authorization(value = "bearerAuth")    }, tags={ "user", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = CarryoverApiModel.class, responseContainer = "List"),
+        @ApiResponse(code = 404, message = "Not found") })
+    @RequestMapping(value = "/user/{userId}/carryover",
+        produces = { "application/json" }, 
+        method = RequestMethod.GET)
+    default ResponseEntity<List<CarryoverApiModel>> getAllCarryovers(@ApiParam(value = "User ID",required=true) @PathVariable("userId") UUID userId,@ApiParam(value = "Year (current year if not specified)") @Valid @RequestParam(value = "year", required = false) Integer year) {
+        if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
+            if (getAcceptHeader().get().contains("application/json")) {
+                try {
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("[ {\n  \"leaveType\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n  \"year\" : 0,\n  \"carryover\" : 6,\n  \"user\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\"\n}, {\n  \"leaveType\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n  \"year\" : 0,\n  \"carryover\" : 6,\n  \"user\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\"\n} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
+                } catch (IOException e) {
+                    log.error("Couldn't serialize response for content type application/json", e);
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            }
+        } else {
+            log.warn("ObjectMapper or HttpServletRequest not configured in default UserApi interface so no example is generated");
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    }
+
+
+    @ApiOperation(value = "Get all user individual limit", nickname = "getAllLimits", notes = "", response = LimitApiModel.class, responseContainer = "List", authorizations = {
+        @Authorization(value = "bearerAuth")    }, tags={ "user", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = LimitApiModel.class, responseContainer = "List"),
+        @ApiResponse(code = 404, message = "Not found") })
+    @RequestMapping(value = "/user/{userId}/limit",
+        produces = { "application/json" }, 
+        method = RequestMethod.GET)
+    default ResponseEntity<List<LimitApiModel>> getAllLimits(@ApiParam(value = "User ID",required=true) @PathVariable("userId") UUID userId) {
+        if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
+            if (getAcceptHeader().get().contains("application/json")) {
+                try {
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("[ {\n  \"leaveType\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n  \"limit\" : 0,\n  \"user\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\"\n}, {\n  \"leaveType\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n  \"limit\" : 0,\n  \"user\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\"\n} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
+                } catch (IOException e) {
+                    log.error("Couldn't serialize response for content type application/json", e);
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            }
         } else {
             log.warn("ObjectMapper or HttpServletRequest not configured in default UserApi interface so no example is generated");
         }

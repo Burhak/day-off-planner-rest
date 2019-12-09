@@ -207,11 +207,13 @@ class LeaveRequestService(
     }
 
     private fun LeaveRequest.checkLimit() {
+        // these declarations are here at the beginning to validate also not limited requests
+        val workDayStartEnd = settingService.getWorkDayStartEnd()
+        val range = DateRange(this, workDayStartEnd, true)
+
         if (!type.isLimited()) return
 
-        val workDayStartEnd = settingService.getWorkDayStartEnd()
-
-        DateRange(this, workDayStartEnd, true).splitToYears().forEach { year ->
+        range.splitToYears().forEach { year ->
             val requesting = year.duration()
             val totalRequested = getRequestedHoursForYear(user, type, year.year, workDayStartEnd)
 

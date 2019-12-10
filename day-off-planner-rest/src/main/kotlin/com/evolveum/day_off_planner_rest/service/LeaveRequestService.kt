@@ -10,6 +10,8 @@ import com.evolveum.day_off_planner_rest.exception.*
 import com.evolveum.day_off_planner_rest.util.date.*
 import com.evolveum.day_off_planner_rest_api.model.LeaveRequestAddMessageApiModel
 import com.evolveum.day_off_planner_rest_api.model.LeaveRequestCreateApiModel
+import org.slf4j.LoggerFactory
+import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDate
@@ -82,7 +84,7 @@ class LeaveRequestService(
     fun createLeaveRequest(leaveRequestCreateApiModel: LeaveRequestCreateApiModel): LeaveRequest {
         val leaveRequest = leaveRequestAssembler.disassemble(leaveRequestCreateApiModel, userService.getLoggedUser())
 
-        leaveRequest.checkLimit()
+        leaveRequest.validate()
 
         // if user has a supervisor create approvals
         val supervisor = leaveRequest.user.supervisor
@@ -173,6 +175,21 @@ class LeaveRequestService(
         return leaveRequest
     }
 
+    @Scheduled(cron = "0 0 0 2 1 ?")
+    fun performCarryover() {
+        val workDayStartEnd = settingService.getWorkDayStartEnd()
+        val thisYear = LocalDate.now().year
+
+        logger.info("Performing carryover to year $thisYear")
+
+        leaveTypeService.getAllLeaveTypes().filter { it.supportsCarryover() }.forEach { leaveType ->
+            userService.getAllUsers().forEach { user ->
+                val totalRequested = getRequestedHoursForYear(user, leaveType, thisYear - 1, workDayStartEnd)
+                limitService.newCarryover(user, leaveType, totalRequested, thisYear)
+            }
+        }
+    }
+
     private fun getApproval(approver: User, leaveRequest: LeaveRequest): LeaveRequestApproval =
             leaveRequestApprovalRepository.findOne(approver, leaveRequest)
                     ?: throw NotAllowedException("You are not one of approvers for this leave request")
@@ -206,7 +223,7 @@ class LeaveRequestService(
         return leaveRequestRepository.save(this)
     }
 
-    private fun LeaveRequest.checkLimit() {
+    private fun LeaveRequest.validate() {
         // these declarations are here at the beginning to validate also not limited requests
         val workDayStartEnd = settingService.getWorkDayStartEnd()
         val range = DateRange(this, workDayStartEnd, true)
@@ -246,4 +263,8 @@ class LeaveRequestService(
     private fun getRequestedHoursForYear(user: User, leaveType: LeaveType, year: Int, workDayStartEnd: DayStartEnd): Int =
             leaveRequestRepository.findLeavesByYear(user, leaveType, year)
                     .sumBy { DateRange(it, workDayStartEnd, false).takeYear(year).duration() }
+
+    companion object {
+        private val logger = LoggerFactory.getLogger(this::class.java)
+    }
 }

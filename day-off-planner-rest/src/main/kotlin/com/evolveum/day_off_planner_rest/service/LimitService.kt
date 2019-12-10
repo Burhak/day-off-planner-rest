@@ -56,6 +56,14 @@ class LimitService(
                 ?: throw NotFoundException("Individual limit not fount"))
     }
 
+    fun newCarryover(user: User, leaveType: LeaveType, requestedOnPreviousYear: Int, newYear: Int) {
+        val maxCarryover = leaveType.carryover ?: return
+        val limit = getUserLimit(user, leaveType, newYear - 1)
+
+        val newCarryoverValue = maxOf(minOf(maxCarryover, limit - requestedOnPreviousYear), 0)
+        carryoverRepository.save(Carryover(leaveType, user, newYear, newCarryoverValue))
+    }
+
     private fun getIndividualLimit(user: User, leaveType: LeaveType): IndividualLimit? =
             limitRepository.findOne(user, leaveType.checkIfLimited())
 

@@ -6,6 +6,8 @@ host: localhost
 holidays:
   calendar-id: en.slovak#holiday@group.v.calendar.google.com
 
+
+
 spring:
   jpa:
     database: POSTGRESQL
@@ -50,6 +52,8 @@ spring:
     url: jdbc:postgresql://${host}:5432/evo-day-off-planner
     username: postgres
     password: postgres
+    hikari:
+      maximum-pool-size: 30
 
   flyway:
     baseline-on-migrate: true

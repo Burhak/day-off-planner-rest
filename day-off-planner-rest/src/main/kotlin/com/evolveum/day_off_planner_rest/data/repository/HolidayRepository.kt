@@ -7,9 +7,11 @@ import java.util.*
 import java.time.LocalDate
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
+import org.springframework.transaction.annotation.Transactional
 
 
 @Repository
+@Transactional
 interface HolidayRepository : JpaRepository<Holiday, UUID> {
 
     @Query(value = "select h from Holiday h where h.date = :day")

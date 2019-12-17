@@ -9,6 +9,7 @@ import com.evolveum.day_off_planner_rest.exception.NotFoundException
 import com.evolveum.day_off_planner_rest.exception.WrongPasswordException
 import com.evolveum.day_off_planner_rest_api.model.PasswordChangeApiModel
 import com.evolveum.day_off_planner_rest_api.model.PasswordResetApiModel
+import org.slf4j.LoggerFactory
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
@@ -69,7 +70,13 @@ class UserService(
     }
 
     fun resetPassword(passwordResetApiModel: PasswordResetApiModel) {
-        val user = getUserByEmail(passwordResetApiModel.email)
+        val user = try {
+            getUserByEmail(passwordResetApiModel.email)
+        } catch (e: NotFoundException) {
+            logger.warn("Password reset requested with invalid email ${passwordResetApiModel.email}")
+            return
+        }
+
         val password = generateRandomPassword()
 
         emailService.sendMessage(user.email, "Password reset", "Your new password is: $password")
@@ -97,6 +104,8 @@ class UserService(
     }
 
     companion object {
+        private val logger = LoggerFactory.getLogger(this::class.java)
+
         private val STRING_CHARACTERS = ('0'..'9').toList() + ('a'..'z').toList() + ('A'..'Z').toList()
     }
 

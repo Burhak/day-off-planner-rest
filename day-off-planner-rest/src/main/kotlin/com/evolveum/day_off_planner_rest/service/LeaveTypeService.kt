@@ -4,7 +4,6 @@ import com.evolveum.day_off_planner_rest.assembler.LeaveTypeAssembler
 import com.evolveum.day_off_planner_rest.data.entity.LeaveType
 import com.evolveum.day_off_planner_rest.data.repository.LeaveTypeRepository
 import com.evolveum.day_off_planner_rest.exception.NotFoundException
-import com.evolveum.day_off_planner_rest.exception.NotLimitedException
 import com.evolveum.day_off_planner_rest_api.model.LeaveTypeCreateApiModel
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -38,9 +37,9 @@ class LeaveTypeService(
     @PostConstruct
     fun createInitialLeaveTypes() {
         if (getAllLeaveTypes().isEmpty()) {
-            val vacation = LeaveType("Vacation", true, 20 * 8, 5 * 8)
-            val homeOffice = LeaveType("Home office", false, null, null)
-            val doctorVisit = LeaveType("Doctor visit", false, 5 * 8, null)
+            val vacation = LeaveType("Vacation", "#4285F4",true, 20 * 8, 5 * 8)
+            val homeOffice = LeaveType("Home office", "#00C851", false, null, null)
+            val doctorVisit = LeaveType("Doctor visit", "#FF4444", false, 5 * 8, null)
 
             leaveTypeRepository.saveAll(listOf(vacation, homeOffice, doctorVisit))
         }

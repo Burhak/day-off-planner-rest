@@ -9,6 +9,7 @@ import javax.persistence.*
 data class LeaveType(
         @Column(unique = true)
         var name: String = "",
+        var color: String = "",
         var approvalNeeded: Boolean = false,
         var limit: Int? = null,
         var carryover: Int? = null

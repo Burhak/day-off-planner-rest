@@ -1,0 +1,1 @@
+alter table "leave_type" add column "color" varchar(255) not null default ''

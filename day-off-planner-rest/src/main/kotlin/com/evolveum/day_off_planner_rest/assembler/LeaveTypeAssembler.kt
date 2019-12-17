@@ -14,6 +14,7 @@ class LeaveTypeAssembler {
     fun disassemble(leaveType: LeaveType, leaveTypeCreateApiModel: LeaveTypeCreateApiModel): LeaveType =
             leaveType.apply {
                 this.name = leaveTypeCreateApiModel.name
+                this.color = leaveTypeCreateApiModel.color
                 this.approvalNeeded = leaveTypeCreateApiModel.isApprovalNeeded
                 this.limit = leaveTypeCreateApiModel.limit
                 this.carryover = if (limit != null) leaveTypeCreateApiModel.carryover else null
@@ -23,6 +24,7 @@ class LeaveTypeAssembler {
 fun LeaveType.toLeaveTypeApiModel(): LeaveTypeApiModel = LeaveTypeApiModel()
         .id(id)
         .name(name)
+        .color(color)
         .approvalNeeded(approvalNeeded)
         .limit(limit)
         .carryover(carryover)

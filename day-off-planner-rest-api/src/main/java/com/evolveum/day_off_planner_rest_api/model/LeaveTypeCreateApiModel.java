@@ -13,10 +13,13 @@ import javax.validation.constraints.*;
  * LeaveTypeCreateApiModel
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-26T09:10:06.516Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-12-17T13:24:29.081Z[GMT]")
 public class LeaveTypeCreateApiModel   {
   @JsonProperty("name")
   private String name = null;
+
+  @JsonProperty("color")
+  private String color = null;
 
   @JsonProperty("approvalNeeded")
   private Boolean approvalNeeded = false;
@@ -45,6 +48,26 @@ public class LeaveTypeCreateApiModel   {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public LeaveTypeCreateApiModel color(String color) {
+    this.color = color;
+    return this;
+  }
+
+  /**
+   * Get color
+   * @return color
+  **/
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
+    public String getColor() {
+    return color;
+  }
+
+  public void setColor(String color) {
+    this.color = color;
   }
 
   public LeaveTypeCreateApiModel approvalNeeded(Boolean approvalNeeded) {
@@ -116,6 +139,7 @@ public class LeaveTypeCreateApiModel   {
     }
     LeaveTypeCreateApiModel leaveTypeCreateApiModel = (LeaveTypeCreateApiModel) o;
     return Objects.equals(this.name, leaveTypeCreateApiModel.name) &&
+        Objects.equals(this.color, leaveTypeCreateApiModel.color) &&
         Objects.equals(this.approvalNeeded, leaveTypeCreateApiModel.approvalNeeded) &&
         Objects.equals(this.limit, leaveTypeCreateApiModel.limit) &&
         Objects.equals(this.carryover, leaveTypeCreateApiModel.carryover);
@@ -123,7 +147,7 @@ public class LeaveTypeCreateApiModel   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, approvalNeeded, limit, carryover);
+    return Objects.hash(name, color, approvalNeeded, limit, carryover);
   }
 
   @Override
@@ -132,6 +156,7 @@ public class LeaveTypeCreateApiModel   {
     sb.append("class LeaveTypeCreateApiModel {\n");
     
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    color: ").append(toIndentedString(color)).append("\n");
     sb.append("    approvalNeeded: ").append(toIndentedString(approvalNeeded)).append("\n");
     sb.append("    limit: ").append(toIndentedString(limit)).append("\n");
     sb.append("    carryover: ").append(toIndentedString(carryover)).append("\n");

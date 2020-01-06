@@ -26,7 +26,10 @@ class UserAssembler(@Lazy private val userService: UserService) {
                 this.supervisor =
                         if (userCreateApiModel.supervisor == null) null
                         else userService.getUserById(userCreateApiModel.supervisor)
-                this.approvers = userCreateApiModel.approvers.map { userService.getUserById(it) }
+                this.approvers = userCreateApiModel.approvers
+                        .toSet()
+                        .filterNot{ it == userCreateApiModel.supervisor }
+                        .map { userService.getUserById(it) }
             }
 }
 

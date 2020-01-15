@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
  * LeaveRequestAddMessageApiModel
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-12-17T13:24:29.081Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-01-15T14:30:45.771Z[GMT]")
 public class LeaveRequestAddMessageApiModel   {
   @JsonProperty("message")
   private String message = null;

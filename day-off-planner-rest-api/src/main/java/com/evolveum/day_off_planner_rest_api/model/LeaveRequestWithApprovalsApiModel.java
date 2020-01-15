@@ -18,7 +18,7 @@ import javax.validation.constraints.*;
  * LeaveRequestWithApprovalsApiModel
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-12-17T13:24:29.081Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-01-15T14:30:45.771Z[GMT]")
 public class LeaveRequestWithApprovalsApiModel   {
   @JsonProperty("leaveRequest")
   private LeaveRequestApiModel leaveRequest = null;
@@ -29,7 +29,7 @@ public class LeaveRequestWithApprovalsApiModel   {
 
   @JsonProperty("messages")
   @Valid
-  private List<LeaveRequestMessageApiModel> messages = null;
+  private List<LeaveRequestMessageApiModel> messages = new ArrayList<>();
 
   public LeaveRequestWithApprovalsApiModel leaveRequest(LeaveRequestApiModel leaveRequest) {
     this.leaveRequest = leaveRequest;
@@ -83,9 +83,6 @@ public class LeaveRequestWithApprovalsApiModel   {
   }
 
   public LeaveRequestWithApprovalsApiModel addMessagesItem(LeaveRequestMessageApiModel messagesItem) {
-    if (this.messages == null) {
-      this.messages = new ArrayList<>();
-    }
     this.messages.add(messagesItem);
     return this;
   }
@@ -94,8 +91,9 @@ public class LeaveRequestWithApprovalsApiModel   {
    * Get messages
    * @return messages
   **/
-  @ApiModelProperty(readOnly = true, value = "")
-      @Valid
+  @ApiModelProperty(required = true, readOnly = true, value = "")
+      @NotNull
+    @Valid
     public List<LeaveRequestMessageApiModel> getMessages() {
     return messages;
   }

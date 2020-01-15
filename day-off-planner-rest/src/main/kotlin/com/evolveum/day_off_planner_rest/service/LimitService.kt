@@ -53,7 +53,7 @@ class LimitService(
 
     fun deleteIndividualLimit(userId: UUID, leaveTypeId: UUID) {
         limitRepository.delete(getIndividualLimit(userService.getUserById(userId), leaveTypeService.getLeaveTypeById(leaveTypeId))
-                ?: throw NotFoundException("Individual limit not fount"))
+                ?: throw NotFoundException("Individual limit not found"))
     }
 
     fun newCarryover(user: User, leaveType: LeaveType, requestedOnPreviousYear: Int, newYear: Int) {

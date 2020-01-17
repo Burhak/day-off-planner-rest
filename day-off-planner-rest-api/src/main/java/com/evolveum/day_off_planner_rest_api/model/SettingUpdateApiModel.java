@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
  * SettingUpdateApiModel
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-01-15T14:30:45.771Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-01-17T18:34:48.841Z[GMT]")
 public class SettingUpdateApiModel   {
   @JsonProperty("value")
   private Integer value = null;

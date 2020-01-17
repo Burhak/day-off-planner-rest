@@ -67,4 +67,22 @@ class LeaveRequestController(private val leaveRequestService: LeaveRequestServic
                 approvers ?: listOf()
         ).map { it.toLeaveRequestApiModel() }.toMutableList(), HttpStatus.OK)
     }
+
+    override fun countLeaveRequests(
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) from: LocalDate?,
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) to: LocalDate?,
+            status: MutableList<String>?,
+            users: MutableList<UUID>?,
+            leaveTypes: MutableList<UUID>?,
+            approvers: MutableList<UUID>?
+    ): ResponseEntity<Int> {
+        return ResponseEntity(leaveRequestService.filterLeaveRequests(
+                from,
+                to,
+                status?.map { LeaveRequestStatus.valueOf(it) } ?: listOf(),
+                users ?: listOf(),
+                leaveTypes ?: listOf(),
+                approvers ?: listOf()
+        ).size, HttpStatus.OK)
+    }
 }

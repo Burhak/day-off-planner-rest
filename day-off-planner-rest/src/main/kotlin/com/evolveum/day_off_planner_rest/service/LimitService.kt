@@ -38,7 +38,7 @@ class LimitService(
             getCarryover(userService.getUserById(userId), leaveTypeService.getLeaveTypeById(leaveTypeId), year ?: LocalDate.now().year)
 
     fun getUserLimit(user: User, leaveType: LeaveType, year: Int): Int {
-        val carryover = getCarryover(user, leaveType, year)?.hours ?: 0
+        val carryover = if (leaveType.supportsCarryover()) getCarryover(user, leaveType, year)?.hours ?: 0 else 0
         val limit = getIndividualLimit(user, leaveType)?.limit ?: leaveType.limit ?: Int.MAX_VALUE - carryover
 
         return limit + carryover

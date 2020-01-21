@@ -228,6 +228,8 @@ class LeaveRequestService(
         val workDayStartEnd = settingService.getWorkDayStartEnd()
         val range = DateRange(this, workDayStartEnd, true)
 
+        if (range.splitToYears().sumBy { it.duration() } < 1) throw WrongParamException("You have to request at least 1 (work) hour")
+
         if (!type.isLimited()) return
 
         range.splitToYears().forEach { year ->
@@ -250,15 +252,9 @@ class LeaveRequestService(
             throw AlreadyResolvedException("This leave request has been already $status")
     }
 
-    private fun Year.duration(): Int {
-        val duration = splitToDays()
-                .filterNot { it.day.isWeekend() || holidayService.isHoliday(it.day) }
-                .sumBy { it.duration() }
-
-        if (duration < 1) throw WrongParamException("End must be at least 1 hour after start")
-
-        return duration
-    }
+    private fun Year.duration(): Int = splitToDays()
+            .filterNot { it.day.isWeekend() || holidayService.isHoliday(it.day) }
+            .sumBy { it.duration() }
 
     private fun getRequestedHoursForYear(user: User, leaveType: LeaveType, year: Int, workDayStartEnd: DayStartEnd): Int =
             leaveRequestRepository.findLeavesByYear(user, leaveType, year)

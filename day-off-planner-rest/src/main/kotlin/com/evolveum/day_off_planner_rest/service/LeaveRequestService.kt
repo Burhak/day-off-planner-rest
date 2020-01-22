@@ -14,6 +14,8 @@ import org.slf4j.LoggerFactory
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.web.context.request.RequestContextHolder
+import org.springframework.web.context.request.ServletRequestAttributes
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.*
@@ -98,11 +100,12 @@ class LeaveRequestService(
 
         return leaveRequestRepository.save(leaveRequest).apply {
             if (status == LeaveRequestStatus.PENDING) {
+                val origin = (RequestContextHolder.getRequestAttributes() as ServletRequestAttributes).request.getHeader("Origin")
                 approvals.forEach {
                     emailService.sendMessage(
                             it.approver.email,
                             "Leave request approval",
-                            "User ${user.fullName} has requested ${type.name}. Please visit .../leave/$id to approve/reject this request.")
+                            "User ${user.fullName} has requested ${type.name}. Please visit $origin/approve/$id to approve/reject this request.")
                 }
 
                 emailService.sendMessage(user.email, "Leave request submitted", "Your leave request (${type.name}) is waiting for approval. You will be notified once approved/rejected.")

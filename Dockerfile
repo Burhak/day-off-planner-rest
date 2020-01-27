@@ -10,9 +10,11 @@ RUN mvn -f /app/pom.xml clean package
 # package
 FROM openjdk:8-jdk-alpine
 COPY --from=build /app/day-off-planner-rest/target/day-off-planner-rest-*.jar /app/day-off-planner-rest.jar
+
 COPY Docker/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-EXPOSE 9090
+COPY Docker/wait /wait
+RUN chmod +x /wait
 
 ENTRYPOINT ["sh", "/entrypoint.sh"]

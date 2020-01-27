@@ -6,8 +6,6 @@ host: localhost
 holidays:
   calendar-id: en.slovak#holiday@group.v.calendar.google.com
 
-
-
 spring:
   jpa:
     database: POSTGRESQL
@@ -63,13 +61,10 @@ spring:
 logging:
   level:
     org:
-      hibernate:
-        SQL: DEBUG
-        type:
-          descriptor:
-            sql:
-              BasicBinder: TRACE
+      root: INFO
+      springframework: ERROR
+      sql: ERROR
 
 mailgun:
-    url: https://api.eu.mailgun.net/v3/mail.havrisak.online
-    api_key: 8c28bb018fc0caa8a09b3127a0f53d83-9c988ee3-057adb6e
+  url: https://api.eu.mailgun.net/v3/mail.havrisak.online
+  api_key: 8c28bb018fc0caa8a09b3127a0f53d83-9c988ee3-057adb6e

@@ -1,0 +1,42 @@
+version: "3.7"
+
+services:
+  rest:
+    image: burhak/evo-day-off-planner-rest
+    ports:
+      - ${PORT}:${PORT}
+    container_name: rest
+    volumes:
+      - ./logs:/var/logs
+    restart: always
+    depends_on:
+      - db
+    environment:
+      WAIT_HOSTS: db:5432
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+    networks:
+      internal_network:
+        aliases:
+          - rest
+
+  db:
+    image: postgres:12.1
+    ports:
+      - 5433:5432
+    container_name: db
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: evo-day-off-planner
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    restart: always
+    networks:
+      internal_network:
+        aliases:
+          - db
+
+networks:
+  internal_network:
+    name: internal_network

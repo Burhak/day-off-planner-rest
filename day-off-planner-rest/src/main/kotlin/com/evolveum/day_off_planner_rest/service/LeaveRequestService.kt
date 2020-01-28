@@ -231,7 +231,11 @@ class LeaveRequestService(
         val workDayStartEnd = settingService.getWorkDayStartEnd()
         val range = DateRange(this, workDayStartEnd, true)
 
-        if (range.splitToYears().sumBy { it.duration() } < 1) throw WrongParamException("You have to request at least 1 (work) hour")
+        if (hasCollision())
+            throw LeaveRequestCollisionException("This leave request collides with another one")
+
+        if (range.splitToYears().sumBy { it.duration() } < 1)
+            throw WrongParamException("You have to request at least 1 (work) hour")
 
         if (!type.isLimited()) return
 
@@ -254,6 +258,8 @@ class LeaveRequestService(
         if (status != LeaveRequestStatus.PENDING && status != LeaveRequestStatus.APPROVED)
             throw AlreadyResolvedException("This leave request has been already $status")
     }
+
+    private fun LeaveRequest.hasCollision(): Boolean = leaveRequestRepository.hasCollision(user, fromDate, toDate)
 
     private fun Year.duration(): Int = splitToDays()
             .filterNot { it.day.isWeekend() || holidayService.isHoliday(it.day) }

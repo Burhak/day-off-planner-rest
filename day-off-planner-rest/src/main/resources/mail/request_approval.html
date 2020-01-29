@@ -6,9 +6,12 @@
     <title>Mail</title>
 </head>
 <body>
-    <p><strong th:text="${leaveRequest.user.fullName}"></strong> has requested</p>
-    <h3 th:text="${leaveRequest.type.name}"></h3>
-    <h5 th:text="${#temporals.format(leaveRequest.fromDate, 'dd-MM-yyyy HH:mm')}"></h5> - <h5 th:text="${#temporals.format(leaveRequest.toDate, 'dd-MM-yyyy HH:mm')}"></h5>
+    <p><strong th:text="${leaveRequest.user.fullName}">me</strong> has requested</p>
+    <h3 style="margin-bottom: 0" th:text="${leaveRequest.type.name}"></h3>
+    <span th:text="${#temporals.format(leaveRequest.fromDate, 'dd.MM.yyyy HH:mm')}"></span> - <span th:text="${#temporals.format(leaveRequest.toDate, 'dd.MM.yyyy HH:mm')}"></span>
     <p>Please visit <a th:href="${link}" th:text="${link}"></a> to approve/reject this request.</p>
+
+    <hr/>
+    <footer style="">Day Off Planner</footer>
 </body>
 </html>

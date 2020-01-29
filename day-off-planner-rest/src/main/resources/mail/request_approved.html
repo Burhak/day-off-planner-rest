@@ -7,8 +7,11 @@
 </head>
 <body>
     <p>Your leave request</p>
-    <h3 th:text="${leaveRequest.type.name}"></h3>
-    <h5 th:text="${#temporals.format(leaveRequest.fromDate, 'dd-MM-yyyy HH:mm')}"></h5> - <h5 th:text="${#temporals.format(leaveRequest.toDate, 'dd-MM-yyyy HH:mm')}"></h5>
+    <h3 style="margin-bottom: 0" th:text="${leaveRequest.type.name}"></h3>
+    <span th:text="${#temporals.format(leaveRequest.fromDate, 'dd.MM.yyyy HH:mm')}"></span> - <span th:text="${#temporals.format(leaveRequest.toDate, 'dd.MM.yyyy HH:mm')}"></span>
     <p>was APPROVED</p>
+
+    <hr/>
+    <footer style="">Day Off Planner</footer>
 </body>
 </html>

@@ -6,7 +6,10 @@
     <title>Mail</title>
 </head>
 <body>
-    <p>New message was added to leave request of <strong th:text="${leaveRequest.user.fullName}"></strong> <strong th:text="(${leaveRequest.type.name})"></strong>.</p>
+    <p>New message was added to leave request of <strong th:text="${leaveRequest.user.fullName}"></strong> <strong th:text="(${leaveRequest.type.name})"></strong>:</p>
     <h5 th:text="${message}"></h5>
+
+    <hr/>
+    <footer style="">Day Off Planner</footer>
 </body>
 </html>

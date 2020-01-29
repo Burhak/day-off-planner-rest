@@ -2,6 +2,7 @@ package com.evolveum.day_off_planner_rest.service
 
 import com.evolveum.day_off_planner_rest.assembler.LeaveRequestAssembler
 import com.evolveum.day_off_planner_rest.data.entity.*
+import com.evolveum.day_off_planner_rest.data.enums.EmailTemplate
 import com.evolveum.day_off_planner_rest.data.enums.LeaveRequestStatus
 import com.evolveum.day_off_planner_rest.data.repository.LeaveRequestApprovalRepository
 import com.evolveum.day_off_planner_rest.data.repository.LeaveRequestMessageRepository
@@ -101,23 +102,29 @@ class LeaveRequestService(
         return leaveRequestRepository.save(leaveRequest).apply {
             if (status == LeaveRequestStatus.PENDING) {
                 val origin = (RequestContextHolder.getRequestAttributes() as ServletRequestAttributes).request.getHeader("Origin")
-                approvals.forEach {
-                    emailService.sendMessage(
-                            it.approver.email,
-                            "Leave request approval",
-                            "User ${user.fullName} has requested ${type.name}. Please visit $origin/approve/$id to approve/reject this request.")
-                }
+                emailService.sendMessage(
+                        user.email,
+                        "${type.name} requested",
+                        EmailTemplate.REQUEST_SUBMITTED,
+                        mapOf("leaveRequest" to this))
 
-                emailService.sendMessage(user.email, "Leave request submitted", "Your leave request (${type.name}) is waiting for approval. You will be notified once approved/rejected.")
+                emailService.sendMessages(
+                        approvals.map { it.approver.email },
+                        "${user.fullName} - ${type.name}",
+                        EmailTemplate.REQUEST_APPROVAL,
+                        mapOf("leaveRequest" to this, "link" to "$origin/approve/$id"))
             } else {
-                emailService.sendMessage(user.email, "Leave request approved", "Your leave request (${type.name}) was APPROVED.")
-                if (user.supervisor != null)
-                    emailService.sendMessage(
-                            user.supervisor!!.email,
-                            "${user.fullName} - ${type.name}",
-                            "User ${user.fullName} has created new leave (${type.name})"
-                    )
+                emailService.sendMessage(
+                        user.email,
+                        "${type.name} approved",
+                        EmailTemplate.REQUEST_APPROVED,
+                        mapOf("leaveRequest" to this))
 
+                if (supervisor != null) emailService.sendMessage(
+                        supervisor.email,
+                        "${user.fullName} - ${type.name}",
+                        EmailTemplate.REQUEST_NO_APPROVAL,
+                        mapOf("leaveRequest" to this))
             }
         }
     }
@@ -168,13 +175,11 @@ class LeaveRequestService(
         leaveRequestMessageRepository.save(LeaveRequestMessage(leaveRequest, user, leaveRequestAddMessageApiModel.message))
 
         // notify rest of approvers
-        leaveRequest.approvals.filter { it.approver != user }.forEach {
-            emailService.sendMessage(
-                    it.approver.email,
-                    "New message - ${leaveRequest.user.fullName} (${leaveRequest.type.name})",
-                    "New message was added to leave request of ${leaveRequest.user.fullName} (${leaveRequest.type.name}): \n\n${leaveRequestAddMessageApiModel.message}"
-            )
-        }
+        emailService.sendMessages(
+                leaveRequest.approvals.filter { it.approver != user }.map { it.approver.email },
+                "New message - ${leaveRequest.user.fullName} (${leaveRequest.type.name})",
+                EmailTemplate.REQUEST_NEW_MESSAGE,
+                mapOf("leaveRequest" to leaveRequest, "message" to leaveRequestAddMessageApiModel.message))
         return leaveRequest
     }
 
@@ -201,23 +206,35 @@ class LeaveRequestService(
         approvals.any { it.approved == null } -> this               // some approvals are not resolved yet
         approvals.all { it.approved == true } -> approve()          // all approvals are approved => approve request
         approvals.all { it.approved == false } -> reject()          // all approvals are rejected => reject request
-        else -> this.apply {
-            if (user.supervisor != null) emailService.sendMessage(  // notify supervisor on conflict
-                user.supervisor!!.email,
-                "${user.fullName} - approval conflict",
-                "All approvers have voted in leave request of ${user.fullName} (${type.name}) but their votes differ. Resolve this conflict by visiting .../leave/$id")
+        else -> this.apply {                                        // notify supervisor on conflict
+            val origin = (RequestContextHolder.getRequestAttributes() as ServletRequestAttributes).request.getHeader("Origin")
+            val supervisor = user.supervisor
+
+            if (supervisor != null) emailService.sendMessage(
+                    supervisor.email,
+                    "${user.fullName} - approval conflict",
+                    EmailTemplate.REQUEST_APPROVAL_CONFLICT,
+                    mapOf("leaveRequest" to this, "link" to "$origin/approve/$id"))
         }
     }
 
     private fun LeaveRequest.approve(): LeaveRequest {
         status = LeaveRequestStatus.APPROVED
-        emailService.sendMessage(user.email, "Leaver request approved", "Your leave request (${type.name}) was APPROVED.")
+        emailService.sendMessage(
+                user.email,
+                "${type.name} approved",
+                EmailTemplate.REQUEST_APPROVED,
+                mapOf("leaveRequest" to this))
         return leaveRequestRepository.save(this)
     }
 
     private fun LeaveRequest.reject(): LeaveRequest {
         status = LeaveRequestStatus.REJECTED
-        emailService.sendMessage(user.email, "Leaver request rejected", "Your leave request (${type.name}) was REJECTED.")
+        emailService.sendMessage(
+                user.email,
+                "${type.name} rejected",
+                EmailTemplate.REQUEST_REJECTED,
+                mapOf("leaveRequest" to this))
         return leaveRequestRepository.save(this)
     }
 

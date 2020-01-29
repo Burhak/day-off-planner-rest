@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Mail</title>
+</head>
+<body>
+    <p>All approvers have already voted in leave request of <strong th:text="${leaveRequest.user.fullName}"></strong> <strong th:text="(${leaveRequest.type.name})"></strong> but their votes differ.</p>
+    <p>Resolve this conflict by visiting <a th:href="${link}" th:text="${link}"></a></p>
+</body>
+</html>

@@ -7,6 +7,7 @@ import com.evolveum.day_off_planner_rest.data.entity.User
 import com.evolveum.day_off_planner_rest.data.repository.UserRepository
 import com.evolveum.day_off_planner_rest.exception.NotFoundException
 import com.evolveum.day_off_planner_rest.exception.WrongPasswordException
+import com.evolveum.day_off_planner_rest.data.enums.EmailTemplate
 import com.evolveum.day_off_planner_rest_api.model.PasswordChangeApiModel
 import com.evolveum.day_off_planner_rest_api.model.PasswordResetApiModel
 import org.slf4j.LoggerFactory
@@ -47,7 +48,7 @@ class UserService(
         val user = userRepository.saveAndFlush(userAssembler.disassemble(userCreateApiModel)
                 .apply { this.password = passwordEncoder.encode(password) })
 
-        emailService.sendMessage(user.email, "Account created", "Welcome to Day Off Planner! Your password is: $password")
+        emailService.sendMessage(user.email, "Account created", EmailTemplate.ACCOUNT_CREATED, mapOf("password" to password))
 
         return user
     }
@@ -79,7 +80,8 @@ class UserService(
 
         val password = generateRandomPassword()
 
-        emailService.sendMessage(user.email, "Password reset", "Your new password is: $password")
+        emailService.sendMessage(user.email, "Password reset", EmailTemplate.PASSWORD_RESET, mapOf("password" to password))
+
         user.password = passwordEncoder.encode(password)
         userRepository.save(user)
     }

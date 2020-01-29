@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Mail</title>
+</head>
+<body>
+    <p>Your leave request</p>
+    <h3 th:text="${leaveRequest.type.name}"></h3>
+    <h5 th:text="${#temporals.format(leaveRequest.fromDate, 'dd-MM-yyyy HH:mm')}"></h5> - <h5 th:text="${#temporals.format(leaveRequest.toDate, 'dd-MM-yyyy HH:mm')}"></h5>
+    <p>is waiting for approval. You will be notified once approved/rejected.</p>
+</body>
+</html>

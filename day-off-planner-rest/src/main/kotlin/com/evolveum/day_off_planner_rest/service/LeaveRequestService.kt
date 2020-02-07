@@ -274,6 +274,9 @@ class LeaveRequestService(
     private fun LeaveRequest.canCancel() {
         if (status != LeaveRequestStatus.PENDING && status != LeaveRequestStatus.APPROVED)
             throw AlreadyResolvedException("This leave request has been already $status")
+
+        if (toDate.toLocalDate() < LocalDate.now())
+            throw AlreadyResolvedException("Past leave request cannot be cancelled")
     }
 
     private fun LeaveRequest.hasCollision(): Boolean = leaveRequestRepository.hasCollision(user, fromDate, toDate)

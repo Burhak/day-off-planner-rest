@@ -66,5 +66,6 @@ logging:
       sql: ERROR
 
 mailgun:
-  url: https://api.eu.mailgun.net/v3/mail.havrisak.online
-  api_key: 8c28bb018fc0caa8a09b3127a0f53d83-9c988ee3-057adb6e
+  url: "DEFINED_INTERNALLY"
+  api_key: "DEFINED_INTERNALLY"
+  email: "DEFINED_INTERNALLY"

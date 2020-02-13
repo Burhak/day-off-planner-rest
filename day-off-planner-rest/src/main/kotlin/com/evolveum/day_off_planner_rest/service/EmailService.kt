@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import org.thymeleaf.context.Context
 import org.thymeleaf.spring5.SpringTemplateEngine
-import java.util.concurrent.LinkedBlockingQueue
 
 @Service
 class EmailService(private val templateEngine: SpringTemplateEngine) {
@@ -18,7 +17,8 @@ class EmailService(private val templateEngine: SpringTemplateEngine) {
     @Value("\${mailgun.api_key}")
     private val apiKey: String = ""
 
-    private val messageQueue = LinkedBlockingQueue<Email>()
+    @Value("\${mailgun.email}")
+    private val fromEmail: String = ""
 
     fun sendMessages(recipients: List<String>, subject: String, template: EmailTemplate, data: Map<String, Any>) {
         recipients.distinct().forEach { recipient -> sendMessage(recipient, subject, template, data) }
@@ -31,7 +31,7 @@ class EmailService(private val templateEngine: SpringTemplateEngine) {
     private fun sendMailGunMessage(email: Email) {
         Unirest.post("$url/messages")
                 .basicAuth("api", apiKey)
-                .queryString("from", "evolveum.mail.bot@gmail.com")
+                .queryString("from", fromEmail)
                 .queryString("to", email.recipient)
                 .queryString("subject", email.subject)
                 .queryString("html", email.getMessage())

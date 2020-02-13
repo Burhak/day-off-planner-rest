@@ -1,1 +1,1 @@
-/wait && java -jar -Dhost=db -Dspring.datasource.username="${DB_USERNAME}" -Dspring.datasource.password="${DB_PASSWORD}" -Dlogging.file=/var/logs/rest.log /app/day-off-planner-rest.jar
+/wait && java -jar -Dhost=db -Dmailgun.url="${MAILGUN_URL}" -Dmailgun.api_key="${MAILGUN_API_KEY}" -Dmailgun.email="${MAILGUN_EMAIL}" -Dspring.datasource.username="${DB_USERNAME}" -Dspring.datasource.password="${DB_PASSWORD}" -Dlogging.file=/var/logs/rest.log /app/day-off-planner-rest.jar
